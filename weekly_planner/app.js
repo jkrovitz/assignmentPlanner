@@ -1,9 +1,3 @@
-//Jeremy Krovitz
-//Homework 3
-
-//This is an object constructor function called Event Item. It takes in six
-//parameters and contains two methods. One method creates the div and the
-//other method renders the div to the selected day's column.
 function EventItem(eventName, location, dayOfWeek, startTime, endTime, duration){
   this.eventName = eventName;
   this.location = location;

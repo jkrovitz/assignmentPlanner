@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test ajax</title>
+	<script
+	src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function(){
+			$("#btn").click(function(){
+				$("#test").load("data.txt");
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<div id="test">
+		<p>This is the first content.</p>
+	</div>
+	<button id="btn">Click to change</button>
+
+</body>
+</html>
