@@ -18,11 +18,14 @@ This scheduler can also be used for functions such as finding common meeting tim
 ### On a Mac: 
 1. Download the Workplace Web Scheduler code folder from Github. 
 2. Open the terminal. 
-3. Type &lt;cd&gt; and drag project folder into terminal. 
-4. Type &lt;pip install -r requirements.txt&gt; into terminal.
-5. Type &lt;python main.py&gt; in the terminal. 
-6. Open a web browser and paste &lt;http://127.0.0.1:5000/&gt; into the address bar. 
-7. Our project will be displayed. 
+3. Type **cd**; and drag project folder into terminal. 
+4. Press [Enter]. 
+5. Type **pip install -r requirements.txt**; into terminal.
+6. Press [Enter].
+7. Type **python main.py**; in the terminal. 
+8. Press [Enter].
+9. Open a web browser and paste &lt;http://127.0.0.1:5000/&gt; into the address bar. 
+10.Project will be displayed. 
 
 ## Project Requirements 
 
