@@ -1,6 +1,6 @@
 {
     "project_path": ".",
-	"output_path": ".",
+	"output_path": "../static",
 	"options": {
 		"cache":         true,
 		"debug":         true,

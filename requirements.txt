@@ -7,3 +7,5 @@ SQLAlchemy==1.2.12
 Flask-Scss==0.5
 flask-bootstrap==3.3.7.0
 flask_wtf==0.14.2
+libsass
+wtforms

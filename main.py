@@ -1,17 +1,46 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_scss import Scss
-from flask_bootstrap import Bootstrap
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
-Scss(app)
-Bootstrap(app)
-app.config['BOOTSTRAP_SERVE_LOCAL'] = True
+
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+Scss(app, static_dir='static', asset_dir='assets')
 
 
 @app.route("/")
-def testFunction():
-    return "This is a test!"
+@app.route("/home")
+def home():
+	return render_template('home.html')
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@admin.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/weekly_planner")
+def weekly_planner():
+    return render_template('weekly_planner.html')
+
 
 
 if __name__ == '__main__':
-    app.run()
+	app.run(debug=True)
+
+
