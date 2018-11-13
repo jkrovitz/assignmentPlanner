@@ -1,0 +1,19 @@
+username: user1
+email: user1@test.com
+password: user1user1
+
+username: user2
+email: user2@test.com
+password: user2user2
+
+username: user3
+email: user3@test.com
+password: user3user3
+
+username: user4
+email: user4@test.com
+password: user4user4
+
+username: user5
+email: user5@test.com
+password: user5user5
