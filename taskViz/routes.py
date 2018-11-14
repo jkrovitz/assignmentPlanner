@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm
-from taskViz.models import User, Post
+from taskViz.models import User, Calendar
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
@@ -51,6 +51,12 @@ def logout():
 @login_required
 def weekly_planner():
     return render_template('weekly_planner.html')
+
+@app.route("/task_viz")
+@login_required
+def task_viz():
+    return render_template('task_viz.html')
+
 
 @app.route("/account")
 @login_required

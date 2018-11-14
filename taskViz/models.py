@@ -13,16 +13,16 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
-    #This line is saying that it has a relationship to our post model, 
+    #This line is saying that it has a relationship to our calendar model, 
     #specify a backref, which is similar to adding another column to 
-    #Post model. What the backref allows us to do is use the author 
+    #Calendar model. What the backref allows us to do is use the calendarCreator
     #attribute to get the user who created the post. The lazy 
     #argument just defines when SQLAlchemy loads the data 
     #from the database, so True means that SQLAlchemy will
     #load the data as necessary in one go. This relationship 
     # will allow us to get all of the posts created by an 
     #individual user. 
-    posts = db.relationship('Post', backref='author', lazy=True)
+    calendars = db.relationship('Calendar', backref='calendarCreator', lazy=True)
 
 
      # Flask-Login integration
@@ -50,7 +50,7 @@ class User(db.Model, UserMixin):
 #This class will be eventually called Calendar or a similar name. 
 #I am just calling the class Post right now, as I am coding 
 # along with video tutorial that I am watching. 
-class Post(db.Model):
+class Calendar(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable = False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -58,4 +58,4 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Calendar('{self.title}', '{self.date_posted}')"

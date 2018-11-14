@@ -1,0 +1,33 @@
+
+ @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+body
+{
+  background-color: #ffffff;
+  font: 14px 'Arial';
+}
+
+
+.my-container { 
+  height: 	100%;
+  position: relative;
+}
+
+.vertical-center {
+  margin: 25% 25% 25% 25%;
+  position: absolute;
+  top: 30px;
+  /*bottom: 80%;*/
+/*  left: 20%;*/
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.loginButton{
+	background-color: #3f12a1;
+	color: white;
+	padding: 8px 10px;
+	font-size: 2.1vw;
+}
+
+
