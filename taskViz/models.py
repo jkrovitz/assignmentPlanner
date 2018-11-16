@@ -51,11 +51,12 @@ class User(db.Model, UserMixin):
 #I am just calling the class Post right now, as I am coding 
 # along with video tutorial that I am watching. 
 class Calendar(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    calendar_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable = False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
     def __repr__(self):
         return f"Calendar('{self.title}', '{self.date_posted}')"

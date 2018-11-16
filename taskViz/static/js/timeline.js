@@ -1,7 +1,18 @@
 function openForm() {
-    document.getElementById("myForm").style.display = "block";
+    document.getElementById("new-category-form").style.display = "block";
 }
 
 function closeForm() {
-    document.getElementById("myForm").style.display = "none";
+    document.getElementById("new-category-form").style.display = "none";
 }
+
+function openNewTaskForm() {
+    document.getElementById("new-task-form").style.display = "block";
+}
+
+function closeNewTaskForm() {
+    document.getElementById("new-task-form").style.display = "none";
+}
+
+var dateControl = document.querySelector('input[type="date"]');
+dateControl.value = new Date(month, day, year);

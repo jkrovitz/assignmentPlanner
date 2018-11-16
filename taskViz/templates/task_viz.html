@@ -12,37 +12,69 @@
 </head>
 <body>
 
-  <div class="form-popup" id="myForm">
+  <div class="form-popup" id="new-category-form">
 
-  <form action="" class="form-container">
+    <form action="" class="form-container">
       <a class="cancel" onclick="closeForm()">X</a>
 
-    <br>
+      <br>
 
-    <label class="categoryNameLabel" for="category">Category Name:<b></b></label>
-    <input type="text" class="categoryNameInput" name="categoryName" required>
+      <label class="categoryNameLabel" for="category">Category Name:<b></b></label>
+      <input type="text" class="categoryNameInput" name="categoryName" required>
 
-    <label> Color:</label>
-    <span class="dot dot1"></span>
-  <span class="dot dot2"></span>
-  <span class="dot dot3"></span>
-  <span class="dot dot4"></span>
-    <input name="Color Picker" type="color"/></br>
-    <button type="submit" class="my-submit-btn">Submit</button>
-    
-  </form>
-</div>
+      <label> Color:</label>
+     <button class="round-button round-button-circle dot1"></button>
+     <button class="round-button round-button-circle dot2"></button>
+    <button class="round-button round-button-circle dot3"></button>
+      <button class="round-button round-button-circle dot4"></button>
+<!--       <span class="dot dot1"></span>
+      <span class="dot dot2"></span>
+      <span class="dot dot3"></span>
+      <span class="dot dot4"></span> -->
+      <input name="Color Picker" type="color"/></br>
+      <button type="submit" class="my-submit-btn">Submit</button>
+
+    </form>
+  </div>
+
+
+  <div class="form-popup" id="new-task-form">
+
+    <form action="" class="new-task-form-container">
+      <a class="cancel" onclick="closeNewTaskForm()">X</a>
+
+      <br>
+
+      <label class="newTaskNameLabel" for="category">Task Name:</label>
+      <input type="text" class="newTaskInput" name="taskName" required>
+      <label class="startTimeLabel" for="startTime">Start Time:</label>
+      <input id="start_date" type="date" value="">
+      <br><br>
+      <label class="endTimeLabel" for="endTime">End Time:</label>
+      <input id="end_date" type="date" value="">
+
+      <button type="submit" class="my-submit-btn">Submit</button>
+
+    </form>
+  </div>
 
   <div class="grid-container">
-    <div class="Timeline"></div>
+    <div class="Timeline">
+      <button class="new-task-button" onclick="openNewTaskForm()">Create New Task</button>
+
+
+
+    </div>
     <div class="Category">
 
   <!--     <button id="newCategoryButtonId" class="newCategoryButton">Create New Category</button><br> -->
       
-<button class="open-button" onclick="openForm()">Create New Category</button>
+<button class="new-category-button" onclick="openForm()">Create New Category</button>
+
 
    
     </div>
+  </div>
 
 
 
