@@ -1,3 +1,28 @@
+function task(taskName, taskStartTime, taskEndTime, taskMilestones, taskComplete) {
+  this.taskName = taskName;
+  this.taskStartTime = taskStartTime;
+  this.taskEndTime = taskEndTime;
+  // this.taskCategory = taskCategory;
+  // this.taskSubcategory = taskSubcategory;
+  this.taskMilestones = taskMilestones;
+  this.taskComplete = taskComplete;
+}
+
+function milestone(milestoneTask, milestoneName, milestoneDate, milestoneComplete) {
+  this.milestoneTask = milestoneTask;
+  this.milestoneName = milestoneName;
+  this.milestoneDate = milestoneDate;
+  this.milestoneComplete = milestoneComplete;
+}
+
+function category() {
+  this.categoryName = categoryName;
+  this.categoryColor = categoryColor;
+  this.isChecked = function() {
+    return this.categoryName + this.categoryColor;
+  }
+}
+
 function openForm() {
     document.getElementById("new-category-form").style.display = "block";
 }
