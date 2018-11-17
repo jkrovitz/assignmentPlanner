@@ -1,3 +1,73 @@
+//Jeremy Krovitz
+//Homework 3
+
+//This is an object constructor function called Event Item. It takes in six
+//parameters and contains two methods. One method creates the div and the
+//other method renders the div to the selected day's column.
+// function EventItem(eventName, location, dayOfWeek, startTime, endTime, duration){
+//   this.eventName = eventName;
+//   this.location = location;
+//   this.dayOfWeek = dayOfWeek;
+//   this.startTime = startTime;
+//   this.endTime = endTime;
+//   this.duration = duration;
+//   this.createEventDiv = function(){
+//     var countup = this;
+//     var newNode = document.createElement('div');
+//     newNode.className = 'event-item';
+//     newNode.innerHTML = '<strong>' + this.eventName + '</strong><br>' + this.location + '<br>' + this.startTime + ' - ' + this.endTime + '<br>';
+//     var heightOfContent = calculateContentHeight();
+//     var topOfContent = calculateContentTop();
+//     var numberofIntervals = 96; //Each quarter hour multiplied by 24 is 96.
+//     var quarterOfHourDecimalVal = 0.25;
+//     var heightPerInterval = heightOfContent / numberofIntervals;
+//     var calculatedTopPosition = calculateTop(heightPerInterval, heightOfContent, topOfContent);
+//     var heightOfEvent = calculateHeightOfEvent(duration, heightPerInterval, quarterOfHourDecimalVal);
+//     newNode.style.top = calculatedTopPosition.toString() + "px";
+//     newNode.style.height = heightOfEvent.toString() + "px";
+//     newNode.style.position = "absolute";
+//     weekId =   document.getElementById('week');
+//     return weekId.appendChild(newNode);
+//   };
+//   this.renderToDayColumn = function(){
+//     var contentDivs = document.getElementsByClassName("content")
+//     var daysOfWeekArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+//     var daySelector = document.getElementById("daysInWeekId");
+//     var  daySelectorVal = daySelector.options[daySelector.selectedIndex].value;
+//     if(daySelectorVal === "Sunday"){
+//       this.dayOfWeek = "Sunday";
+//       contentDivs[0].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Monday"){
+//       this.dayOfWeek = "Monday";
+//       contentDivs[1].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Tuesday"){
+//       this.dayOfWeek = "Tuesday";
+//       contentDivs[2].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Wednesday"){
+//       this.dayOfWeek = "Wednesday";
+//       contentDivs[3].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Thursday"){
+//       this.dayOfWeek = "Thursday";
+//       contentDivs[4].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Friday"){
+//       this.dayOfWeek = "Friday";
+//       contentDivs[5].append(this.createEventDiv());
+//     }
+//     if(daySelectorVal === "Saturday"){
+//       this.dayOfWeek = "Saturday";
+//       contentDivs[6].append(this.createEventDiv());
+//     }
+//     return this.EventItem;
+//   };
+// }
+
+
+
 function EventItem(eventName, location, dayOfWeek, startTime, endTime, duration){
   this.eventName = eventName;
   this.location = location;
@@ -6,7 +76,6 @@ function EventItem(eventName, location, dayOfWeek, startTime, endTime, duration)
   this.endTime = endTime;
   this.duration = duration;
   this.createEventDiv = function(){
-    var countup = this;
     var newNode = document.createElement('div');
     newNode.className = 'event-item';
     newNode.innerHTML = '<strong>' + this.eventName + '</strong><br>' + this.location + '<br>' + this.startTime + ' - ' + this.endTime + '<br>';

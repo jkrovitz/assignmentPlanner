@@ -1,21 +1,32 @@
-{% extends "layout.html" %}
-{% block title %}Timeline{% endblock %}
-{% block head %}
-  {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+<!DOCTYPE html>
+<html>
+<head>
 
+  <title>Timeline</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script type=text/javascript src="{{
-  url_for('static', filename='js/timeline.js') }}"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/weekly_planner.css') }}">
 
-{% endblock %}
-<body>
-	{% block content %}
+</head>
+<body onresize="calculateTimelineWidth()">
+
+
+        <div class="form-popup" id="add_event_form" style="display:none">
+    <form id="myForm" class="form-container">
+       <a class="cancel" onclick="closeForm()">X</a>
+      Event Name:<br><input id="eventNameId" type="text" name="eventName"><br><br>
+      Location:<br><input id="locationId" type="text" name="eventLocation"><br><br>
+      Day: <br><select id="daysInWeekId"></select><br><br>
+      Start Time:<br><select name="startTime15MinInterval" id="startTimeFifteenMinInterval"></select><br><br>
+      End Time:<br><select name="endTime15MinInterval" id="endTimeFifteenMinInterval"></select><br><br>
+    </form>
+     <input id="submitButtonId" type="submit" onclick="closeFormAndGetInputs();"><br/>
+  </div>
+
+
+
+
+
   <div class="form-popup" id="new-category-form">
 
     <form action="" class="form-container">
@@ -31,10 +42,6 @@
      <button class="round-button round-button-circle dot2"></button>
     <button class="round-button round-button-circle dot3"></button>
       <button class="round-button round-button-circle dot4"></button>
-<!--       <span class="dot dot1"></span>
-      <span class="dot dot2"></span>
-      <span class="dot dot3"></span>
-      <span class="dot dot4"></span> -->
       <input name="Color Picker" type="color"/></br>
       <button type="submit" class="my-submit-btn">Submit</button>
 
@@ -42,46 +49,112 @@
   </div>
 
 
-  <div class="form-popup" id="new-task-form">
+<!--   <div class="form-popup" id="new-task-form">
 
-    <form action="" class="new-task-form-container">
+
+   
+      <div class="new-task-form-container">
       <a class="cancel" onclick="closeNewTaskForm()">X</a>
 
       <br>
 
-      <label class="newTaskNameLabel" for="category">Task Name:</label>
-      <input type="text" class="newTaskInput" name="taskName" required>
+      <label class="newTaskNameLabel" for="task">Task Name:</label>
+      <input type="text" class="newTaskInput" id="newTaskInputId" name="taskName" required>
       <label class="startTimeLabel" for="startTime">Start Time:</label>
       <input id="start_date" type="date" value="">
       <br><br>
       <label class="endTimeLabel" for="endTime">End Time:</label>
       <input id="end_date" type="date" value="">
+  <button type="submit" class="my-submit-btn" onclick="closeFormAndGetInputs()">Submit</button> -->
 
-      <button type="submit" class="my-submit-btn">Submit</button>
 
-    </form>
+<!-- <input type="submit" onclick="closeFormAndGetInputs()" value="submit" />
+</div> -->
+
+
+    <!--  </div>
+   --> 
+
+  
+
+
+
+ 
+  <div id="new-task-form" class="form-popup" style="display:none">
+    <form id="new-task-form-container">
+       <a class="cancel" onclick="closeNewTaskForm()">X</a>
+
+      <br>
+
+      <label class="newTaskNameLabel" for="task">Task Name:</label>
+      <input type="text" class="newTaskInput" id="newTaskInputId" name="taskName">
+
+    
+         </form>
+          <input value="submit" id="submitButtonId" type="submit" onclick="closeNewTaskForm();"><br/>
   </div>
 
+
+
+
+
   <div class="grid-container">
-    <div class="Timeline">
-      <button class="new-task-button" onclick="openNewTaskForm()">Create New Task</button>
+    <div class="Timeline" id="timelineId">
+      <button class="new-task-button" onclick="openNewTaskForm();">Create New Task</button>
+
+    <button id="new_event_button" type="button"  onclick="displayForm();"> + Add New Event</button>
 
 
-
+    <div id="week">
+      <div class="day-col">
+        <div class="title">Sunday</div>
+        <div class="content"></div>
+      </div>
+      <div class="day-col">
+        <div class="title">Monday</div>
+        <div class="content"></div>
+      </div>
+      <div class="day-col">
+        <div class="title">Tuesday</div>
+        <div class="content">
+        </div>
+      </div>
+      <div class="day-col">
+        <div class="title">Wednesday</div>
+        <div class="content"></div>
+      </div>
+      <div class="day-col">
+        <div class="title">Thursday</div>
+        <div class="content"></div>
+      </div>
+      <div class="day-col">
+        <div class="title">Friday</div>
+        <div class="content"></div>
+      </div>
+      <div class="day-col">
+        <div class="title">Saturday</div>
+        <div class="content"></div>
+      </div>
     </div>
+  </div>
+
     <div class="Category">
 
   <!--     <button id="newCategoryButtonId" class="newCategoryButton">Create New Category</button><br> -->
-
+      
 <button class="new-category-button" onclick="openForm()">Create New Category</button>
 
 
-
+   
     </div>
   </div>
 
 
-
-
-
-	{% endblock content %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script type=text/javascript src="{{
+  url_for('static', filename='js/timeline.js') }}"></script>
+  </body>
+  </html>
