@@ -83,10 +83,9 @@ function closeNewTaskForm() {
 // var dateControl = document.querySelector('input[type="date"]');
 // dateControl.value = new Date(month, day, year);
 
-//This function calculates the height of the timeline div.
+//This function calculates the width of the div with the Class called timeline. 
 function calculateTimelineWidth(){
-  var selectTimelineWidth = document.querySelector('.content');
-  var computedTimelineWidth = getComputedStyle(selectTimelineWidth);
+  var selectTimelineWidth = document.querySelector('.Timeline');
   timelineWidth = selectTimelineWidth.clientWidth;
   return console.log(timelineWidth);
 }

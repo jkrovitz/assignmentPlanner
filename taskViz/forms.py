@@ -31,3 +31,7 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+class NewCategoryForm(FlaskForm):
+    categoryName = StringField('Task Name:', validators=[DataRequired()])
+
+    
