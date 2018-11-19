@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from taskViz.models import User
 
@@ -32,6 +32,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class NewCategoryForm(FlaskForm):
-    categoryName = StringField('Task Name:', validators=[DataRequired()])
+    categoryName = TextField('Task Name:', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
     

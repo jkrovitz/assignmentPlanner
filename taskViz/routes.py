@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from taskViz import app, db, bcrypt
-from taskViz.forms import RegistrationForm, LoginForm
+from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm
 from taskViz.models import User, Calendar
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -52,10 +52,13 @@ def logout():
 def weekly_planner():
     return render_template('weekly_planner.html')
 
-@app.route("/task_viz")
+@app.route("/task_viz", methods=['GET', 'POST'])
 @login_required
 def task_viz():
-    return render_template('task_viz.html')
+    new_category_form = NewCategoryForm()
+    if new_category_form.validate_on_submit():
+        return redirect(url_for(task_viz))
+    return render_template('task_viz.html', new_category_form=new_category_form)
 
 
 @app.route("/account")
