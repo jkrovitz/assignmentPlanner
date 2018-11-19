@@ -25,36 +25,36 @@
 
 
 
-function TaskItem(taskName){
-  this.taskName = taskName; 
-  this.outputTaskName = function(){
-    var newNode = document.createElement('div');
-    newNode.className = 'task-item';
-    newNode.innerHTML = '<strong>' + this.taskName;
-    newNode.style.position = "absolute";
-    getTimelineId =   document.getElementById('timelineId');
-    return getTimelineId.appendChild(newNode);
+// function TaskItem(taskName){
+//   this.taskName = taskName; 
+//   this.outputTaskName = function(){
+//     var newNode = document.createElement('div');
+//     newNode.className = 'task-item';
+//     newNode.innerHTML = '<strong>' + this.taskName;
+//     newNode.style.position = "absolute";
+//     getTimelineId =   document.getElementById('timelineId');
+//     return getTimelineId.appendChild(newNode);
     
 
-  };
-}
+//   };
+// }
 
  
 
 
-function closeNewTaskForm(){
-  // document.getElementById("newTaskInputId").reset();
-  document.getElementById("new-task-form").style.display = "none";
-  var valueOfNewTaskInputId = document.getElementById("newTaskInputId").value;
-  display_message.innerHTML = valueOfNewTaskInputId;
+// function closeNewTaskForm(){
+//   // document.getElementById("newTaskInputId").reset();
+//   document.getElementById("new-task-form").style.display = "none";
+//   var valueOfNewTaskInputId = document.getElementById("newTaskInputId").value;
+//   display_message.innerHTML = valueOfNewTaskInputId;
       
-  var taskFromInput = new TaskItem(display_message);
-  taskFromInput.outputTaskName();
+//   var taskFromInput = new TaskItem(display_message);
+//   taskFromInput.outputTaskName();
   
  
 
     
-}
+// }
 
 
         // function showMessage(){
@@ -64,21 +64,24 @@ function closeNewTaskForm(){
 
 
 
-function openForm() {
+function openNewCategoryForm() {
     document.getElementById("new-category-form").style.display = "block";
 }
 
-function closeForm() {
+function closeNewCategoryForm() {
+
     document.getElementById("new-category-form").style.display = "none";
+    var valueOfCategoryNameId = document.getElementById('categoryNameId').value
+    console.log("valueOfCategoryNameId")
 }
 
-function openNewTaskForm() {
-    document.getElementById("new-task-form").style.display = "block";
-}
+// function openNewTaskForm() {
+//     document.getElementById("new-task-form").style.display = "block";
+// }
 
-function closeNewTaskForm() {
-    document.getElementById("new-task-form").style.display = "none";
-}
+// function closeNewTaskForm() {
+//     document.getElementById("new-task-form").style.display = "none";
+// }
 
 // var dateControl = document.querySelector('input[type="date"]');
 // dateControl.value = new Date(month, day, year);

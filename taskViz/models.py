@@ -57,6 +57,17 @@ class Calendar(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-
     def __repr__(self):
         return f"Calendar('{self.title}', '{self.date_posted}')"
+
+
+
+class Category(db.Model):
+    category_id = db.Column(db.Integer, primary_key=True)
+    category_name = db.Column(db.String(100), nullable = False)
+    category_color = db.Column(db.String(100), nullable = False)
+    is_checked = db.Column(db.Boolean, nullable = False)
+
+
+    def __repr__(self):
+        return f"Category('{self.category_name}', '{self.category_color}')"

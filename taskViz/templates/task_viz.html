@@ -27,15 +27,17 @@
 
 
  
-  <div class="form-popup" onclick="openNewTaskForm() id="new-category-form">
+  <div class="form-popup" id="new-category-form">
 
     <form action="" class="form-container">
-      <a class="cancel" onclick="closeForm()">X</a>
+      <a class="cancel" onclick="closeForm();">X</a>
 
       <br>
 
-      <label class="categoryNameLabel" for="category">Category Name:<b></b></label>
-      <input type="text" class="categoryNameInput" name="categoryName" required>
+      
+      {{new_category_form.category_name.label}}
+      {{new_category_form.category_name(id="categoryNameId")}}
+    <!--   <input type="text" class="categoryNameInput" name="category_name" required> -->
 
       <label> Color:</label>
      <button class="round-button round-button-circle dot1"></button>
@@ -43,7 +45,7 @@
     <button class="round-button round-button-circle dot3"></button>
       <button class="round-button round-button-circle dot4"></button>
       <input name="Color Picker" type="color"/></br>
-      <button type="submit" class="my-submit-btn">Submit</button>
+      <input type="submit" onclick="closeNewCategoryForm();" class="my-submit-btn">
 
     </form>
   </div>
@@ -80,7 +82,7 @@
 
 
  
-  <div id="new-task-form" class="form-popup" style="display:none">
+<!--   <div id="new-task-form" class="form-popup" style="display:none">
     <form id="new-task-form-container">
        <a class="cancel" onclick="closeNewTaskForm()">X</a>
 
@@ -93,16 +95,16 @@
          </form>
           <input value="submit" id="submitButtonId" type="submit" onclick="closeNewTaskForm();"><br/>
   </div>
-
+ -->
 
 
 
 
   <div class="grid-container">
     <div class="Timeline" id="timelineId">
-      <button class="new-task-button" onclick="openNewTaskForm();">Create New Task</button>
+      <!-- <button class="new-task-button" onclick="openNewTaskForm();">Create New Task</button>
 
-    <button id="new_event_button" type="button"  onclick="displayForm();"> + Add New Event</button>
+    <button id="new_event_button" type="button"  onclick="displayForm();"> + Add New Event</button> -->
 
 
     <div id="week">
@@ -142,9 +144,9 @@
 
   <!--     <button id="newCategoryButtonId" class="newCategoryButton">Create New Category</button><br> -->
       
-<button class="new-category-button" onclick="openForm()">Create New Category</button>
+<button class="new-category-button" onclick="openNewCategoryForm();">Create New Category</button>
 
-
+<div>{{category_name}}</div>
    
     </div>
   </div>

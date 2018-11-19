@@ -32,7 +32,8 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class NewCategoryForm(FlaskForm):
-    categoryName = TextField('Task Name:', validators=[DataRequired()])
+    category_name = TextField('Category Name:', validators=[DataRequired()])
+    category_color = StringField('Category Color:', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-    
+
