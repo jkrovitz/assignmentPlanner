@@ -1,10 +1,17 @@
 from flask import render_template, url_for, flash, redirect, request
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm
-from taskViz.models import User, Calendar, Category
+from taskViz.models import User, Calendar
 from flask_login import login_user, current_user, logout_user, login_required
 
+
 @app.route("/")
+def AuthenticationRedirect():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	else:
+		return redirect(url_for('login'))
+
 @app.route("/home")
 @login_required
 def home():
@@ -56,12 +63,9 @@ def weekly_planner():
 @login_required
 def task_viz():
     new_category_form = NewCategoryForm()
-    category_name = new_category_form.category_name.data 
     if new_category_form.validate_on_submit():
-        new_category_form = Category(category_name=new_category_form.categoryName.data, category_color=new_category_form.category_color.data, is_checked=new_category_form.is_checked.data)
-        db.session.add(new_category_form)
-        db.session.commit()
-    return render_template('task_viz.html', new_category_form=new_category_form, category_name=category_name)
+        return redirect(url_for(task_viz))
+    return render_template('task_viz.html', new_category_form=new_category_form)
 
 
 @app.route("/account")

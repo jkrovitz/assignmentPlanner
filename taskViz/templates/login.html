@@ -6,14 +6,19 @@
   {% endblock %}
 {% block content %}
 
-    
-
     <div class="my-container">
-   
         <div class="vertical-center align-items-center">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul class="alert alert-danger">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
         <form method="POST" action="">
             {{ form.hidden_tag() }}
-    
                 <h1> Welcome! </h1>
                 <div class="">
                     {{ form.email.label(class="") }}<br>
@@ -25,7 +30,7 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.email(class="") }}
+                        {{ form.email(class="form-control") }}
                     {% endif %}
                 </div>
                 <div >
@@ -40,30 +45,17 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.password(class="") }}
+                        {{ form.password(class="form-control") }}
                     {% endif %}
                 </div>
-       
             <div class="">
                 <br>
                 {{ form.submit(class="loginButton") }}
-
             </div>
              <br>
                 <a href="#">Forgot Password?</a> &nbsp; | &nbsp; <a href="{{ url_for('register') }}"> Need to create account? </a>
-       
         </form>
-
-    <div>
-      
-            
-  
-    </div>
-
-
-
-
 </div>
 </div>
-    
-{% endblock content %} 
+
+{% endblock content %}
