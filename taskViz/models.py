@@ -1,5 +1,5 @@
 from datetime import datetime
-from taskViz import db, login_manager
+from taskviz import db, login_manager
 from flask_login import UserMixin
 
 

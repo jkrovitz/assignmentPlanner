@@ -199,29 +199,13 @@ html, body, .grid-container { height: 100%; margin: 0; }
     box-shadow: 0 0 3px gray;*/
 }
 
-
-.day-col {
-  width: calc(100% / 7);
-  float: left;
+.background{
+  position: absolute; background-color: #2e2e2e; margin-left: 20%; width: 60%; height: 5%; overflow: scroll; overflow-x: hidden;
 }
 
-.day-col .title {
-  text-align: center;
+#background{
+  position: absolute; background-color: #2e2e2e; margin-left: 20%; width: 60%; height: 5%; overflow: scroll; overflow-x: hidden;
 }
-
-.day-col .content {
-  position: relative;
-  height: 500px;
-  border: 1px solid black;
-  border-right: none;
-}
-
-.day-col:last-child .content {
-  border-right: 1px solid black;
-}
-
-
-
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {  
