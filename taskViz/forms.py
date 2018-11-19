@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from taskviz.models import User
+from taskViz.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -35,5 +35,3 @@ class NewCategoryForm(FlaskForm):
     category_name = TextField('Category Name:', validators=[DataRequired()])
     category_color = StringField('Category Color:', validators=[DataRequired()])
     submit = SubmitField('Submit')
-
-
