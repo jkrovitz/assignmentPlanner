@@ -13,9 +13,13 @@
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
+
+
+{#TODO: fix mess of id names, mess of formatting#}
+
 <body onresize="calculateTimelineWidth()">
 
-
+{#    FORM POP-UP#}
     <div class="form-popup" id="new-category-form">
       <form class="form-inline form-container category-form">
 
@@ -62,14 +66,48 @@
 
     <!--   </form>  -->
 
-
+{#    TIMELINE#}
     <div class="grid-container">
       <div class="Timeline" id="timelineId">
-
+          <div class="termButtons">
+              <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
+              <button id="longTermButton" onclick="openNewLongTermForm()">Long Term</button>
+          </div>
       </div>
+
+        <div class="form-popup" id="shortTermForm">
+          <form class="form-inline form-container category-form">
+
+              <div class="form-group">
+{#                  <label class="sr-only" id="shortTermInput">Short Term Length</label>#}
+{#                  <input type="number" name="quantity" id="shortTermForm" placeholder="1" min="1" max="8">#}
+{#                  <input type="text" class="form-control"  placeholder="Category" />#}
+{#                  <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">#}
+{#                  replace w value=today min=#}
+                   <select id="amountShortTimeUnits">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                   </select>
+                  <select id="shortTimeUnit">
+                      <option value="weeks">weeks</option>
+                      <option value="months">months</option>
+                   </select>
+              </div>
+              <div class="form-group">
+                  <a class="cancel" id="cancelId" onclick="cancelFillingOutTermForm()">X</a>
+              </div>
+              <input type="submit" class="btn btn-default" id="shortTermSubmit">
+          </form>
+            <br>
+        </div>
+
+
+{#    SIDEBAR OF CATEGORIES#}
       <div class="Category">   
-        <button class="new-category-button" onclick="openNewCategoryForm();">Create New Category</button>
-        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   <!-- making divs or writing text in this div does not show up -->
+        <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
+        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   <!-- TODO: divs or text in this div does not show up. Should they? -->
         <!--  <div id="categoryErrorAlert" class="alert alert-danger" role="alert" style="display:none;"></div> -->
 
         </div>

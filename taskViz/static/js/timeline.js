@@ -64,31 +64,69 @@
 
 
 
-
-function cancelFillingOutForm(){
-    document.getElementById('new-category-form').style.display = "none";
-}
+// CATEGORY FORMS
 
 function openNewCategoryForm() {
-    document.getElementById("new-category-form").style.display = "block";
-    console.log(document.getElementById("new-category-form"));
+    $('#new-category-form').css("display", "block");
 }
 
 var n = 0;  // temporary
-function closeNewCategoryForm() {
+function closeNewCategoryForm() {   // TODO: remove excess variables
     n++;
     $('#new-category-form').hide();
-    var valueOfCategoryNameId = $('#categoryNameId').val();
-    // var valueOfColorInputId = $('#colorInput');
-    var background = $('#background');
-    background.after('<div id="category' + n + '">' + valueOfCategoryNameId + '</div>');
-    // background.css("background-color", $('#colorInput'));
+    var valueOfCategoryNameId = $('#categoryInput').val();
+    var valueOfColorInputId = $('#colorInput');
+    var background = $('#bgcolor').val();
+    $('.new-category-button').after('<div id="category' + n + '">' + valueOfCategoryNameId + '</div>');
+    var str = "#category" + n;
+    $(str).css("background-color", "#" + background);
+}
 
-    console.log(valueOfCategoryNameId);
+function cancelFillingOutForm(){    // TODO: change to get parent
+    $('#new-category-form').hide();
 }
 
 
+
+// TERM FORMS
+
+function openNewShortTermForm() {
+    $('#shortTermForm').css("display", "block");
+}
+
+function openNewLongTermForm() {
+    $('#longTermForm').css("display", "block");
+}
+
+
+// MOVED THIS INTO `$(document).ready()`
+
+// function closeNewTermForm() {
+//     $('#shortTermForm').hide();
+//     // $('#longTermForm').hide();
+//     console.log($('#amountShortTimeUnits').val());
+//     console.log($('#shortTimeUnit').val());
+// }
+
+function cancelFillingOutTermForm(){       // TODO: FIX THIS
+    $('#shortTermForm').hide();
+    $('#longTermForm').hide();
+}
+
+
+
+// TODO: Why do we have 3 `$(document).ready()` things?
+
+// TODO: Are we going to have `onclick=""` in HTML files, or as `$('').click(function(){})` things in JS files>?
+
 $(document).ready(function() {
+
+    // closeNewTermForm
+    $('#shortTermSubmit').click(function() {
+        $('#shortTermForm').hide();
+        console.log($('#amountShortTimeUnits').val());
+        console.log($('#shortTimeUnit').val());
+    });
 
   $('.category-form').on('submit', function(event) {
 
