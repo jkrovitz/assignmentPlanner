@@ -16,28 +16,31 @@
 <body onresize="calculateTimelineWidth()">
 
 
- <div class="form-popup" id="new-category-form">
-  <form class="form-inline form-container category-form">
-    <div class="form-group">
-     <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
-     <label class="sr-only" for="categoryInput">New Category</label>
-     <input type="text" class="form-control" id="categoryInput" placeholder="Category" />
-   </div>
-   <div class="form-group">
-  <label> Color:</label>
-  <input class="round-button round-button-circle dot1" id="colorInput" value="#0000ff">
-<!--   <button class="round-button round-button-circle dot1"></button>
-  <button class="round-button round-button-circle dot2"></button>
-  <button class="round-button round-button-circle dot3"></button>
-  <button class="round-button round-button-circle dot4"></button> -->
-<!--   <input name="Color Picker" type="color" id="colorInput" placeholder="Color"/></br> -->
-  <input style="width:100px;" class="jscolor {width:243, height:150, position:'right',
-  borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}" id="bgcolor" name="bgcolor" value="2e2e2e" />
-</div>
-<button type="submit" class="btn btn-default">Submit</button>
-</form>
-<br>
-</div>
+    <div class="form-popup" id="new-category-form">
+      <form class="form-inline form-container category-form">
+
+          <div class="form-group">
+              <label class="sr-only" for="categoryInput">New Category:</label>
+              <input type="text" class="form-control" id="categoryInput" placeholder="Category" />
+          </div>
+          <div class="form-group">
+              <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
+          </div>
+          <div class="form-group">
+              <label> Color:</label>
+              <input class="round-button round-button-circle dot1" id="colorInput" value="#0000ff">
+    <!--   <button class="round-button round-button-circle dot1"></button>
+      <button class="round-button round-button-circle dot2"></button>
+      <button class="round-button round-button-circle dot3"></button>
+      <button class="round-button round-button-circle dot4"></button> -->
+    <!--   <input name="Color Picker" type="color" id="colorInput" placeholder="Color"/></br> -->
+              <input style="width:100px;" class="jscolor {width:243, height:150, position:'right', borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}" id="bgcolor" name="bgcolor" value="2e2e2e" />
+          </div>
+{#          <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">#}
+          <button type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">Submit</button>
+      </form>
+      <br>
+    </div>
 
 
 
@@ -66,13 +69,7 @@
       </div>
       <div class="Category">   
         <button class="new-category-button" onclick="openNewCategoryForm();">Create New Category</button>
-        <div id="background" class="alert alert-success background" role="alert" style="display:none;">
-          <div id="textFromCategory">
-
-          </div>
-
-
-        </div>
+        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   <!-- making divs or writing text in this div does not show up -->
         <!--  <div id="categoryErrorAlert" class="alert alert-danger" role="alert" style="display:none;"></div> -->
 
         </div>

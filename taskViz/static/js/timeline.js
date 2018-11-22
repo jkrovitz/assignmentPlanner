@@ -66,20 +66,25 @@
 
 
 function cancelFillingOutForm(){
-  document.getElementById('new-category-form').style.display = "none";
+    document.getElementById('new-category-form').style.display = "none";
 }
 
 function openNewCategoryForm() {
     document.getElementById("new-category-form").style.display = "block";
+    console.log(document.getElementById("new-category-form"));
 }
 
+var n = 0;  // temporary
 function closeNewCategoryForm() {
-    document.getElementById("new-category-form").style.display = "none";
-    var valueOfCategoryNameId = document.getElementById('categoryNameId').value
-    console.log("valueOfCategoryNameId")
-    var valueOfColorInputId = document.getElementById('colorInput')
-    var categorySuccessId = document.getElementById('background')
-    categorySuccessId.style.backgroundColor = colorInput;
+    n++;
+    $('#new-category-form').hide();
+    var valueOfCategoryNameId = $('#categoryNameId').val();
+    // var valueOfColorInputId = $('#colorInput');
+    var background = $('#background');
+    background.after('<div id="category' + n + '">' + valueOfCategoryNameId + '</div>');
+    // background.css("background-color", $('#colorInput'));
+
+    console.log(valueOfCategoryNameId);
 }
 
 

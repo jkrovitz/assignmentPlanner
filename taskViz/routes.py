@@ -18,7 +18,7 @@ def home():
 	return render_template('home.html')
 
 @app.route("/register", methods=['GET', 'POST'])
-def register():
+def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
@@ -33,7 +33,7 @@ def register():
 
 
 @app.route("/login", methods=['GET', 'POST'])
-def login():
+def login():        # can only log in using email, not username? change later if possible
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -57,7 +57,7 @@ def logout():
 @app.route("/weekly_planner")
 @login_required
 def weekly_planner():
-    return render_template('weekly_planner.html')
+    return render_template('weekly_planner.html')   # thsi html file does't exist
 
 @app.route("/task_viz", methods=['GET', 'POST'])
 @login_required
