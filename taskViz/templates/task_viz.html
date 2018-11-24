@@ -19,33 +19,44 @@
 
 <body onresize="calculateTimelineWidth()">
 
-{#    FORM POP-UP#}
+<!-- Form Popup -->
     <div class="form-popup" id="new-category-form">
+       <div class="form-group">
+       <a class="cancel" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
+         </div>
       <form class="form-inline form-container category-form">
-
-          <div class="form-group">
-              <label class="sr-only" for="categoryInput">New Category:</label>
-              <input type="text" class="form-control" id="categoryInput" placeholder="Category" />
-          </div>
-          <div class="form-group">
-              <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
-          </div>
-          <div class="form-group">
-              <label> Color:</label>
-              <input class="round-button round-button-circle dot1" id="colorInput" value="#0000ff">
-    <!--   <button class="round-button round-button-circle dot1"></button>
-      <button class="round-button round-button-circle dot2"></button>
-      <button class="round-button round-button-circle dot3"></button>
-      <button class="round-button round-button-circle dot4"></button> -->
-    <!--   <input name="Color Picker" type="color" id="colorInput" placeholder="Color"/></br> -->
-              <input style="width:100px;" class="jscolor {width:243, height:150, position:'right', borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666'}" id="bgcolor" name="bgcolor" value="2e2e2e" />
-          </div>
-{#          <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">#}
-          <button type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">Submit</button>
+              <label>New Category:</label>
+              <input type="text" id="categoryInput"/>
+              <label>Color:</label>
+              <input type="text" id="bgcolor">
+          <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">
       </form>
       <br>
     </div>
 
+
+   <div class="form-popup" id="shortTermForm">
+          <form class="form-inline form-container category-form">
+
+              <div class="form-group">
+                   <select id="amountShortTimeUnits">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                   </select>
+                  <select id="shortTimeUnit">
+                  `    <option value="weeks">weeks</option>
+                      <option value="months">months</option>
+                   </select>
+              </div>
+              <div class="form-group">
+                  <a class="cancel" id="cancelId" onclick="cancelFillingOutShortTermForm()">X</a>
+              </div>
+              <input type="submit" class="btn btn-default" id="shortTermSubmit">
+          </form>
+            <br>
+        </div>
 
 
 <!--   <form action="" class="form-container">
@@ -66,49 +77,42 @@
 
     <!--   </form>  -->
 
-{#    TIMELINE#}
+<!-- {#    TIMELINE#} -->
     <div class="grid-container">
+
+
       <div class="Timeline" id="timelineId">
+
+              <label>Start date:</label>
+<div class="inline-elements">
+<input type="date" id="start"
+       value="2018-07-22"
+       min="2018-01-01" max="2018-12-31">
           <div class="termButtons">
               <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
-              <button id="longTermButton" onclick="openNewLongTermForm()">Long Term</button>
+              <button id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
+
+
           </div>
-      </div>
 
-        <div class="form-popup" id="shortTermForm">
-          <form class="form-inline form-container category-form">
-
-              <div class="form-group">
-{#                  <label class="sr-only" id="shortTermInput">Short Term Length</label>#}
-{#                  <input type="number" name="quantity" id="shortTermForm" placeholder="1" min="1" max="8">#}
-{#                  <input type="text" class="form-control"  placeholder="Category" />#}
-{#                  <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">#}
-{#                  replace w value=today min=#}
-                   <select id="amountShortTimeUnits">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                   </select>
-                  <select id="shortTimeUnit">
-                      <option value="weeks">weeks</option>
-                      <option value="months">months</option>
-                   </select>
-              </div>
-              <div class="form-group">
-                  <a class="cancel" id="cancelId" onclick="cancelFillingOutTermForm()">X</a>
-              </div>
-              <input type="submit" class="btn btn-default" id="shortTermSubmit">
-          </form>
-            <br>
         </div>
 
+          
+         
+      </div>
 
-{#    SIDEBAR OF CATEGORIES#}
-      <div class="Category">   
+
+
+     
+
+
+<!-- Sidebar of catgories  -->
+      <div class="Category">  
         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
-        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   <!-- TODO: divs or text in this div does not show up. Should they? -->
-        <!--  <div id="categoryErrorAlert" class="alert alert-danger" role="alert" style="display:none;"></div> -->
+        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   
+      
+ 
+
 
         </div>
       </div>

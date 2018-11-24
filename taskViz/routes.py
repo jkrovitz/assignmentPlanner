@@ -64,6 +64,9 @@ def weekly_planner():
 def task_viz():
     new_category_form = NewCategoryForm()
     if new_category_form.validate_on_submit():
+        new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+        self.db.session.add(new_category)
+        self.db.session.commit()
         return redirect(url_for(task_viz))
     return render_template('task_viz.html', new_category_form=new_category_form)
 

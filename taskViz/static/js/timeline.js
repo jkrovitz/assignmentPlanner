@@ -77,13 +77,23 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     var valueOfCategoryNameId = $('#categoryInput').val();
     var valueOfColorInputId = $('#colorInput');
     var background = $('#bgcolor').val();
-    $('.new-category-button').after('<div id="category' + n + '">' + valueOfCategoryNameId + '</div>');
-    var str = "#category" + n;
-    $(str).css("background-color", "#" + background);
+    $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + '</div>');
+    var backgroundColorStr = "#category" + n;
+    $(backgroundColorStr).css("background-color", "#" + background);
+    
+    document.getElementById('categoryInput').value=""
+    document.getElementById('bgcolor').value=""
 }
 
-function cancelFillingOutForm(){    // TODO: change to get parent
+
+
+
+
+
+function cancelFillingOutCategoryForm(){    // TODO: change to get parent
     $('#new-category-form').hide();
+     document.getElementById('categoryInput').value=""
+
 }
 
 
@@ -108,9 +118,13 @@ function openNewLongTermForm() {
 //     console.log($('#shortTimeUnit').val());
 // }
 
-function cancelFillingOutTermForm(){       // TODO: FIX THIS
+function cancelFillingOutShortTermForm(){       // TODO: FIX THIS
     $('#shortTermForm').hide();
-    $('#longTermForm').hide();
+}
+
+
+function cancelFillingOutLongTermForm(){
+  $('#longTermForm').hide();
 }
 
 
@@ -127,6 +141,15 @@ $(document).ready(function() {
         console.log($('#amountShortTimeUnits').val());
         console.log($('#shortTimeUnit').val());
     });
+
+
+        // closeNewTermForm
+    $('#longTermSubmit').click(function() {
+        $('#longTermForm').hide();
+        console.log($('#amountLongTimeUnits').val());
+        console.log($('#shortTimeUnit').val());
+    });
+
 
   $('.category-form').on('submit', function(event) {
 
@@ -153,6 +176,7 @@ $(document).ready(function() {
         $( "#textFromCategory" ).val( text );
 
 
+
       }
 
     });
@@ -177,17 +201,6 @@ $(document).ready(function() {
     });
 
 
-
-$(document).ready(function(){
-
-$('#bgcolor').on('change', function (e) {
-var optionSelected = $("option:selected", this);
-var valueSelected = '#' +this.value;
-
-$("#background").css("background-color", valueSelected);
-
-});
-});
 // function openNewTaskForm() {
 //     document.getElementById("new-task-form").style.display = "block";
 // }
