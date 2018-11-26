@@ -1,4 +1,4 @@
-from taskviz.models import db
+from taskViz.models import db
 
 print('Resetting database...')
 

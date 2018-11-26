@@ -35,6 +35,7 @@
     </div>
 
 
+
    <div class="form-popup" id="shortTermForm">
           <form class="form-inline form-container category-form">
 
@@ -58,13 +59,15 @@
             <br>
         </div>
 
-
+      <div class="form-popup" id="task-create-form">
+        {% include 'task_form.html' ignore missing %}
+      </div>
 <!--   <form action="" class="form-container">
     <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
 
     <br>
 
-    
+
     <input id="categoryId" value="">
 
     <label> Color:</label>
@@ -72,7 +75,7 @@
     <button class="round-button round-button-circle dot2"></button>
     <button class="round-button round-button-circle dot3"></button>
     <button class="round-button round-button-circle dot4"></button>
-    <input name="Color Picker" type="color"/></br> 
+    <input name="Color Picker" type="color"/></br>
     <input type="submit" onclick="closeNewCategoryForm();" class="my-submit-btn"> -->
 
     <!--   </form>  -->
@@ -85,33 +88,28 @@
 
               <label>Start date:</label>
 <div class="inline-elements">
-<input type="date" id="start"
-       value="2018-07-22"
-       min="2018-01-01" max="2018-12-31">
+  <input
+    type="date"
+    id="start"
+    value="2018-07-22"
+    min="2018-01-01"
+    max="2018-12-31"
+  >
           <div class="termButtons">
+              <button id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
               <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
               <button id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
-
-
           </div>
-
         </div>
-
-          
-         
       </div>
 
 
-
-     
-
-
 <!-- Sidebar of catgories  -->
-      <div class="Category">  
+      <div class="Category">
         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
-        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>   
-      
- 
+        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>
+
+
 
 
         </div>

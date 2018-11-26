@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, DateTimeField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from taskViz.models import User
 
@@ -34,4 +34,11 @@ class LoginForm(FlaskForm):
 class NewCategoryForm(FlaskForm):
     category_name = StringField('Category Name:', validators=[DataRequired()])
     category_color = StringField('Category Color:', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class TaskForm(FlaskForm):
+    task_name = StringField('Task Name', validators=[DataRequired()])
+    task_start_date = DateTimeField('Start Date', validators=[DataRequired()])
+    task_end_date = DateTimeField('End Date', validators=[DataRequired()])
+    category = SelectField('Category Name', choices=[('Class', 'Class')], validators=[DataRequired()])
     submit = SubmitField('Submit')

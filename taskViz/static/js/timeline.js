@@ -26,7 +26,7 @@
 
 
 // function TaskItem(taskName){
-//   this.taskName = taskName; 
+//   this.taskName = taskName;
 //   this.outputTaskName = function(){
 //     var newNode = document.createElement('div');
 //     newNode.className = 'task-item';
@@ -34,12 +34,12 @@
 //     newNode.style.position = "absolute";
 //     getTimelineId =   document.getElementById('timelineId');
 //     return getTimelineId.appendChild(newNode);
-    
+
 
 //   };
 // }
 
- 
+
 
 
 // function closeNewTaskForm(){
@@ -47,13 +47,13 @@
 //   document.getElementById("new-task-form").style.display = "none";
 //   var valueOfNewTaskInputId = document.getElementById("newTaskInputId").value;
 //   display_message.innerHTML = valueOfNewTaskInputId;
-      
+
 //   var taskFromInput = new TaskItem(display_message);
 //   taskFromInput.outputTaskName();
-  
- 
 
-    
+
+
+
 // }
 
 
@@ -80,7 +80,7 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + '</div>');
     var backgroundColorStr = "#category" + n;
     $(backgroundColorStr).css("background-color", "#" + background);
-    
+
     document.getElementById('categoryInput').value=""
     document.getElementById('bgcolor').value=""
 }
@@ -106,6 +106,10 @@ function openNewShortTermForm() {
 
 function openNewLongTermForm() {
     $('#longTermForm').css("display", "block");
+}
+
+function openNewTaskForm() {
+    $('#task-create-form').css("display", "block");
 }
 
 
@@ -212,7 +216,7 @@ $(document).ready(function() {
 // var dateControl = document.querySelector('input[type="date"]');
 // dateControl.value = new Date(month, day, year);
 
-//This function calculates the width of the div with the Class called timeline. 
+//This function calculates the width of the div with the Class called timeline.
 function calculateTimelineWidth(){
   var selectTimelineWidth = document.querySelector('.Timeline');
   timelineWidth = selectTimelineWidth.clientWidth;

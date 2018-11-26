@@ -60,8 +60,6 @@ class Calendar(db.Model):
     def __repr__(self):
         return f"Calendar('{self.title}', '{self.date_posted}')"
 
-
-
 class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(100), nullable = False)
@@ -71,3 +69,13 @@ class Category(db.Model):
 
     def __repr__(self):
         return f"Category('{self.category_name}', '{self.category_color}')"
+
+class Task(db.Model):
+    task_id = db.Column(db.Integer, primary_key=True)
+    task_name = db.Column(db.String(100), nullable=False)
+    task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    task_end_date = db.Column(db.DateTime, nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
+
+    def __repr__(self):
+        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
