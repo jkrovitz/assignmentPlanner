@@ -1,11 +1,11 @@
 html, body, .grid-container { height: 100%; margin: 0; }
 
-.grid-container * { 
+.grid-container * {
  /*border: 1px solid black;*/
  position: relative;
 }
 
-.grid-container *:after { 
+.grid-container *:after {
 /*  content:attr(class); */
  position: absolute;
  top: 0;
@@ -17,7 +17,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
 }
 
 .start{
-  display: flex; 
+  display: flex;
 
 }
 .termButtons{
@@ -30,7 +30,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
   margin-left: 50px;
   top-margin: 200px;
   background-color: red;
-  color: red; 
+  color: red;
   height: 100px;
 }
 
@@ -41,14 +41,17 @@ html, body, .grid-container { height: 100%; margin: 0; }
   grid-template-areas: "Category Timeline";
 }
 
-.Timeline { grid-area: Timeline; 
+.Timeline { grid-area: Timeline;
   border: solid 2px black;
 }
 
 .Category { grid-area: Category;
 border: solid 2px black; }
 
-
+.timeColumnHeader {
+  width: calc(100% / 7);
+	float: left;  
+}
 
 * {box-sizing: border-box;}
 
@@ -178,7 +181,7 @@ border: solid 2px black; }
 
 .categoryNameLabel{
   font-size: 2.3vw;
-  
+
 
 }
 
@@ -217,8 +220,8 @@ border: solid 2px black; }
     border-radius: 50%;
   border:10px solid #cfdcec;
     overflow:hidden;
-    
-    background: #4679BD; 
+
+    background: #4679BD;
     box-shadow: 0 0 3px gray;*/
 }
 
@@ -236,7 +239,7 @@ border: solid 2px black; }
 }
 
 // Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {  
+@media (min-width: 576px) {
 
 }
 
