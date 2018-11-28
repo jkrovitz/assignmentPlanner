@@ -5,7 +5,7 @@
   <title>Timeline</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
-  <link rel="stylesheet" type="text/css href="css/timeline.css">
+  <link rel="stylesheet" type="text/css" href="css/timeline.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
@@ -22,52 +22,44 @@
 <!-- Form Popup -->
     <div class="form-popup" id="new-category-form">
        <div class="form-group">
-       <a class="cancel" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
-         </div>
+         <a class="cancel" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
+       </div>
       <form class="form-inline form-container category-form">
-              <label>New Category:</label>
-              <input type="text" id="categoryInput"/>
-              <label>Color:</label>
-              <input type="text" id="bgcolor">
-          <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">
-      </form>
-      <br>
+        <label>New Category:</label>
+        <input type="text" id="categoryInput"/>
+        <label>Color:</label>
+        <input type="text" id="bgcolor">
+        <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">
+      </form><br/>
     </div>
 
-
-
    <div class="form-popup" id="shortTermForm">
-          <form class="form-inline form-container category-form">
-
-              <div class="form-group">
-                   <select id="amountShortTimeUnits">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                   </select>
-                  <select id="shortTimeUnit">
-                  `    <option value="weeks">weeks</option>
-                      <option value="months">months</option>
-                   </select>
-              </div>
-              <div class="form-group">
-                  <a class="cancel" id="cancelId" onclick="cancelFillingOutShortTermForm()">X</a>
-              </div>
-              <input type="submit" class="btn btn-default" id="shortTermSubmit">
-          </form>
-            <br>
+     <form class="form-inline form-container category-form">
+        <div class="form-group">
+          <select id="amountShortTimeUnits">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          <select id="shortTimeUnit">
+            <option value="weeks">weeks</option>
+            <option value="months">months</option>
+          </select>
         </div>
+        <div class="form-group">
+          <a class="cancel" id="cancelId" onclick="cancelFillingOutShortTermForm()">X</a>
+        </div>
+        <input type="submit" class="btn btn-default" id="shortTermSubmit">
+      </form><br/>
+    </div>
 
-      <div class="form-popup" id="task-create-form">
+    <div class="form-popup" id="task-create-form">
         {% include 'task_form.html' ignore missing %}
-      </div>
+    </div>
 <!--   <form action="" class="form-container">
     <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
-
-    <br>
-
-
+    <br/>
     <input id="categoryId" value="">
 
     <label> Color:</label>
@@ -80,21 +72,16 @@
 
     <!--   </form>  -->
 
+
 <!-- {#    TIMELINE#} -->
+
     <div class="grid-container">
 
 
       <div class="Timeline" id="timelineId">
-
-              <label>Start date:</label>
-<div class="inline-elements">
-  <input
-    type="date"
-    id="start"
-    value="2018-07-22"
-    min="2018-01-01"
-    max="2018-12-31"
-  >
+        <label>Start date:</label>
+        <div class="inline-elements">
+          <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
           <div class="termButtons">
               <button id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
               <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
@@ -108,15 +95,9 @@
       <div class="Category">
         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
         <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>
-
-
-
-
         </div>
       </div>
     </div>
-
-
 
 
     <!-- External JavaScript Files -->
@@ -126,8 +107,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type=text/javascript src="{{
     url_for('static', filename='js/timeline.js') }}"></script>
-
-
 
   </body>
   </html>
