@@ -1,9 +1,9 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, Response
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, TaskForm
-from taskViz.models import User, Calendar
+from taskViz.models import User, Calendar, Category
 from flask_login import login_user, current_user, logout_user, login_required
-
+import json
 
 @app.route("/")
 def AuthenticationRedirect():
@@ -57,41 +57,68 @@ def logout():
 @app.route("/weekly_planner")
 @login_required
 def weekly_planner():
-    return render_template('weekly_planner.html')   # thsi html file does't exist
+	return render_template('weekly_planner.html')   # thsi html file does't exist
 
 @app.route("/task_viz", methods=['GET', 'POST'])
 @login_required
 def task_viz():
 	task_form = TaskForm()
 	new_category_form = NewCategoryForm()
-	if new_category_form.validate_on_submit():
-		new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-		self.db.session.add(new_category)
-		self.db.session.commit()
-		return redirect(url_for(task_viz))
+	print(request.method,'request method')
+	if request.method == 'POST':
+		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
+	# if new_category_form.validate_on_submit():
+	# 	print(self.model, 'category model')
+	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+	# 	self.db.session.add(new_category)
+	# 	self.db.session.commit()
+	# 	return redirect(url_for(task_viz))
 
+	if request.method == 'POST':
+		print(task_form.data, 'task_form')
 
 	return render_template(
 		'task_viz.html',
 		new_category_form=new_category_form,
 		task_form=task_form
 		)
+@app.route('/categories', methods=['GET', 'POST'])
+def category():
 
-@app.route('/tasks', methods=['GET', 'POST'])
-@login_required
-def tasks():
+	#new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
+	#db.session.add(new_cat)
 
-    # new_category_form = NewCategoryForm()
-    # if new_category_form.validate_on_submit():
-    #     new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-    #     self.db.session.add(new_category)
-    #     self.db.session.commit()
-    #     return redirect(url_for(task_viz))
-	# new_category_form = TaskForm()
-    return render_template(
-		'task_viz.html',
-		#new_category_form=new_category_form,
-		)
+	if request.method == 'POST':
+		#category_form = NewCategoryForm(request.form)
+		cat_name = request.form.get('category')
+		cat_color = request.form.get('color')
+		print(cat_name, cat_color)
+		new_cat = Category(category_name=cat_name, category_color=cat_color, is_checked=False)
+		db.session.add(new_cat)
+		db.session.commit()
+		print(Category.query.all())
+		return Response({})
+	cat = Category.query.all()
+	print(cat, 'categories')
+	return Response(json.dumps([])) 
+
+
+
+# @app.route('/tasks', methods=['GET', 'POST'])
+# @login_required
+# def tasks():
+#
+#     new_category_form = NewCategoryForm()
+#     if new_category_form.validate_on_submit():
+#         new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+#         self.db.session.add(new_category)
+#         self.db.session.commit()
+#         return redirect(url_for(task_viz))
+# 	new_category_form = TaskForm()
+#     return render_template(
+# 		'task_viz.html',
+# 		new_category_form=new_category_form,
+# 		)
 
 @app.route("/account")
 @login_required

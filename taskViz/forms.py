@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, DateTimeField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from taskViz.models import User
+from taskViz.models import User, Category
 
-
+category_query = Category.query.all()
+category_choices = [(category.category_id, category.category_name) for category in category_query]
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -38,7 +39,7 @@ class NewCategoryForm(FlaskForm):
 
 class TaskForm(FlaskForm):
     task_name = StringField('Task Name', validators=[DataRequired()])
-    task_start_date = DateTimeField('Start Date', validators=[DataRequired()])
-    task_end_date = DateTimeField('End Date', validators=[DataRequired()])
-    category = SelectField('Category Name', choices=[('Class', 'Class')], validators=[DataRequired()])
+    task_start_date = DateField('Start Date', validators=[DataRequired()])
+    task_end_date = DateField('End Date', validators=[DataRequired()])
+    category = SelectField('Category Name', choices=category_choices, validators=[DataRequired()])
     submit = SubmitField('Submit')

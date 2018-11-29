@@ -74,15 +74,15 @@ var n = 0;  // temporary
 function closeNewCategoryForm() {   // TODO: remove excess variables
     n++;
     $('#new-category-form').hide();
-    var valueOfCategoryNameId = $('#categoryInput').val();
-    var valueOfColorInputId = $('#colorInput');
-    var background = $('#bgcolor').val();
+    var valueOfCategoryNameId = $('#category-name').val();
+    var valueOfColorInputId = $('#category-color');
+    var background = $('#category-color').val();
     $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + '</div>');
     var backgroundColorStr = "#category" + n;
     $(backgroundColorStr).css("background-color", "#" + background);
 
-    document.getElementById('categoryInput').value=""
-    document.getElementById('bgcolor').value=""
+    // document.getElementById('category-name').value=""
+    // document.getElementById('category-color').value=""
 }
 
 
@@ -155,48 +155,44 @@ $(document).ready(function() {
     });
 
 
+// changed this to post correctly
   $('.category-form').on('submit', function(event) {
-
-    $.ajax({
-      data : {
-        category : $('#categoryInput').val(),
-        color : $('#colorInput').val()
-      },
-      type : 'POST',
-      url : '/newprocess'
-    })
+    const categoryName = document.getElementById('category-name').value;
+    const categoryColor = document.getElementById('category-color').value;
+    console.log(categoryName)
+    $.post('/categories',
+        {
+            category : categoryName,
+            color : categoryColor,
+        }
+      )
     .done(function(data) {
-
       if (data.error) {
         $('#categoryErrorAlert').text(data.error).show();
         $('#background').hide();
       }
       else {
-        $('#background').text(data.category).show();
+        //$('#background').text(data.color).show();
         $('#categoryErrorAlert').hide();
         $('#categorySuccessId').css('background-color');
         $( ".form-popup" ).hide();
-        var text = $( "#categoryInput" ).text();
+        var text = $( "#category-name" ).text();
         $( "#textFromCategory" ).val( text );
-
-
-
       }
 
     });
-
-
+    // $.get('/categories', null, function(data){
+    //   console.log(data, 'data')
+    // })
     event.preventDefault();
 
   });
-
-
 });
 
 
     $(document).ready(function(){
 
-        $('#bgcolor').on('change', function (e) {
+        $('#category-color').on('change', function (e) {
 
             var optionSelected = $("option:selected", this);
             var valueSelected = this.value;
