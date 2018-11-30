@@ -50,7 +50,7 @@ border: solid 2px black; }
 
 .timeColumnHeader {
   width: calc(100% / 7);
-	float: left;  
+	/* float: left; */
 }
 
 * {box-sizing: border-box;}
