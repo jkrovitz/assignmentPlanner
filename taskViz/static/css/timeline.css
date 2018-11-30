@@ -20,9 +20,14 @@ html, body, .grid-container { height: 100%; margin: 0; }
   display: flex;
 
 }
-.termButtons{
+.topButtons{
   display: inline-block;
   margin-left: 20px;
+
+}
+
+.success{
+  background-color: #00ff00;
 }
 
 .text{
@@ -48,9 +53,19 @@ html, body, .grid-container { height: 100%; margin: 0; }
 .Category { grid-area: Category;
 border: solid 2px black; }
 
-.timeColumnHeader {
+
+/* Please don't calculate the time increments this way. I had another way
+of doing it, which I mentioned in the code plan that is more responsive to 
+the size of the timeline view.*/
+/*.timeIncrementColHeader {
   width: calc(100% / 7);
-	/* float: left; */
+}*/ 
+
+
+.timeIncrementHeaderHolder{
+  margin-top: 10px; /* We can adjust to be more responsive at a later point.*/
+  /* float: left; */
+  text-align: center;
 }
 
 * {box-sizing: border-box;}
@@ -64,6 +79,11 @@ border: solid 2px black; }
   cursor: pointer;
   opacity: 0.8;
 }
+
+.newTaskFormFields{
+  display: block;
+}
+
 
 .new-task-button {
   width: 25%;

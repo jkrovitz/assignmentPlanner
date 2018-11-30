@@ -81,8 +81,12 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     var backgroundColorStr = "#category" + n;
     $(backgroundColorStr).css("background-color", "#" + background);
 
-    // document.getElementById('category-name').value=""
-    // document.getElementById('category-color').value=""
+    /* These two lines of code set the value to an empty string
+    so that if a user creates a new category, the fields from 
+    the previous category submitted will not be populated with
+    the input from the previous category. */
+    document.getElementById('category-name').value="";
+    document.getElementById('category-color').value="";
 }
 
 
@@ -92,7 +96,13 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
 
 function cancelFillingOutCategoryForm(){    // TODO: change to get parent
     $('#new-category-form').hide();
-     document.getElementById('categoryInput').value=""
+     //Sets category input value to empty string if the user decides to cancel creating a new category.
+     document.getElementById('categoryInput').value="";
+}
+
+    function cancelFillingOutTaskForm(){    // TODO: change to get parent
+    $('#task-create-form').hide();
+     // document.getElementById('categoryInput').value=""
 
 }
 

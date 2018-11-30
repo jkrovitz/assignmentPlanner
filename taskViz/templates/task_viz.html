@@ -21,59 +21,18 @@
 
 <!-- Form Popup -->
     <div class="form-popup" id="new-category-form">
-       <div class="form-group">
-         <a class="cancel" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
-       </div>
-      <form class="form-inline form-container category-form">
-        <label>New Category:</label>
-        <input type="text" id="category-name" name="category"/>
-        <label>Color:</label>
-        <input type="text" id="category-color" name="color">
-        <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()">
-      </form><br/>
+       {% include 'forms/category_form.html' ignore missing %}
     </div>
 
    <div class="form-popup" id="shortTermForm">
-     <form class="form-inline form-container category-form">
-        <div class="form-group">
-          <select id="amountShortTimeUnits">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-          <select id="shortTimeUnit">
-            <option value="weeks">weeks</option>
-            <option value="months">months</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <a class="cancel" id="cancelId" onclick="cancelFillingOutShortTermForm()">X</a>
-        </div>
-        <input type="submit" class="btn btn-default" id="shortTermSubmit">
-      </form><br/>
+      {% include 'forms/short_term_form.html' ignore missing %}
     </div>
 
     <div class="form-popup" id="task-create-form">
-        {% include 'task_form.html' ignore missing %}
+        {% include 'forms/task_form.html' ignore missing %}
     </div>
-<!--   <form action="" class="form-container">
-    <a class="cancel" id="cancelId" onclick="cancelFillingOutForm()">X</a>
-    <br/>
-    <input id="categoryId" value="">
-
-    <label> Color:</label>
-    <button class="round-button round-button-circle dot1"></button>
-    <button class="round-button round-button-circle dot2"></button>
-    <button class="round-button round-button-circle dot3"></button>
-    <button class="round-button round-button-circle dot4"></button>
-    <input name="Color Picker" type="color"/></br>
-    <input type="submit" onclick="closeNewCategoryForm();" class="my-submit-btn"> -->
-
-    <!--   </form>  -->
 
 
-<!-- {#    TIMELINE#} -->
 
     <div class="grid-container">
 
@@ -83,14 +42,29 @@
         <div class="inline-elements">
           <label>Start date:</label>
           <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+          <div class="topButtons">
           <div class="termButtons">
               <button id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
               <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
               <button id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
+            </div>
+              <div>
+                <h1>{{ current_user.username }}'s Timeline</h1>
+              <a class="ml-2" href="{{ url_for('logout')}}">Logout</a>
+            </div>
           </div>
-          <div>
-            <span class="timeColumnHeader">Monday    </span><span class="timeColumnHeader">Tuesday    </span><span class="timeColumnHeader">Wednesday    </span><span class="timeColumnHeader">Thursday    </span><span class="timeColumnHeader">Friday    </span><span class="timeColumnHeader">Saturday    </span><span class="timeColumnHeader">Sunday</span>
+
+
+          <div class="timeIncrementHeaderHolder">
+            <span class="timeIncrementColHeader">Monday</span>
+            <span class="timeIncrementColHeader">Tuesday</span>
+            <span class="timeIncrementColHeader">Wednesday</span>
+            <span class="timeIncrementColHeader">Thursday</span>
+            <span class="timeIncrementColHeader">Friday</span>
+            <span class="timeIncrementColHeader">Saturday</span>
+            <span class="timeIncrementColHeader">Sunday</span>
           </div>
+
 
         </div>
       </div>
@@ -99,7 +73,7 @@
 <!-- Sidebar of catgories  -->
       <div class="Category">
         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
-        <div id="background" class="alert alert-success background" role="alert" style="display:none;"></div>
+        <div id="background" class="alert success background" role="alert" style="display:none;"></div>
         </div>
       </div>
     </div>

@@ -1,0 +1,34 @@
+<form class="form-inline form-container category-for" action="/task_viz" method="POST">
+
+  <a class="cancel" id="cancelId" onclick="cancelFillingOutTaskForm()">X</a>
+  <div class="newTaskFormFields">
+
+  <div class="newTaskLabel_NewTaskForm">
+    {{task_form.task_name.label}} 
+  </div>
+    <div class="newTaskInput_NewTaskForm">
+    {{task_form.task_name(class='form-control')}}
+  </div>
+  <div class="startDateLabel_NewTaskForm">
+    {{task_form.task_start_date.label}} 
+  </div>
+    <div class="startDateInput_NewTaskForm">
+    {{task_form.task_start_date(class='form-control', type='date')}}
+  </div>
+  <div class="endDateLabel_NewTaskForm">
+    {{task_form.task_end_date.label}} 
+  </div>
+    <div class="endDateInput_NewTaskForm">
+    {{task_form.task_end_date(class='form-control', type='date')}}
+  </div>
+  <div class="categoryLabel_NewTaskForm">
+    {{task_form.category.label}} 
+  </div>
+  <div class="categorySelector_NewTaskForm">
+    {{task_form.category(class='form-control')}}
+  </div>
+  <div class="form-group">
+      {{task_form.submit(class="btn btn-default")}}
+  </div>
+</div>
+</form>
