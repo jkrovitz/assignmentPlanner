@@ -143,8 +143,29 @@ the size of the timeline view.*/
   background: #ffffff;
 }
 
+.amountShortTimeLimit{
+  margin-top:20px;
+}
+
+
+.categorySelect{
+  width: 150px;
+  height: 30px;
+  margin: 10px;
+}
+
 .cancel{
   float: right;
+}
+
+.cancelCategoryFillout{
+  float: right;
+  margin-bottom: 40px;
+  text-align: right; 
+}
+
+.cancelCatFilloutDiv{
+  text-align: right; 
 }
 
 .bgcolorclass{

@@ -65,6 +65,100 @@
             <span class="timeIncrementColHeader">Sunday</span>
           </div>
 
+          
+ 
+ 
+ <canvas id="DemoCanvas" width="400" height="400"></canvas>  
+<script>
+var canvas = document.getElementById('DemoCanvas');
+if (canvas.getContext) 
+{
+ var context = canvas.getContext("2d");
+ context.beginPath();
+  context.moveTo(10, 50);
+  context.lineTo(200, 50);
+  context.lineWidth = 5;
+  // set line color
+  context.strokeStyle = '#ffb500';
+  context.stroke();
+  context.beginPath();
+  context.moveTo(30, 90);
+  context.lineTo(190, 90);
+  context.lineWidth = 5;
+  // set line color
+  context.strokeStyle = '2E1919';
+  context.stroke();
+  context.beginPath();
+  context.moveTo(70, 200);
+  context.lineTo(500, 200);
+  context.lineWidth = 5;
+  // set line color
+  context.strokeStyle = '#2E1919';
+  context.stroke();
+  context.stroke();
+  context.beginPath();
+  context.moveTo(30, 300);
+  context.lineTo(600, 300);
+  context.lineWidth = 5;
+  // set line color
+  context.strokeStyle = '#2E1919';
+  context.stroke();   
+  
+
+//circle 
+  var context = canvas.getContext('2d');
+      var centerX = canvas.width / 2;
+      var centerY = canvas.height / 2;
+      var radius = 20;
+
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = '2E1919';
+      
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = '2E1919';
+      context.stroke();
+
+      //another circle
+
+        var context = canvas.getContext('2d');
+      var centerX = canvas.width / 2 + 100;
+      var centerY = canvas.height / 2;
+      var radius = 20;
+
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = '2E1919';
+      
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = '2E1919';
+      context.stroke();
+
+
+      //a third circle
+              var context = canvas.getContext('2d');
+      var centerX = canvas.width / 2 - 100;
+      var centerY = canvas.height / 2;
+      var radius = 20;
+
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      context.fillStyle = '2E1919';
+      
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = '2E1919';
+      context.stroke();
+}
+</script> 
+
+
+
 
         </div>
       </div>
@@ -77,6 +171,9 @@
         </div>
       </div>
     </div>
+
+
+
 
 
     <!-- External JavaScript Files -->

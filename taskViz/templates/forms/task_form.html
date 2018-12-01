@@ -1,4 +1,4 @@
-<form class="form-inline form-container category-for" action="/task_viz" method="POST">
+<form action="/task_viz" method="POST"class="form-inline form-container category-for">
 
   <a class="cancel" id="cancelId" onclick="cancelFillingOutTaskForm()">X</a>
   <div class="newTaskFormFields">
@@ -24,7 +24,17 @@
   <div class="categoryLabel_NewTaskForm">
     {{task_form.category.label}} 
   </div>
+
   <div class="categorySelector_NewTaskForm">
+  <select class="categorySelect">  
+  {% for category in categoryDetails %}
+
+    <option class="form-control"> {{category[0]}} </option>
+
+
+  {% endfor %}
+</select>
+
     {{task_form.category(class='form-control')}}
   </div>
   <div class="form-group">
