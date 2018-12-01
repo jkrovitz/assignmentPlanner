@@ -119,18 +119,12 @@ function openNewLongTermForm() {
 }
 
 function openNewTaskForm() {
-    $('#task-create-form').css("display", "block");
+    $('#new-task-form').css("display", "block");
 }
 
-
-// MOVED THIS INTO `$(document).ready()`
-
-// function closeNewTermForm() {
-//     $('#shortTermForm').hide();
-//     // $('#longTermForm').hide();
-//     console.log($('#amountShortTimeUnits').val());
-//     console.log($('#shortTimeUnit').val());
-// }
+function closeNewTaskForm() {
+    $('#new-task-form').hide(); 
+}
 
 function cancelFillingOutShortTermForm(){       // TODO: FIX THIS
     $('#shortTermForm').hide();
@@ -161,7 +155,7 @@ $(document).ready(function() {
     $('#longTermSubmit').click(function() {
         $('#longTermForm').hide();
         console.log($('#amountLongTimeUnits').val());
-        console.log($('#shortTimeUnit').val());
+        console.log($('#longTimeUnit').val());
     });
 
 
@@ -211,13 +205,6 @@ $(document).ready(function() {
     });
 
 
-// function openNewTaskForm() {
-//     document.getElementById("new-task-form").style.display = "block";
-// }
-
-// function closeNewTaskForm() {
-//     document.getElementById("new-task-form").style.display = "none";
-// }
 
 // var dateControl = document.querySelector('input[type="date"]');
 // dateControl.value = new Date(month, day, year);

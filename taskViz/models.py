@@ -79,3 +79,5 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+
+

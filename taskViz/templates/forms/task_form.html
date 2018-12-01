@@ -1,44 +1,18 @@
-<form action="/task_viz" method="POST"class="form-inline form-container category-for">
-
+<form class="form-inline form-container taskForm" action="/task_viz" method="POST">
   <a class="cancel" id="cancelId" onclick="cancelFillingOutTaskForm()">X</a>
-  <div class="newTaskFormFields">
-
-  <div class="newTaskLabel_NewTaskForm">
-    {{task_form.task_name.label}} 
+  <div class="">
+    {{taskForm.task_name.label}} {{taskForm.task_name(class='form-control')}}
   </div>
-    <div class="newTaskInput_NewTaskForm">
-    {{task_form.task_name(class='form-control')}}
+  <div class="">
+    {{taskForm.task_start_date.label}} {{taskForm.task_start_date(class='form-control', type='date')}}
   </div>
-  <div class="startDateLabel_NewTaskForm">
-    {{task_form.task_start_date.label}} 
+  <div class="">
+    {{taskForm.task_end_date.label}} {{taskForm.task_end_date(class='form-control', type='date')}}
   </div>
-    <div class="startDateInput_NewTaskForm">
-    {{task_form.task_start_date(class='form-control', type='date')}}
-  </div>
-  <div class="endDateLabel_NewTaskForm">
-    {{task_form.task_end_date.label}} 
-  </div>
-    <div class="endDateInput_NewTaskForm">
-    {{task_form.task_end_date(class='form-control', type='date')}}
-  </div>
-  <div class="categoryLabel_NewTaskForm">
-    {{task_form.category.label}} 
-  </div>
-
-  <div class="categorySelector_NewTaskForm">
-  <select class="categorySelect">  
-  {% for category in categoryDetails %}
-
-    <option class="form-control"> {{category[0]}} </option>
-
-
-  {% endfor %}
-</select>
-
-    {{task_form.category(class='form-control')}}
+  <div class="">
+    {{taskForm.category.label}} {{taskForm.category(class='form-control')}}
   </div>
   <div class="form-group">
-      {{task_form.submit(class="btn btn-default")}}
+      {{taskForm.submit(class="btn btn-default")}}
   </div>
-</div>
 </form>
