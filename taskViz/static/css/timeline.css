@@ -19,12 +19,11 @@ html, body, .grid-container { height: 100%; margin: 0; }
 
 .start{
   display: flex;
-
 }
+
 .topButtons{
   display: inline-block;
   margin-left: 20px;
-
 }
 
 .success{
@@ -54,11 +53,6 @@ html, body, .grid-container { height: 100%; margin: 0; }
 .Category { grid-area: Category;
 border: solid 2px black; }
 
-.topbar-logout-section {
-  float: right;
-}
-
-
 /* Please don't calculate the time increments this way. I had another way
 of doing it, which I mentioned in the code plan that is more responsive to
 the size of the timeline view.*/
@@ -68,7 +62,7 @@ the size of the timeline view.*/
 
 
 .timeIncrementHeaderHolder{
-  margin-top: 70px; /* We can adjust to be more responsive at a later point.*/
+  margin-top: 10px; /* We can adjust to be more responsive at a later point.*/
   /* float: left; */
   text-align: center;
 }
@@ -98,7 +92,6 @@ the size of the timeline view.*/
   display: block;
 }
 
-
 .new-task-button {
   width: 25%;
   margin: 5% 25%;
@@ -107,7 +100,6 @@ the size of the timeline view.*/
   cursor: pointer;
   opacity: 0.8;
 }
-
 
 /* The popup form - hidden by default */
 .form-popup {

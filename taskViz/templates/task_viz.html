@@ -19,8 +19,7 @@
     <div class="form-popup" id="new-category-form">
        {% include 'forms/category_form.html' ignore missing %}
     </div>
-
-   <div class="form-popup" id="shortTermForm">
+    <div class="form-popup" id="shortTermForm">
       {% include 'forms/short_term_form.html' ignore missing %}
     </div>
     <div class="form-popup" id="longTermForm">
@@ -30,26 +29,28 @@
         {% include 'forms/taskForm.html' ignore missing %}
     </div>
 
-
     <div class="grid-container">
       <div class="Timeline" id="timelineId">
-
         <div class="inline-elements">
-          <label>Start date:</label>
-          <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
-          <div class="topButtons">
-            <div class="termButtons">
-              <button id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
-              <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
-              <button id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
+          <!-- Top bar for user input -->
+          <div>
+            <label>Start date:</label>
+            <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+            <div class="topButtons">
+              <div class="termButtons">
+                <button class="btn btn-outline-primary btn-lg" id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
+                <button class="btn btn-outline-primary btn-lg" id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
+                <button class="btn btn-outline-primary btn-lg" id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
+              </div>
             </div>
+
+            <h3 style="margin:auto">{{ current_user.username }}'s Timeline</h3>
+            <a href="{{ url_for('logout')}}"><button class="btn btn-outline-danger btn-lg" style="float: right; margin-top: -70px">Logout</button></a>
+
+            <hr style="border: 2px solid black; margin-top: 10px;">
           </div>
 
-          <div class="topbar-logout-section">
-            <h1>{{ current_user.username }}'s Timeline</h1>
-            <a class="ml-2" style="align: center" href="{{ url_for('logout')}}">Logout</a>
-          </div>
-
+          <!-- Main area for timeline display -->
           <div class="timeIncrementHeaderHolder">
             <span class="timeIncrementColHeader">Monday</span>
             <span class="timeIncrementColHeader">Tuesday</span>
