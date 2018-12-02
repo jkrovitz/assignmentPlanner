@@ -74,7 +74,6 @@ class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    task_end_date = db.Column(db.DateTime, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
 
     def __repr__(self):

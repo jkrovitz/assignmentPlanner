@@ -1,17 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request, Response
 from taskViz import app, db, bcrypt
-from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, TaskForm
+from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
 from taskViz.models import User, Calendar, Category
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
-
-from flask import render_template, url_for, flash, redirect, request, Response
-from taskViz import app, db, bcrypt
-from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, TaskForm
-from taskViz.models import User, Calendar, Category
-from flask_login import login_user, current_user, logout_user, login_required
-import json
 
 @app.route("/")
 def AuthenticationRedirect():
@@ -23,15 +16,16 @@ def AuthenticationRedirect():
 @app.route("/home")
 @login_required
 def home():
+	new_task_form=NewTaskForm()
 	new_category_form = NewCategoryForm()
 	if new_category_form.validate_on_submit():
 		new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
 		self.db.session.add(new_category)
 		self.db.session.commit()
-		new_category_form = TaskForm()
+		new_category_form = NewCategoryForm()
 		return redirect(url_for(task_viz))
 	return render_template('task_viz.html', new_category_form=new_category_form,
-			TaskForm=TaskForm)
+			new_task_form=new_task_form)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
@@ -74,7 +68,7 @@ def logout():
 @app.route("/task_viz", methods=['GET', 'POST'])
 @login_required
 def task_viz():
-	TaskForm = TaskForm()
+	new_task_form = NewTaskForm()
 	new_category_form = NewCategoryForm()
 	print(request.method,'request method')
 	if request.method == 'POST':
@@ -87,12 +81,12 @@ def task_viz():
 	# 	return redirect(url_for(task_viz))
 
 	if request.method == 'POST':
-		print(TaskForm.data, 'TaskForm')
+		print(new_task_form.data, 'NewTaskForm')
 
 	return render_template(
 		'task_viz.html',
 		new_category_form=new_category_form,
-		TaskForm=TaskForm
+		new_task_form=new_task_form
 		)
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
@@ -116,21 +110,9 @@ def category():
 
 
 
-# @app.route('/tasks', methods=['GET', 'POST'])
-# @login_required
-# def tasks():
 
-#     new_category_form = NewCategoryForm()
-#     if new_category_form.validate_on_submit():
-#         new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-#         self.db.session.add(new_category)
-#         self.db.session.commit()
-#         return redirect(url_for(task_viz))
-#         new_category_form = TaskForm()
-#         return render_template(
-# 		'task_viz.html',
-# 		new_category_form=new_category_form,
-# 		)
+
+
 
 @app.route("/account")
 @login_required

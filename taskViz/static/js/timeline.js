@@ -102,8 +102,8 @@ function cancelFillingOutCategoryForm(){    // TODO: change to get parent
 }
 
     function cancelFillingOutTaskForm(){    // TODO: change to get parent
-    $('#task-create-form').hide();
-     // document.getElementById('categoryInput').value=""
+    $('#new-task-form').hide();
+
 
 }
 

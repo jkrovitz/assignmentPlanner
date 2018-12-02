@@ -1,18 +1,17 @@
 <form class="form-inline form-container taskForm" action="/task_viz" method="POST">
   <a class="cancel" id="cancelId" onclick="cancelFillingOutTaskForm()">X</a>
-  <div class="">
-    {{taskForm.task_name.label}} {{taskForm.task_name(class='form-control')}}
+  <div id="new_task_input">
+    {{new_task_form.task_name.label}} {{new_task_form.task_name(class='form-control')}}
   </div>
-  <div class="">
-    {{taskForm.task_start_date.label}} {{taskForm.task_start_date(class='form-control', type='date')}}
+  <div id="new_task_start_date_input">
+    {{new_task_form.task_start_date.label}} {{new_task_form.task_start_date(class='form-control', type='date')}}
   </div>
-  <div class="">
-    {{taskForm.task_end_date.label}} {{taskForm.task_end_date(class='form-control', type='date')}}
-  </div>
-  <div class="">
-    {{taskForm.category.label}} {{taskForm.category(class='form-control')}}
+    
+  <div id="new_task_category_input">
+    {{new_task_form.category.label}} {{new_task_form.category(class='form-control')}}
   </div>
   <div class="form-group">
-      {{taskForm.submit(class="btn btn-default")}}
+      {{new_task_form.submit(class="btn btn-default")}}
   </div>
 </form>
+
