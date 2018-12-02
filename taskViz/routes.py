@@ -1,7 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, Response
-import yaml
 from taskViz import app, db, bcrypt
-from flask_mysqldb import MySQL
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, TaskForm
 from taskViz.models import User, Calendar, Category
 from flask_login import login_user, current_user, logout_user, login_required
@@ -114,7 +112,7 @@ def category():
 		return Response({})
 	cat = Category.query.all()
 	print(cat, 'categories')
-	return Response(json.dumps([])) 
+	return Response(json.dumps([]))
 
 
 
