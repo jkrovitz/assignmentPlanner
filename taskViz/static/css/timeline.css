@@ -14,6 +14,7 @@ html, body, .grid-container { height: 100%; margin: 0; }
 
 .inline-elements{
   display: inline-block;
+  width: 100%;
 }
 
 .start{
@@ -53,17 +54,21 @@ html, body, .grid-container { height: 100%; margin: 0; }
 .Category { grid-area: Category;
 border: solid 2px black; }
 
+.topbar-logout-section {
+  float: right;
+}
+
 
 /* Please don't calculate the time increments this way. I had another way
-of doing it, which I mentioned in the code plan that is more responsive to 
+of doing it, which I mentioned in the code plan that is more responsive to
 the size of the timeline view.*/
 /*.timeIncrementColHeader {
   width: calc(100% / 7);
-}*/ 
+}*/
 
 
 .timeIncrementHeaderHolder{
-  margin-top: 10px; /* We can adjust to be more responsive at a later point.*/
+  margin-top: 70px; /* We can adjust to be more responsive at a later point.*/
   /* float: left; */
   text-align: center;
 }
@@ -74,6 +79,15 @@ the size of the timeline view.*/
 .new-category-button {
   width: 50%;
   margin: 5% 25%;
+  font-size: .9vw;
+  background-color: #eeeeee;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.new-subcategory-button {
+  width: 30%;
+  margin: 5% 15%;
   font-size: .9vw;
   background-color: #eeeeee;
   cursor: pointer;
@@ -161,11 +175,11 @@ the size of the timeline view.*/
 .cancelCategoryFillout{
   float: right;
   margin-bottom: 40px;
-  text-align: right; 
+  text-align: right;
 }
 
 .cancelCatFilloutDiv{
-  text-align: right; 
+  text-align: right;
 }
 
 .bgcolorclass{
@@ -216,7 +230,7 @@ the size of the timeline view.*/
 }
 
 /* Add some hover effects to buttons */
-.form-container .btn:hover, .new-category-button:hover {
+.form-container .btn:hover, .new-category-button:hover, .new-subcategory-button:hover {
   opacity: 1;
 }
 

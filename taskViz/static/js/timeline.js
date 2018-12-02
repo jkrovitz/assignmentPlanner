@@ -77,21 +77,22 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     var valueOfCategoryNameId = $('#category-name').val();
     var valueOfColorInputId = $('#category-color');
     var background = $('#category-color').val();
-    $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + '</div>');
+    var myNewButton = '<button class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</button>'
+    $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + myNewButton + ' </div>');
     var backgroundColorStr = "#category" + n;
     $(backgroundColorStr).css("background-color", "#" + background);
 
     /* These two lines of code set the value to an empty string
-    so that if a user creates a new category, the fields from 
+    so that if a user creates a new category, the fields from
     the previous category submitted will not be populated with
     the input from the previous category. */
     document.getElementById('category-name').value="";
     document.getElementById('category-color').value="";
 }
 
+function openNewSubcategoryForm(){
 
-
-
+}
 
 
 function cancelFillingOutCategoryForm(){    // TODO: change to get parent
@@ -123,7 +124,7 @@ function openNewTaskForm() {
 }
 
 function closeNewTaskForm() {
-    $('#new-task-form').hide(); 
+    $('#new-task-form').hide();
 }
 
 function cancelFillingOutShortTermForm(){       // TODO: FIX THIS

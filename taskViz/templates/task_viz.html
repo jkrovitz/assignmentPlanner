@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <title>Timeline</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
@@ -10,15 +9,12 @@
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-</head> 
-
+</head>
 
 {#TODO: fix mess of id names, mess of formatting#}
 
 <body onresize="calculateTimelineWidth()">
-
 <!-- Form Popup -->
     <div class="form-popup" id="new-category-form">
        {% include 'forms/category_form.html' ignore missing %}
@@ -27,37 +23,32 @@
    <div class="form-popup" id="shortTermForm">
       {% include 'forms/short_term_form.html' ignore missing %}
     </div>
-
-       <div class="form-popup" id="longTermForm">
+    <div class="form-popup" id="longTermForm">
       {% include 'forms/long_term_form.html' ignore missing %}
     </div>
-
     <div class="form-popup" id="new-task-form">
         {% include 'forms/taskForm.html' ignore missing %}
     </div>
 
 
-
     <div class="grid-container">
-
-
       <div class="Timeline" id="timelineId">
 
         <div class="inline-elements">
           <label>Start date:</label>
           <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
           <div class="topButtons">
-          <div class="termButtons">
+            <div class="termButtons">
               <button id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
               <button id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
               <button id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
             </div>
-              <div>
-                <h1>{{ current_user.username }}'s Timeline</h1>
-              <a class="ml-2" href="{{ url_for('logout')}}">Logout</a>
-            </div>
           </div>
 
+          <div class="topbar-logout-section">
+            <h1>{{ current_user.username }}'s Timeline</h1>
+            <a class="ml-2" style="align: center" href="{{ url_for('logout')}}">Logout</a>
+          </div>
 
           <div class="timeIncrementHeaderHolder">
             <span class="timeIncrementColHeader">Monday</span>
@@ -69,13 +60,12 @@
             <span class="timeIncrementColHeader">Sunday</span>
           </div>
 
-          
- 
- 
- <canvas id="DemoCanvas" width="400" height="400"></canvas>  
+
+ <canvas id="DemoCanvas" width="400" height="400"></canvas>
+
 <script>
 var canvas = document.getElementById('DemoCanvas');
-if (canvas.getContext) 
+if (canvas.getContext)
 {
  var context = canvas.getContext("2d");
  context.beginPath();
@@ -106,10 +96,9 @@ if (canvas.getContext)
   context.lineWidth = 5;
   // set line color
   context.strokeStyle = '#2E1919';
-  context.stroke();   
-  
+  context.stroke();
 
-//circle 
+//circle
   var context = canvas.getContext('2d');
       var centerX = canvas.width / 2;
       var centerY = canvas.height / 2;
@@ -118,16 +107,15 @@ if (canvas.getContext)
       context.beginPath();
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.fillStyle = '2E1919';
-      
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
       context.fill();
       context.lineWidth = 5;
       context.strokeStyle = '2E1919';
       context.stroke();
 
       //another circle
-
-        var context = canvas.getContext('2d');
+      var context = canvas.getContext('2d');
       var centerX = canvas.width / 2 + 100;
       var centerY = canvas.height / 2;
       var radius = 20;
@@ -135,8 +123,8 @@ if (canvas.getContext)
       context.beginPath();
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.fillStyle = '2E1919';
-      
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
       context.fill();
       context.lineWidth = 5;
       context.strokeStyle = '2E1919';
@@ -144,7 +132,7 @@ if (canvas.getContext)
 
 
       //a third circle
-              var context = canvas.getContext('2d');
+      var context = canvas.getContext('2d');
       var centerX = canvas.width / 2 - 100;
       var centerY = canvas.height / 2;
       var radius = 20;
@@ -152,17 +140,14 @@ if (canvas.getContext)
       context.beginPath();
       context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
       context.fillStyle = '2E1919';
-      
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed. 
+
+    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
       context.fill();
       context.lineWidth = 5;
       context.strokeStyle = '2E1919';
       context.stroke();
 }
-</script> 
-
-
-
+</script>
 
         </div>
       </div>
@@ -172,12 +157,9 @@ if (canvas.getContext)
       <div class="Category">
         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
         <div id="background" class="alert success background" role="alert" style="display:none;"></div>
-        </div>
       </div>
     </div>
-
-
-
+  </div>
 
 
     <!-- External JavaScript Files -->
