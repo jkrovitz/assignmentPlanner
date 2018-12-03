@@ -65,48 +65,48 @@ def logout():
 
 
 
-@app.route("/task_viz", methods=['GET', 'POST'])
-@login_required
-def task_viz():
-	new_task_form = NewTaskForm()
-	new_category_form = NewCategoryForm()
-	print(request.method,'request method')
-	if request.method == 'POST':
-		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
-	# if new_category_form.validate_on_submit():
-	# 	print(self.model, 'category model')
-	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-	# 	self.db.session.add(new_category)
-	# 	self.db.session.commit()
-	# 	return redirect(url_for(task_viz))
+# @app.route("/task_viz", methods=['GET', 'POST'])
+# @login_required
+# def task_viz():
+# 	new_task_form = NewTaskForm()
+# 	new_category_form = NewCategoryForm()
+# 	print(request.method,'request method')
+# 	if request.method == 'POST':
+# 		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
+# 	# if new_category_form.validate_on_submit():
+# 	# 	print(self.model, 'category model')
+# 	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+# 	# 	self.db.session.add(new_category)
+# 	# 	self.db.session.commit()
+# 	# 	return redirect(url_for(task_viz))
 
-	if request.method == 'POST':
-		print(new_task_form.data, 'NewTaskForm')
+	# if request.method == 'POST':
+	# 	print(new_task_form.data, 'NewTaskForm')
 
-	return render_template(
-		'task_viz.html',
-		new_category_form=new_category_form,
-		new_task_form=new_task_form
-		)
-@app.route('/categories', methods=['GET', 'POST'])
-def category():
+	# return render_template(
+	# 	'task_viz.html',
+	# 	new_category_form=new_category_form,
+	# 	new_task_form=new_task_form
+	# 	)
+# @app.route('/categories', methods=['GET', 'POST'])
+# def category():
 
 	#new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
 	#db.session.add(new_cat)
 
-	if request.method == 'POST':
-		#category_form = NewCategoryForm(request.form)
-		cat_name = request.form.get('category')
-		cat_color = request.form.get('color')
-		print(cat_name, cat_color)
-		new_cat = Category(category_name=cat_name, category_color=cat_color, is_checked=False)
-		db.session.add(new_cat)
-		db.session.commit()
-		print(Category.query.all())
-		return Response({})
-	cat = Category.query.all()
-	print(cat, 'categories')
-	return Response(json.dumps([]))
+	# if request.method == 'POST':
+	# 	#category_form = NewCategoryForm(request.form)
+	# 	cat_name = request.form.get('category')
+	# 	cat_color = request.form.get('color')
+	# 	print(cat_name, cat_color)
+	# 	new_cat = Category(category_name=cat_name, category_color=cat_color, is_checked=False)
+	# 	db.session.add(new_cat)
+	# 	db.session.commit()
+	# 	print(Category.query.all())
+	# 	return Response({})
+	# cat = Category.query.all()
+	# print(cat, 'categories')
+	# return Response(json.dumps([]))
 
 
 
