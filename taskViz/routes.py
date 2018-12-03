@@ -16,16 +16,15 @@ def AuthenticationRedirect():
 @app.route("/home")
 @login_required
 def home():
-	new_task_form=NewTaskForm()
+	# new_task_form=NewTaskForm()
 	new_category_form = NewCategoryForm()
 	if new_category_form.validate_on_submit():
 		new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
 		self.db.session.add(new_category)
 		self.db.session.commit()
 		new_category_form = NewCategoryForm()
-		return redirect(url_for(task_viz))
-	return render_template('task_viz.html', new_category_form=new_category_form,
-			new_task_form=new_task_form)
+		# return redirect(url_for(home))
+	return render_template('task_viz.html', new_category_form=new_category_form)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
@@ -65,49 +64,75 @@ def logout():
 
 
 
-# @app.route("/task_viz", methods=['GET', 'POST'])
+@app.route("/task_viz", methods=['GET', 'POST'])
+@login_required
+def task_viz():
+	new_task_form = NewTaskForm()
+	new_category_form = NewCategoryForm()
+	print(request.method,'request method')
+	if request.method == 'POST':
+		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
+	# if new_category_form.validate_on_submit():
+	# 	print(self.model, 'category model')
+	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+	# 	self.db.session.add(new_category)
+	# 	self.db.session.commit()
+	# 	return redirect(url_for(task_viz))
+
+	if request.method == 'POST':
+		print(new_task_form.data, 'NewTaskForm')
+
+	return render_template(
+		'task_viz.html',
+		new_category_form=new_category_form,
+		new_task_form=new_task_form
+		)
+@app.route('/categories', methods=['GET', 'POST'])
+def category():
+
+	new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
+	db.session.add(new_cat)
+
+	if request.method == 'POST':
+		#category_form = NewCategoryForm(request.form)
+		cat_name = request.form.get('category')
+		cat_color = request.form.get('color')
+		print(cat_name, cat_color)
+		new_cat = Category(category_name=cat_name, category_color=cat_color, is_checked=False)
+		db.session.add(new_cat)
+		db.session.commit()
+		print(Category.query.all())
+		return Response({})
+	cat = Category.query.all()
+	print(cat, 'categories')
+	return Response(json.dumps([]))
+
+
+# @app.route("/category")
 # @login_required
-# def task_viz():
-# 	new_task_form = NewTaskForm()
-# 	new_category_form = NewCategoryForm()
-# 	print(request.method,'request method')
-# 	if request.method == 'POST':
-# 		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
-# 	# if new_category_form.validate_on_submit():
-# 	# 	print(self.model, 'category model')
-# 	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-# 	# 	self.db.session.add(new_category)
-# 	# 	self.db.session.commit()
-# 	# 	return redirect(url_for(task_viz))
-
-	# if request.method == 'POST':
-	# 	print(new_task_form.data, 'NewTaskForm')
-
-	# return render_template(
-	# 	'task_viz.html',
-	# 	new_category_form=new_category_form,
-	# 	new_task_form=new_task_form
-	# 	)
-# @app.route('/categories', methods=['GET', 'POST'])
 # def category():
+# 	new_category_form = NewCategoryForm()
+# 	if new_category_form.validate_on_submit():
+# 		new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
+# 		self.db.session.add(new_category)
+# 		self.db.session.commit()
+# 		return redirect(url_for('home'))
+# 	return render_template('forms/category_form.html', new_category_form=new_category_form)
 
-	#new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
-	#db.session.add(new_cat)
 
-	# if request.method == 'POST':
-	# 	#category_form = NewCategoryForm(request.form)
-	# 	cat_name = request.form.get('category')
-	# 	cat_color = request.form.get('color')
-	# 	print(cat_name, cat_color)
-	# 	new_cat = Category(category_name=cat_name, category_color=cat_color, is_checked=False)
-	# 	db.session.add(new_cat)
-	# 	db.session.commit()
-	# 	print(Category.query.all())
-	# 	return Response({})
-	# cat = Category.query.all()
-	# print(cat, 'categories')
-	# return Response(json.dumps([]))
-
+@app.route('/category/new', methods=['GET', 'POST'])
+@login_required
+def new_category():
+	form = NewCategoryForm()
+	if form.validate_on_submit():
+		category_name = form.category_name.data
+		category_color = form.category_color.data
+		category = self.model(category_name, category_color)
+		self.db.session.add(category)
+		self.db.session.commit()
+		#flash('Your category has been created!', 'success')
+		return redirect(url_for('../home'))
+	return render_template('forms/category_form.html', form=form)
 
 
 

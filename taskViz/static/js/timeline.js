@@ -88,6 +88,7 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     the input from the previous category. */
     document.getElementById('category-name').value="";
     document.getElementById('category-color').value="";
+
 }
 
 function openNewSubcategoryForm(){
@@ -106,6 +107,25 @@ function cancelFillingOutCategoryForm(){    // TODO: change to get parent
 
 
 }
+    var n = 0;  // temporary
+function closeNewTaskForm() {   // TODO: remove excess variables
+    n++;
+    $('#new-task-form').hide();
+    var valueOfTaskNameId = $('#new_task_input').val();
+    var valueOfStartDateInputId = $('#new_task_start_date_input').val();
+    console.log(valueOfTaskNameId); 
+    console.log(valueOfStartDateInputId);
+    
+     $('.newTaskButton').after('<div id="task' + n + '">'  + valueOfTaskNameId + ' </div>');
+    /* These two lines of code set the value to an empty string
+    so that if a user creates a new category, the fields from
+    the previous category submitted will not be populated with
+    the input from the previous category. */
+    document.getElementById('new_task_input').value="";
+    document.getElementById('new_task_start_date_input').value="";
+    return false;
+}
+
 
 
 
@@ -123,9 +143,7 @@ function openNewTaskForm() {
     $('#new-task-form').css("display", "block");
 }
 
-function closeNewTaskForm() {
-    $('#new-task-form').hide();
-}
+
 
 function cancelFillingOutShortTermForm(){       // TODO: FIX THIS
     $('#shortTermForm').hide();
@@ -144,11 +162,17 @@ function cancelFillingOutLongTermForm(){
 
 $(document).ready(function() {
 
+
     // closeNewTermForm
     $('#shortTermSubmit').click(function() {
         $('#shortTermForm').hide();
         console.log($('#amountShortTimeUnits').val());
         console.log($('#shortTimeUnit').val());
+    });
+
+    $('#taskFormSubmit').click(function() {
+        $('#task-form').hide();
+
     });
 
 
@@ -195,6 +219,10 @@ $(document).ready(function() {
 });
 
 
+
+
+
+
     $(document).ready(function(){
 
         $('#category-color').on('change', function (e) {
@@ -205,6 +233,41 @@ $(document).ready(function() {
         });
     });
 
+
+
+// changed this to post correctly
+  $('.task-form').on('submit', function(event) {
+    const taskName = document.getElementById('new_task_input').value;
+    const taskStartDate = document.getElementById('new_task_start_date_input').value;
+    console.log(taskName)
+    $.post('/home',
+        {
+            task : taskName,
+            startDate : taskStartDate,
+        }
+      )
+    .done(function(data) {
+      if (data.error) {
+        $('#taskErrorAlert').text(data.error).show();
+        // $('#background').hide();
+      }
+      else {
+        //$('#background').text(data.color).show();
+        $('#taskErrorAlert').hide();
+        // $('#categorySuccessId').css('background-color');
+        $( ".form-popup" ).hide();
+        var textFromTask = $( "#new_task_input" ).text();
+        $('#textFromTask').val(text)
+         $( "#textFromCategory" ).val( textFromTask );
+      }
+
+    });
+    // $.get('/categories', null, function(data){
+    //   console.log(data, 'data')
+    // })
+    event.preventDefault();
+
+  });
 
 
 // var dateControl = document.querySelector('input[type="date"]');
