@@ -3,8 +3,8 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextF
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from taskViz.models import User, Category, Task
 
-category_query = Category.query.all()
-category_choices = [(category.category_id, category.category_name) for category in category_query]
+# category_query = Category.query.all()
+# category_choices = [(category.category_id, category.category_name) for category in category_query]
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -40,5 +40,5 @@ class NewCategoryForm(FlaskForm):
 class NewTaskForm(FlaskForm):
     task_name = StringField('Task Name', validators=[DataRequired()])
     task_start_date = DateField('Start Date', validators=[DataRequired()])
-    category = SelectField('Category Name', choices=category_choices, validators=[DataRequired()])
+    category = SelectField('Category Name', choices=[], validators=[DataRequired()])
     submit = SubmitField('Submit')

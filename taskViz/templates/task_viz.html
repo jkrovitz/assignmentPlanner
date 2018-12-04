@@ -161,14 +161,22 @@ if (canvas.getContext)
       <div class="Category">
 <!--         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button> -->
    <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a>
-       {% for category in categories %}
+  
+    {% for category in categories %}
+   
+   
+
       
+       
           <div class="catStyle"> {{category.category_name}}</div>
-          
         
+        
+          
+
        {% endfor %}
 
         <div id="background" class="alert success background" role="alert" style="display:none;"></div>
+        
       </div>
     </div>
   </div>

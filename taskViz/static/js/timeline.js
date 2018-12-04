@@ -74,9 +74,9 @@ var n = 0;  // temporary
 function closeNewCategoryForm() {   // TODO: remove excess variables
     n++;
     $('#new-category-form').hide();
-    var valueOfCategoryNameId = $('#category-name').val();
-    var valueOfColorInputId = $('#category-color');
-    var background = $('#category-color').val();
+    var valueOfCategoryNameId = $('#category_name').val();
+    // var valueOfColorInputId = $('#category_color');
+    var background = $('#category_color').val();
     var myNewButton = '<button class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</button>'
     $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + myNewButton + ' </div>');
     var backgroundColorStr = "#category" + n;
@@ -86,8 +86,8 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     so that if a user creates a new category, the fields from
     the previous category submitted will not be populated with
     the input from the previous category. */
-    document.getElementById('category-name').value="";
-    document.getElementById('category-color').value="";
+    document.getElementById('category_name').value="";
+    document.getElementById('category_color').value="";
 
 }
 
@@ -186,8 +186,8 @@ $(document).ready(function() {
 
 // changed this to post correctly
   $('.category-form').on('submit', function(event) {
-    const categoryName = document.getElementById('category-name').value;
-    const categoryColor = document.getElementById('category-color').value;
+    const categoryName = document.getElementById('category_name').value;
+    const categoryColor = document.getElementById('category_color').value;
     console.log(categoryName)
     $.post('/categories',
         {
@@ -205,7 +205,7 @@ $(document).ready(function() {
         $('#categoryErrorAlert').hide();
         $('#categorySuccessId').css('background-color');
         $( ".form-popup" ).hide();
-        var text = $( "#category-name" ).text();
+        var text = $( "#category_name" ).text();
         $( "#textFromCategory" ).val( text );
       }
 
@@ -225,7 +225,7 @@ $(document).ready(function() {
 
     $(document).ready(function(){
 
-        $('#category-color').on('change', function (e) {
+        $('#category_color').on('change', function (e) {
 
             var optionSelected = $("option:selected", this);
             var valueSelected = this.value;

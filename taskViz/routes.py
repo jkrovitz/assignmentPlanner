@@ -8,6 +8,7 @@ import json
 
 @app.route("/")
 def AuthenticationRedirect():
+
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	else:
@@ -17,7 +18,9 @@ def AuthenticationRedirect():
 @login_required
 def home():
 	new_category_form = category()
-	categories = Category.query.all()
+
+	categories = Category.query.filter_by(user_id=current_user.id).all()
+	print(categories)
 	tasks = Task.query.all()
 	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form)
 
@@ -92,6 +95,12 @@ def task_viz():
 		new_category_form=new_category_form,
 		new_task_form=new_task_form
 		)
+
+
+@app.route("/category/<int:category_id>")
+def categoryId(category_id):
+	category = Category.query.get_or_404(category_id)
+
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
 
@@ -102,8 +111,9 @@ def category():
 	if request.method == 'POST':
 		category_name = request.form.get('category_name')
 		category_color = request.form.get('category_color')
+		author = request.form.get('category_id')
 		print(category_name, category_color)
-		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False)
+		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 		db.session.add(new_cat)
 		db.session.commit()
 		print(Category.query.all())

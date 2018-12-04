@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+   # categories = db.relationship('Category', backref='author', lazy=True)
 
     #This line is saying that it has a relationship to our calendar model,
     #specify a backref, which is similar to adding another column to
@@ -52,7 +53,8 @@ class Category(db.Model):
     category_name = db.Column(db.String(100), nullable = False)
     category_color = db.Column(db.String(100), nullable = False)
     is_checked = db.Column(db.Boolean, nullable = False)
-   
+    #author = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Category('{self.category_name}', '{self.category_color}')"
