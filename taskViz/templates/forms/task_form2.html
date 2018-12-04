@@ -1,27 +1,19 @@
-
-    <div class="form-group">
-     
-       <form class="form-inline new-taskform-container task-form" action="" method="POST" >
-        
+    <form class="form-inline new-task-form-container" action="" method="POST" >
+      <div class="form-group">
         <a class="cancel" id="cancelId" onclick="cancelFillingOutTaskForm()">X</a>
     </div>
 
-        <label>New Task:</label>
-
+        <label>New Task Name:</label>
         <input type="text" id="new_task_input" name="taskNameAttribute"/>
-
-        <label>Start Date</label>
+        <label>Category:</label>
+        <select id="new_task_category">
+          <!-- This needs to be given a proper input of "categories" -->
+          {% for cat in categories%}
+          <option value="{{cat}}">{{cat}}</option>
+          {% endfor %}
+        </select> <br/>
+        <label>Start Date:</label>
         <input type='date' id="new_task_start_date_input">
-       
          <input type="submit" class="btn btn-default" onclick="closeNewTaskForm();">
-    
-
-    </form><br/>
+       </form><br/>
   </div>
-     
-
-
-    
-
-
-
