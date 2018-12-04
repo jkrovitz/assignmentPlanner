@@ -3,7 +3,7 @@
 <head>
   <title>Timeline</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='timeline.css') }}">
   <link rel="stylesheet" type="text/css" href="css/timeline.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -150,6 +150,7 @@ if (canvas.getContext)
 }
 </script>
 
+
   
 
         </div>
@@ -158,7 +159,15 @@ if (canvas.getContext)
 
 <!-- Sidebar of catgories  -->
       <div class="Category">
-        <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button>
+<!--         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button> -->
+   <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a>
+       {% for category in categories %}
+      
+          <div class="catStyle"> {{category.category_name}}</div>
+          
+        
+       {% endfor %}
+
         <div id="background" class="alert success background" role="alert" style="display:none;"></div>
       </div>
     </div>

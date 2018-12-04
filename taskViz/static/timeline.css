@@ -12,6 +12,10 @@ html, body, .grid-container { height: 100%; margin: 0; }
  left: 0;
 }
 
+.catStyle{
+  margin-left: 20px;
+}
+
 .inline-elements{
   display: inline-block;
   width: 100%;

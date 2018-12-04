@@ -15,14 +15,14 @@ class User(db.Model, UserMixin):
 
     #This line is saying that it has a relationship to our calendar model,
     #specify a backref, which is similar to adding another column to
-    #Calendar model. What the backref allows us to do is use the calendarCreator
+    #category model. What the backref allows us to do is use the calendarCreator
     #attribute to get the user who created the post. The lazy
     #argument just defines when SQLAlchemy loads the data
     #from the database, so True means that SQLAlchemy will
     #load the data as necessary in one go. This relationship
     # will allow us to get all of the posts created by an
     #individual user.
-    calendars = db.relationship('Calendar', backref='calendarCreator', lazy=True)
+   
 
 
      # Flask-Login integration
@@ -47,25 +47,12 @@ class User(db.Model, UserMixin):
         return f"User('{self.first_name}', '{self.last_name}', '{self.username}', '{self.email}')"
 
 
-#This class will be eventually called Calendar or a similar name.
-#I am just calling the class Post right now, as I am coding
-# along with video tutorial that I am watching.
-class Calendar(db.Model):
-    calendar_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable = False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-    def __repr__(self):
-        return f"Calendar('{self.title}', '{self.date_posted}')"
-
 class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(100), nullable = False)
     category_color = db.Column(db.String(100), nullable = False)
     is_checked = db.Column(db.Boolean, nullable = False)
-
+   
 
     def __repr__(self):
         return f"Category('{self.category_name}', '{self.category_color}')"
