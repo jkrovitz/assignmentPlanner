@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, Response
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
-from taskViz.models import User, Calendar, Category
+from taskViz.models import User, Calendar, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
@@ -131,7 +131,7 @@ def new_category():
 		self.db.session.add(category)
 		self.db.session.commit()
 		#flash('Your category has been created!', 'success')
-		return redirect(url_for('../home'))
+		return redirect(url_for('home'))
 	return render_template('forms/category_form.html', form=form)
 
 

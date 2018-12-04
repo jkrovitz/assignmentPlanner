@@ -9,10 +9,33 @@
     <select id="shortTimeUnit">
       <option value="weeks">weeks</option>
       <option value="months">months</option>
+
     </select>
+
+
+
   </div>
   <div class="form-group">
     <a class="cancel" id="cancelId" onclick="cancelFillingOutShortTermForm()">X</a>
   </div>
-  <input type="submit" class="btn btn-default" id="shortTermSubmit">
+  <input type="submit" onclick="showInput();" class="btn btn-default" id="shortTermSubmit">
 </form><br/>
+
+
+
+   <script>
+
+function checkIfDayOrMonthSelected()
+{
+ var shortTimeUnitVar = document.getElementById("shortTimeUnit");
+ var selectedValue = shortTimeUnitVar.options[shortTimeUnitVar.selectedIndex].value;
+    if (selectedValue == "weeks")
+   {
+    console.log("You selected weeks.");
+   }
+   else{
+    console.log("You selected months.");
+   }
+}
+
+    </script>

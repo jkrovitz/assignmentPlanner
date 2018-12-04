@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from taskViz.models import User, Category
+from taskViz.models import User, Category, Task
 
 category_query = Category.query.all()
 category_choices = [(category.category_id, category.category_name) for category in category_query]
