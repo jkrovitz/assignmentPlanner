@@ -91,6 +91,10 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     document.getElementById('categoryColor').value="";
 }
 
+  $('#exampleModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+
 function cancelFillingOutCategoryForm(){    // TODO: change to get parent
     $('#newCategoryForm').hide();
      //Sets category input value to empty string if the user decides to cancel creating a new category.
