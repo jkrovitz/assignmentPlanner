@@ -66,9 +66,9 @@
 
 /* CATEGORY FORMS*/
 
-function openNewCategoryForm() {
-    $('#newCategoryForm').css("display", "block");
-}
+// function openNewCategoryForm() {
+//     $('#newCategoryForm').css("display", "block");
+// }
 
 
 var n = 0;  // temporary
@@ -91,7 +91,7 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     document.getElementById('categoryColor').value="";
 }
 
-  $('#exampleModal').on('shown.bs.modal', function () {
+  $('#newCategoryForm').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
 })
 

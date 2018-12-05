@@ -19,7 +19,6 @@ def AuthenticationRedirect():
 @login_required
 def home():
 	new_category_form = category()
-
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	print(categories)
 	tasks = Task.query.all()    # also not used
@@ -128,7 +127,7 @@ def edit_category(category_id):
         category.category_color=request.form['category_color']
         db.session.commit()
         flash('Your category has been updated!', 'success')
-        return redirect(url_for('home', category=category_id))
+        #return redirect(url_for('home', category=category_id))
     elif request.method == 'GET':
         form.category_name.data = category.category_name
         form.category_color.data = category.category_color
@@ -170,6 +169,7 @@ def category():
 	# return Response(json.dumps([]))
 
 	return render_template('forms/category_form.html', new_category_form=category_form, edit_bool=False)
+
 
 
 @app.route("/account")

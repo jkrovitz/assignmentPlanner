@@ -17,9 +17,6 @@
 
 <body onresize="calculateTimelineWidth()">
 <!-- Form Popups -->
-       <div class="form-popup" id="newTaskForm">
-        {% include 'forms/category_form.html' ignore missing %}
-    </div>
     <div class="form-popup" id="shortTermForm">
       {% include 'forms/short_term_form.html' ignore missing %}
     </div>
@@ -30,8 +27,8 @@
         {% include 'forms/task_form2.html' ignore missing %}
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- {% include 'forms/testform.html' ignore missing %}
+    <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ {% include 'forms/category_form.html' ignore missing %}
 </div>
 
     <div class="grid-container">
@@ -178,9 +175,9 @@ if (canvas.getContext) {
 
 
         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newCategoryForm">
   Launch demo modal
-</button>
+</button> -->
 
 
 
@@ -189,7 +186,7 @@ if (canvas.getContext) {
 
 
 
-<!--         <button class="new-category-button" onclick="openNewCategoryForm()">Create New Category</button> -->
+        <button type="button" class="new-category-button" data-toggle="modal" data-target="#newCategoryForm">Create New Category</button>
  
 <!--       <script>
 $('#myModal').on('shown.bs.modal', function () {
@@ -229,7 +226,7 @@ $('#myModal').on('shown.bs.modal', function () {
     </div>
   </div>
 </div> -->
-  <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a>
+<!--   <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a> -->
   
     {% for category in categories %}
 
