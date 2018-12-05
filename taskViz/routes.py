@@ -102,7 +102,6 @@ def task_viz():
 
 @app.route("/category/<int:category_id>")
 def categoryId(category_id):
-    # category = Category.query.get_or_404(category_id)   # not used?
     categories = Category.query.filter_by(user_id=current_user.id).all()
     edit_category = None
     for category in categories:
@@ -110,6 +109,41 @@ def categoryId(category_id):
             edit_category = category
             return render_template('category_form.html', edit_category=edit_category, edit_bool=True)
     return render_template('task_viz.html')
+
+@app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
+@login_required
+def edit_category(category_id):
+    category = Category.query.get(category_id)
+    form = NewCategoryForm()
+    if category.user_id != current_user.id:
+        abort(403)
+    if form.validate_on_submit():
+        category.category_name = form.category_name.data
+        category.category_color = form.category_color.data
+        db.session.commit()
+        flash('Your category has been updated!', 'success')
+
+        return redirect(url_for('category', category=category.id))
+    elif request.method == 'GET':
+        form.category_name.data = category.category_name
+        form.category_color.data = category.category_color
+    return render_template('forms/category_form.html',
+                           new_category_form=form)
+
+
+
+#We should decide where we want to have the options for deleting categories.
+@app.route("/category/<int:category_id>/delete", methods=['POST'])
+@login_required
+def delete_category(category_id):
+    category = Category.query.get_or_404(category_id)
+    if category.user_id != current_user.id:
+        abort(403)
+    db.session.delete(category)
+    db.session.commit()
+    flash('Your category has been deleted!', 'success')
+    return redirect(url_for('home'))
+
 
 
 @app.route('/categories', methods=['GET', 'POST'])

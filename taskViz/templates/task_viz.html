@@ -165,7 +165,7 @@ if (canvas.getContext) {
   
 
         </div>
-      </div>f
+      </div>
 
 
 <!-- Sidebar of catgories  -->
@@ -175,8 +175,11 @@ if (canvas.getContext) {
   
     {% for category in categories %}
 
-          <div class="catStyle" id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};"> {{ category.category_name }}
-            <a href="{{ url_for('categoryId', category_id=category.category_id) }}">E</a>
+          <div class="catStyle" id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};"> 
+            <a href="{{url_for('edit_category', category_id=category.category_id)}}"> 
+              {{ category.category_name }}
+            </a>
+            <!-- <a href="{{ url_for('categoryId', category_id=category.category_id) }}">Edit</a> -->
           </div>
 
        {% endfor %}
