@@ -14,6 +14,7 @@ def AuthenticationRedirect():
 	else:
 		return redirect(url_for('login'))
 
+
 @app.route("/home")
 @login_required
 def home():
@@ -21,18 +22,21 @@ def home():
 
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	print(categories)
-	tasks = Task.query.all()
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form)
+	tasks = Task.query.all()    # also not used
+	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` sin't being used? should it?
 
-@app.route("/newcategory", methods=['GET', 'POST'])
-def newCategoryForm():
-	new_category_form = NewCategoryForm()
-	if new_category_form.validate_on_submit():
-		new_category = Category(category_name=new_category_form.category_name.data, category_color=new_category_form.category_color.data)
-		db.session.add(new_category)
-		db.session.commit()
-		return redirect(url_for('home'))
-	return render_template('category_form.html', new_category_form=new_category_form)
+
+# wasn't being used
+# @app.route("/newcategory", methods=['GET', 'POST'])
+# def newCategoryForm():
+# 	new_category_form = NewCategoryForm()
+# 	if new_category_form.validate_on_submit():
+# 		new_category = Category(category_name=new_category_form.category_name.data, category_color=new_category_form.category_color.data)
+# 		db.session.add(new_category)
+# 		db.session.commit()
+# 		return redirect(url_for('home'))
+# 	return render_template('category_form.html', new_category_form=new_category_form)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
@@ -41,7 +45,7 @@ def register():     # NOTE: when creating new account, thing to say it worked is
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
         db.session.add(user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
@@ -71,7 +75,6 @@ def logout():
     return redirect(url_for('home'))
 
 
-
 @app.route("/task_viz", methods=['GET', 'POST'])
 @login_required
 def task_viz():
@@ -79,7 +82,7 @@ def task_viz():
 	new_category_form = NewCategoryForm()
 	print(request.method,'request method')
 	if request.method == 'POST':
-		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))
+		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))  # TODO: fix?
 	# if new_category_form.validate_on_submit():
 	# 	print(self.model, 'category model')
 	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
@@ -99,11 +102,18 @@ def task_viz():
 
 @app.route("/category/<int:category_id>")
 def categoryId(category_id):
-	category = Category.query.get_or_404(category_id)
+    # category = Category.query.get_or_404(category_id)   # not used?
+    categories = Category.query.filter_by(user_id=current_user.id).all()
+    edit_category = None
+    for category in categories:
+        if category.category_id == category_id:
+            edit_category = category
+            return render_template('category_form.html', edit_category=edit_category, edit_bool=True)
+    return render_template('task_viz.html')
+
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
-
 	# new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
 	# db.session.add(new_cat)
 	db.session.commit()
@@ -111,7 +121,7 @@ def category():
 	if request.method == 'POST':
 		category_name = request.form.get('category_name')
 		category_color = request.form.get('category_color')
-		author = request.form.get('category_id')
+		author = request.form.get('category_id')    # ?? not used. doesn't logically match
 		print(category_name, category_color)
 		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 		db.session.add(new_cat)
@@ -123,7 +133,9 @@ def category():
 	print(cat, 'categories')
 	# return Response(json.dumps([]))
 
-	return render_template('forms/category_form.html', new_category_form=category_form)
+	return render_template('forms/category_form.html', new_category_form=category_form, edit_bool=False)
+
+
 # @app.route("/category")
 # @login_required
 # def category():
@@ -136,23 +148,20 @@ def category():
 # 	return render_template('forms/category_form.html', new_category_form=new_category_form)
 
 
-@app.route('/category/new', methods=['GET', 'POST'])
-@login_required
-def new_category():
-	form = NewCategoryForm()
-	if form.validate_on_submit():
-		category_name = form.category_name.data
-		category_color = form.category_color.data
-		category = self.model(category_name, category_color)
-		self.db.session.add(category)
-		self.db.session.commit()
-		#flash('Your category has been created!', 'success')
-		return redirect(url_for('home'))
-	return render_template('forms/category_form.html', form=form)
-
-
-
-
+#also wasn't being used
+# @app.route('/category/new', methods=['GET', 'POST'])
+# @login_required
+# def new_category(self):
+# 	form = NewCategoryForm()
+# 	if form.validate_on_submit():
+# 		category_name = form.category_name.data
+# 		category_color = form.category_color.data
+# 		category = self.model(category_name, category_color)
+# 		self.db.session.add(category)
+# 		self.db.session.commit()
+# 		#flash('Your category has been created!', 'success')
+# 		return redirect(url_for('home'))
+# 	return render_template('forms/category_form.html', form=form)
 
 
 @app.route("/account")

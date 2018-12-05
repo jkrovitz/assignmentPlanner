@@ -8,7 +8,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class User(db.Model, UserMixin):    # what is UserMixin
+class User(db.Model, UserMixin):    # TODO: what is UserMixin
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -72,14 +72,16 @@ class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
 
     def __repr__(self):
-        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.category_id}')"
+        # return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
 
 
-class Milestone(db.model):
+class Milestone(db.Model):
     milestone_id = db.Column(db.Integer, primary_key=True)
     milestone_name = db.Column(db.String(100), nullable=False)
     milestone_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

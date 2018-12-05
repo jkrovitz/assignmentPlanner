@@ -12,11 +12,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 
-{#TODO: fix mess of id names, mess of formatting#}
+{# TODO: fix mess of id names, mess of formatting #}
 
 <body onresize="calculateTimelineWidth()">
-<!-- Form Popup -->
-    <div class="form-popup" id="new-category-form">
+<!-- Form Popups -->
+    <div class="form-popup" id="newCategoryForm">
        {% include 'forms/category_form.html' ignore missing %}
     </div>
     <div class="form-popup" id="shortTermForm">
@@ -25,7 +25,7 @@
     <div class="form-popup" id="longTermForm">
       {% include 'forms/long_term_form.html' ignore missing %}
     </div>
-    <div class="form-popup" id="new-task-form">
+    <div class="form-popup" id="newTaskForm">
         {% include 'forms/task_form2.html' ignore missing %}
     </div>
 
@@ -66,10 +66,9 @@
 
 <script>
 var canvas = document.getElementById('DemoCanvas');
-if (canvas.getContext)
-{
- var context = canvas.getContext("2d");
- context.beginPath();
+if (canvas.getContext) {
+  var context = canvas.getContext("2d");    // TODO: why do we redeclare context so many times
+  context.beginPath();
   context.moveTo(10, 50);
   context.lineTo(200, 50);
   context.lineWidth = 5;
@@ -163,15 +162,10 @@ if (canvas.getContext)
    <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a>
   
     {% for category in categories %}
-   
-   
 
-      
-       
-          <div class="catStyle"> {{category.category_name}}</div>
-        
-        
-          
+          <div class="catStyle" id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};"> {{ category.category_name }}
+            <a href="{{ url_for('categoryId', category_id=category.category_id) }}">E</a>
+          </div>
 
        {% endfor %}
 
@@ -179,7 +173,6 @@ if (canvas.getContext)
         
       </div>
     </div>
-  </div>
 
 
     <!-- External JavaScript Files -->

@@ -1,17 +1,21 @@
  <div class="form-group">
       <form class="form-inline form-container category-form" action="" method="POST" >
         <div class="cancelCatFilloutDiv">
-        <a class="cancel cancelCategoryFillout" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
+            <a class="cancel cancelCategoryFillout" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a>
+        </div>
+        {% if edit_bool == false %}
+            <label>New Category:</label>
+            {{ new_category_form.category_name }}
+            <label>Color:</label>
+            {{ new_category_form.category_color }}
+            {{ new_category_form.submit }}
+        {% else %}
+{#            TODO: GET TO POPULATE #}
+            <label>New Category:</label>
+            {{ edit_category.category_name }}
+            <label>Color:</label>
+            {{ edit_category.category_color }}
+            {{ edit_category.submit }}
+        {% endif %}
+      </form>
     </div>
-
-        <label>New Category:</label>
-        <p>{{new_category_form.category_name}}</p>
-        <!-- <input type="text" id="category-name" name="categoryNameAttribute"/> -->
-        <label>Color:</label>
-        <!-- <input type="text" id="category-color" name="categoryColorAttribute"> -->
-        {{new_category_form.category_color}}
-        {{new_category_form.submit}}
-
-       <!--  <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()"> -->
-      </form><br/>
-      </div>
