@@ -64,72 +64,73 @@
 
 
 
-// CATEGORY FORMS
+/* CATEGORY FORMS*/
 
 function openNewCategoryForm() {
-    $('#new-category-form').css("display", "block");
+    $('#newCategoryForm').css("display", "block");
 }
+
 
 var n = 0;  // temporary
 function closeNewCategoryForm() {   // TODO: remove excess variables
     n++;
-    $('#new-category-form').hide();
+    $('#newCategoryForm').hide();
+
     var valueOfCategoryNameId = $('#category_name').val();
-    // var valueOfColorInputId = $('#category_color');
-    var background = $('#category_color').val();
-    var myNewButton = '<button class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</button>'
+    var valueOfBackgroundColor = $('#category_color').val();
+    var myNewButton = '<button class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</button>';
     $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + myNewButton + ' </div>');
     var backgroundColorStr = "#category" + n;
-    $(backgroundColorStr).css("background-color", "#" + background);
+    $(backgroundColorStr).css("backgroundColor", "#" + valueOfBackgroundColor);
 
     /* These two lines of code set the value to an empty string
     so that if a user creates a new category, the fields from
     the previous category submitted will not be populated with
     the input from the previous category. */
-    document.getElementById('category_name').value="";
-    document.getElementById('category_color').value="";
-
+    document.getElementById('categoryName').value="";
+    document.getElementById('categoryColor').value="";
 }
+
+function cancelFillingOutCategoryForm(){    // TODO: change to get parent
+    $('#newCategoryForm').hide();
+     //Sets category input value to empty string if the user decides to cancel creating a new category.
+     document.getElementById('categoryInput').value="";
+}
+
+
+/* SUBCATEGORY FORMS */
 
 function openNewSubcategoryForm(){
 
 }
 
 
-function cancelFillingOutCategoryForm(){    // TODO: change to get parent
-    $('#new-category-form').hide();
-     //Sets category input value to empty string if the user decides to cancel creating a new category.
-     document.getElementById('categoryInput').value="";
-}
+/* TASK FORMS */
 
-    function cancelFillingOutTaskForm(){    // TODO: change to get parent
-    $('#new-task-form').hide();
-
-
-}
-    var n = 0;  // temporary
 function closeNewTaskForm() {   // TODO: remove excess variables
     n++;
-    $('#new-task-form').hide();
-    var valueOfTaskNameId = $('#new_task_input').val();
-    var valueOfStartDateInputId = $('#new_task_start_date_input').val();
-    console.log(valueOfTaskNameId); 
+    $('#newTaskForm').hide();
+    var valueOfTaskNameId = $('#newTaskInput').val();
+    var valueOfStartDateInputId = $('#newTaskStartDateInput').val();
+    console.log(valueOfTaskNameId);
     console.log(valueOfStartDateInputId);
-    
+
      $('.newTaskButton').after('<div id="task' + n + '">'  + valueOfTaskNameId + ' </div>');
     /* These two lines of code set the value to an empty string
     so that if a user creates a new category, the fields from
     the previous category submitted will not be populated with
     the input from the previous category. */
-    document.getElementById('new_task_input').value="";
-    document.getElementById('new_task_start_date_input').value="";
+    document.getElementById('newTaskInput').value="";
+    document.getElementById('newTaskStartDateInput').value="";
     return false;
 }
 
+function cancelFillingOutTaskForm(){    // TODO: change to get parent
+    $('#newTaskForm').hide();
+}
 
 
-
-// TERM FORMS
+/* TERM FORMS */
 
 function openNewShortTermForm() {
     $('#shortTermForm').css("display", "block");
@@ -140,15 +141,12 @@ function openNewLongTermForm() {
 }
 
 function openNewTaskForm() {
-    $('#new-task-form').css("display", "block");
+    $('#newTaskForm').css("display", "block");
 }
-
-
 
 function cancelFillingOutShortTermForm(){       // TODO: FIX THIS
     $('#shortTermForm').hide();
 }
-
 
 function cancelFillingOutLongTermForm(){
   $('#longTermForm').hide();
@@ -161,8 +159,6 @@ function cancelFillingOutLongTermForm(){
 // TODO: Are we going to have `onclick=""` in HTML files, or as `$('').click(function(){})` things in JS files>?
 
 $(document).ready(function() {
-
-
     // closeNewTermForm
     $('#shortTermSubmit').click(function() {
         $('#shortTermForm').hide();
@@ -176,7 +172,7 @@ $(document).ready(function() {
     });
 
 
-        // closeNewTermForm
+    // closeNewTermForm
     $('#longTermSubmit').click(function() {
         $('#longTermForm').hide();
         console.log($('#amountLongTimeUnits').val());
@@ -185,43 +181,38 @@ $(document).ready(function() {
 
 
 // changed this to post correctly
-  $('.category-form').on('submit', function(event) {
-    const categoryName = document.getElementById('category_name').value;
-    const categoryColor = document.getElementById('category_color').value;
-    console.log(categoryName)
-    $.post('/categories',
-        {
-            category : categoryName,
-            color : categoryColor,
-        }
-      )
-    .done(function(data) {
-      if (data.error) {
-        $('#categoryErrorAlert').text(data.error).show();
-        $('#background').hide();
-      }
-      else {
-        //$('#background').text(data.color).show();
-        $('#categoryErrorAlert').hide();
-        $('#categorySuccessId').css('background-color');
-        $( ".form-popup" ).hide();
-        var text = $( "#category_name" ).text();
-        $( "#textFromCategory" ).val( text );
-      }
-
-    });
+//   $('.category-form').on('submit', function(event) {
+//     const categoryName = document.getElementById('category_name').value;
+//     const categoryColor = document.getElementById('category_color').value;
+//     console.log(categoryName);
+//     $.post('/categories',
+//         {
+//             category : categoryName,
+//             color : categoryColor,
+//         }
+//       )
+//     .done(function(data) {
+//       if (data.error) {
+//         $('#categoryErrorAlert').text(data.error).show();
+//         $('#background').hide();
+//       }
+//       else {
+//         //$('#background').text(data.color).show();
+//         $('#categoryErrorAlert').hide();
+//         $('#categorySuccessId').css('background-color');
+//         $( ".form-popup" ).hide();
+//         var text = $( "#category_name" ).text();
+//         $( "#textFromCategory" ).val( text );
+//       }
+//
+//     });
     // $.get('/categories', null, function(data){
     //   console.log(data, 'data')
     // })
-    event.preventDefault();
-
-  });
+//     event.preventDefault();
+//
+//   });
 });
-
-
-
-
-
 
     $(document).ready(function(){
 
@@ -237,9 +228,9 @@ $(document).ready(function() {
 
 // changed this to post correctly
   $('.task-form').on('submit', function(event) {
-    const taskName = document.getElementById('new_task_input').value;
-    const taskStartDate = document.getElementById('new_task_start_date_input').value;
-    console.log(taskName)
+    const taskName = document.getElementById('newTaskInput').value;
+    const taskStartDate = document.getElementById('newTaskStartDateInput').value;
+    console.log(taskName);
     $.post('/home',
         {
             task : taskName,
@@ -256,8 +247,8 @@ $(document).ready(function() {
         $('#taskErrorAlert').hide();
         // $('#categorySuccessId').css('background-color');
         $( ".form-popup" ).hide();
-        var textFromTask = $( "#new_task_input" ).text();
-        $('#textFromTask').val(text)
+        var textFromTask = $( "#newTaskInput" ).text();
+        $('#textFromTask').val(text);
          $( "#textFromCategory" ).val( textFromTask );
       }
 
