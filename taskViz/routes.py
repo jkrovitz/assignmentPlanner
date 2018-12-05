@@ -15,15 +15,39 @@ def AuthenticationRedirect():
 		return redirect(url_for('login'))
 
 
-@app.route("/home")
+@app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-	new_category_form = category()
-	categories = Category.query.filter_by(user_id=current_user.id).all()
-	print(categories)
-	tasks = Task.query.all()    # also not used
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` sin't being used? should it?
+	# new_category_form = category()
+	category_form = NewCategoryForm(request.form)
+	category_name = category_form['category_name']
+	category_color = category_form['category_color'] 
+	if request.method == 'POST':
+		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=is_checked, user_id=current_user.id)
+		db.session.add(new_cat)
+		db.session.commit()
+		categories = Category.query.filter_by(user_id=current_user.id).all()
+		print(categories)
+			#category = Category.query.get(Category.category_id)
+	editCat = edit_category()
+	# else:
+	# 	category = Category.query.get(Category.category_id)
+	# 	category.user_id != current_user.id
+	# 	abort(403)
+	# 	if request.method == 'POST':
+	# 		category.category_name=request.category_form['category_name']
+	# 		category.category_color=request.category_form['category_color']
+	# 		category.is_checked = False
+	# 		db.session.commit()
+	# 		flash('Your category has been updated!', 'success')
+	# 	elif request.method == 'GET':
+	# 		category_form['category_name'] = category.category_name
+	# 		category_form['category_color'] = category.category_color
+	# # tasks = Task.query.all()    # also not used
 
+		
+	
+	return render_template('task_viz.html', categories=categories, new_category_form=category_form, category_name=category_name, category_color=category_color, editCat = editCat)
 
 # wasn't being used
 # @app.route("/newcategory", methods=['GET', 'POST'])
@@ -103,36 +127,49 @@ def task_viz():
 @login_required
 def get_category_id(category_id):
 	category = Category.query.get_or_404(category_id)
-	return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
+	#return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
 
-    #category = Category.query.get(category_id)
-    #return render_template('category.html', category_name=category.category_name, category_color=category.category_color, category=category)
-    # for category in categories:
-    # 	if category_id:
-    # 		category = Category.query.get(category_id)
-    #     if category.category_id == category_id:
-    #         edit_category = category
-    #         return render_template('category_form.html', edit_category=edit_category, edit_bool=True)
-    # return render_template('task_viz.html')
+# @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
+# @login_required
+# def edit_category(category_id):
+#     category = Category.query.get(category_id)
+#     form = NewCategoryForm()
+#     if category.user_id != current_user.id:
+#         abort(403)
+#     if request.method == 'POST':
+#         category.category_name=request.form['category_name']
+#         category.category_color=request.form['category_color']
+#         db.session.commit()
+#         flash('Your category has been updated!', 'success')
+#         #return redirect(url_for('home', category=category_id))
+#     elif request.method == 'GET':
+#         form.category_name.data = category.category_name
+#         form.category_color.data = category.category_color
+#     return render_template('forms/category_form.html',
+#                            new_category_form=form)
 
-@app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
-@login_required
-def edit_category(category_id):
-    category = Category.query.get(category_id)
-    form = NewCategoryForm()
+
+
+# @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
+# @login_required
+def edit_category():
+    category = Category.query.get(Category.category_id)
+    category_form = NewCategoryForm()
     if category.user_id != current_user.id:
         abort(403)
     if request.method == 'POST':
-        category.category_name=request.form['category_name']
-        category.category_color=request.form['category_color']
+        category.category_name=request.category_form['category_name']
+        category.category_color=request.category_form['category_color']
         db.session.commit()
         flash('Your category has been updated!', 'success')
         #return redirect(url_for('home', category=category_id))
     elif request.method == 'GET':
-        form.category_name.data = category.category_name
-        form.category_color.data = category.category_color
-    return render_template('forms/category_form.html',
-                           new_category_form=form)
+        category_form['category_name'] = category.category_name
+        category_form['category_color'] = category.category_color
+    # return render_template('forms/category_form.html',
+    #                        new_category_form=category_form)
+
+
 
 #We should decide where we want to have the options for deleting categories.
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
@@ -148,27 +185,33 @@ def delete_category(category_id):
 
 
 
-@app.route('/categories', methods=['GET', 'POST'])
-def category():
+# @app.route('/categories', methods=['GET', 'POST'])
+# def category():
 	# new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
 	# db.session.add(new_cat)
-	db.session.commit()
-	category_form = NewCategoryForm(request.form)
-	if request.method == 'POST':
-		category_name = request.form.get('category_name')
-		category_color = request.form.get('category_color')
-		print(category_name, category_color)
-		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
-		db.session.add(new_cat)
-		db.session.commit()
-		print(Category.query.all())
+	#db.session.commit()
+	# category_form = NewCategoryForm(request.form)
+	# category_name = category_form['category_name']
+	# category_color = category_form['category_color']
+	# if request.method == 'POST':
+	# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
+	# 	db.session.add(new_cat)
+	# 	db.session.commit()
+
+		# category_name = request.form.get('category_name')
+		# category_color = request.form.get('category_color')
+		# print(category_name, category_color)
+		# new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
+		# db.session.add(new_cat)
+		# db.session.commit()
+		# print(Category.query.all())
 		# return Response({})
-		return redirect(url_for('home'))
-	cat = Category.query.all()
-	print(cat, 'categories')
+		# return redirect(url_for('home'))
+	# cat = Category.query.all()
+	# print(cat, 'categories')
 	# return Response(json.dumps([]))
 
-	return render_template('forms/category_form.html', new_category_form=category_form, edit_bool=False)
+	# return render_template('forms/category_form.html', new_category_form=category_form, edit_bool=False, category_name=category_name, category_color=category_color)
 
 
 
