@@ -1,0 +1,48 @@
+    <form class="form-inline new-task-form-container" action="" method="POST" >
+      <div class="form-group">
+       <button type="button" id="cancelId" class="close" aria-label="Close" onclick="cancelFillingOutTaskForm()">
+ <!--  <span aria-hidden="true">&times;</span> -->
+</button>
+     </div>
+
+    <div class="form-group row">
+        <label class="col-10 col-form-label">New Task Name:</label>
+         <div class="col-10">
+        <input type="text" class="form-control input-sm" id="new_task_input" style="margin-bottom:30px;" name="taskNameAttribute"/>
+      </div>
+    </div>
+    <br/><br/><br/>
+    <div class="form-group row">
+        <label>Category:</label>
+
+
+        <select id="new_task_category">
+          <!-- This needs to be given a proper input of "categories" -->
+          {% for cat in categories%}
+          <option value="{{cat.category_name}}">{{cat.category_name}}</option>
+          {% endfor %}
+        </select> <br />
+           </div>
+            <div class="form-group row">   
+        <label>Start Date:</label>
+        <input type='date' class="form-control input-sm" id="new_task_start_date_input" style="margin-right:50px"><br />
+      </div>
+       <div class="form-group row">
+        <label>End Date:</label>
+        <input type='date' class="form-control input-sm" id="new_task_end_date_input" style="margin-right:50px"><br />
+      </div>
+
+ <div class="form-group row">
+        <label>Milestones:</label>
+        <input type='button' class="btn btn-outline-secondary" id="newMilestoneButton" style="margin-right:100px" value="+" onclick="addMilestoneForm()"><br />
+
+      </div>
+
+       <div class="form-group row">
+
+         <input type="submit" class="btn btn-default" style="margin-top:20px" onclick="closeNewTaskForm();">
+       </div>
+       </form><br/>
+  </div>
+
+</div>

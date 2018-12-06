@@ -79,9 +79,12 @@ function closeNewCategoryForm() {   // TODO: remove excess variables
     var valueOfCategoryNameId = $('#category_name').val();
     var valueOfBackgroundColor = $('#category_color').val();
     var myNewButton = '<button class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</button>';
-    $('.new-category-button').after(' <div id="category' + n + '">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + myNewButton + ' </div>');
+    $('.new-category-button').after(' <div id="category' + n + '" class="individual_category">' + '<input type="checkbox" id="checkboxId' + n + '">'  + valueOfCategoryNameId + myNewButton + ' </div>');
     var backgroundColorStr = "#category" + n;
     $(backgroundColorStr).css("backgroundColor", "#" + valueOfBackgroundColor);
+ 
+    // var paddingOfCategories = "#category" + n; 
+    // $(paddingOfCategories).css("padding","20px");
 
     /* These two lines of code set the value to an empty string
     so that if a user creates a new category, the fields from
@@ -120,6 +123,8 @@ function closeNewTaskForm() {   // TODO: remove excess variables
     console.log(valueOfStartDateInputId);
 
      $('.newTaskButton').after('<div id="task' + n + '">'  + valueOfTaskNameId + ' </div>');
+
+
     /* These two lines of code set the value to an empty string
     so that if a user creates a new category, the fields from
     the previous category submitted will not be populated with
@@ -278,11 +283,43 @@ $(document).ready(function() {
 // var dateControl = document.querySelector('input[type="date"]');
 // dateControl.value = new Date(month, day, year);
 
-//This function calculates the width of the div with the Class called timeline.
+//This function calculates the width of the div with the Class called Timeline.
 function calculateTimelineWidth(){
   var selectTimelineWidth = document.querySelector('.Timeline');
   timelineWidth = selectTimelineWidth.clientWidth;
-  return console.log(timelineWidth);
+  return console.log("Width of Timeline div:" + timelineWidth);
 }
 
-calculateTimelineWidth();
+
+$(function() {
+    var $selectTimeline = $('.Timeline');//the element we want to measure
+    var timelineWidth = $selectTimeline.width();//get its width    
+    console.log("Width of Timeline div:" + timelineWidth);
+    $(window).resize(function() {
+        //reget the size of width on window resize.
+        timelineWidth = $selectTimeline.width();
+        console.log("Width of Timeline div:" + timelineWidth);
+    });
+});
+
+$(function() {
+    var $selectCategory = $('.Category');//the element we want to measure
+    var categoryWidth = $selectCategory.width();//get its width    
+    console.log("Width of Category div:" + categoryWidth);
+    $(window).resize(function() {
+        //reget the size of width on window resize.
+        categoryWidth = $selectCategory.width();
+        console.log("Width of Category div:" + categoryWidth);
+    });
+});
+
+
+//This function calculates the width of the div with the Class called Category.
+function calculateCategoryWidth(){
+  var selectCategoryWidth = document.querySelector('.Category');
+  categoryWidth = selectCategoryWidth.clientWidth;
+  return console.log("Width of Category div:" + categoryWidth);
+}
+
+// calculateTimelineWidth();
+// calculateCategoryWidth();
