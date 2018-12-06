@@ -25,11 +25,11 @@ def home():
 	# tasks = Task.query.all()    # also not used ... not yet anyway...
 	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` sin't being used? should it?
 
-	'''Attempt at combining category and edit_category in 
+	'''Attempt at combining category and edit_category in
 	the home function for popup forms. It's not working yet.  '''
 	# category_form = NewCategoryForm(request.form)
 	# category_name = category_form['category_name']
-	# category_color = category_form['category_color'] 
+	# category_color = category_form['category_color']
 	# if request.method == 'POST':
 	# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=is_checked, user_id=current_user.id)
 	# 	db.session.add(new_cat)
@@ -53,8 +53,8 @@ def home():
 	# 		category_form['category_color'] = category.category_color
 	# tasks = Task.query.all()    # also not used
 
-		
-	
+
+
 	#return render_template('task_viz.html', categories=categories, new_category_form=category_form, category_name=category_name, category_color=category_color, editCat = editCat)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -93,7 +93,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-'''Eventually this function will be a route to a page where the user will be able to 
+'''Eventually this function will be a route to a page where the user will be able to
 view and edit their account info.
 '''
 @app.route("/account")
@@ -111,9 +111,10 @@ def category():
 	if request.method == 'POST':
 		print(category_name, category_color)
 		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
-		db.session.add(new_cat)
-		db.session.commit()
-		print(Category.query.all())
+		if(category_name):
+			db.session.add(new_cat)
+			db.session.commit()
+			print(Category.query.all())
 		# return Response({})
 		return redirect(url_for('home'))
 	cat = Category.query.all()
@@ -158,35 +159,6 @@ def delete_category(category_id):
     db.session.commit()
     flash('Your category has been deleted!', 'success')
     return redirect(url_for('home'))
-
-
-# @app.route('/categories', methods=['GET', 'POST'])
-# def category():
-	# new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
-	# db.session.add(new_cat)
-	#db.session.commit()
-	# category_form = NewCategoryForm(request.form)
-	# category_name = category_form['category_name']
-	# category_color = category_form['category_color']
-	# if request.method == 'POST':
-	# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
-	# 	db.session.add(new_cat)
-	# 	db.session.commit()
-
-		# category_name = request.form.get('category_name')
-		# category_color = request.form.get('category_color')
-		# print(category_name, category_color)
-		# new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
-		# db.session.add(new_cat)
-		# db.session.commit()
-		# print(Category.query.all())
-		# return Response({})
-		# return redirect(url_for('home'))
-	# cat = Category.query.all()
-	# print(cat, 'categories')
-	# return Response(json.dumps([]))
-
-	# return render_template('forms/category_form.html', new_category_form=category_form, edit_bool=False, category_name=category_name, category_color=category_color)
 
 
 @app.route("/task_viz", methods=['GET', 'POST'])

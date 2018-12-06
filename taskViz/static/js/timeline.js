@@ -129,6 +129,16 @@ function closeNewTaskForm() {   // TODO: remove excess variables
     return false;
 }
 
+var cn = 0;  // temporary
+function addMilestoneForm() {
+    cn++;
+
+    if (cn<=3){
+      var myNewMilestone = '<label>Milestone:</label><input type="text" id="milestoneNameId'+cn+'"><label>Milestone date:</label><input type="date" id="milestoneDateId'+cn+'" style="margin-right:50px">';
+      $('#newMilestoneButton').after(' <div id="milestonDiv' + cn + '">' + myNewMilestone + ' </div>');
+    }
+  }
+
 function cancelFillingOutTaskForm(){    // TODO: change to get parent
     $('#newTaskForm').hide();
 }
