@@ -78,9 +78,7 @@ the size of the timeline view.*/
   width: 50%;
   margin: 5% 25%;
   font-size: .9vw;
-  background-color: #eeeeee;
   cursor: pointer;
-  opacity: 0.8;
 }
 
 .new-subcategory-button {
