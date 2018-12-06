@@ -1,24 +1,18 @@
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="newCategoryForm">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+ <div class="form-group">
+      <form class="form-inline form-container category-form" action="" method="POST" >
+       <!--  <div class="cancelCatFilloutDiv">
+        <a class="cancel cancelCategoryFillout" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a> -->
+<!--     </div> -->
+
         <label>New Category:</label>
-    
-       {{ category_name }}
+        {{new_category_form.category_name}}
+        <!-- <input type="text" id="category-name" name="categoryNameAttribute"/> -->
         <label>Color:</label>
-        {{category_color }}
-       
-       
+        <!-- <input type="text" id="category-color" name="categoryColorAttribute"> -->
+        {{new_category_form.category_color}}
+        {{new_category_form.submit}}
+
+
+
+      </form><br/>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-         <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()" data-dismiss="modal">
-      </div>
-    </div>
-  </div>

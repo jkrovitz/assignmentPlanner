@@ -17,6 +17,11 @@
 
 <body onresize="calculateTimelineWidth()">
 <!-- Form Popups -->
+
+ <div class="form-popup" id="newCategoryForm">
+        {% include 'forms/category_form.html' ignore missing %}
+    </div>
+
     <div class="form-popup" id="shortTermForm">
       {% include 'forms/short_term_form.html' ignore missing %}
     </div>
@@ -27,9 +32,12 @@
         {% include 'forms/task_form2.html' ignore missing %}
     </div>
 
-    <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- {% include 'forms/category_form.html' ignore missing %}
-</div>
+<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  
+  ------```Include 'forms/category_form.html' ignore missing``` will 
+  ------ go here when we decide to turn our category and task forms
+  ------ into popups.
+</div> -->
 
     <div class="grid-container">
       <div class="Timeline" id="timelineId">
@@ -174,6 +182,31 @@ if (canvas.getContext) {
       <div class="Category">
 
 
+ <a class="new-category-button" href="{{ url_for('category') }}">Create New Category</a>
+
+
+     {% for category in categories %}
+
+          <div class="catStyle" id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};"> 
+            <a href="{{url_for('edit_category', category_id=category.category_id)}}"> 
+              <a href="{{url_for('edit_category', category_id=category.category_id)}}"> 
+              {{ category.category_name }}
+            </a>
+
+       {% endfor %}
+
+        <div id="background" class="alert success background" role="alert" style="display:none;"></div>
+     
+      </div>
+    </div>
+
+
+
+<!-- Code for when we decide to turn the category and task forms into 
+popups  -->
+
+
+
         <!-- Button trigger modal -->
 <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newCategoryForm">
   Launch demo modal
@@ -186,8 +219,12 @@ if (canvas.getContext) {
 
 
 
-        <button type="button" class="new-category-button" data-toggle="modal" data-target="#newCategoryForm">Create New Category</button>
+      <!--   <button type="button" class="new-category-button" data-toggle="modal" data-target="#newCategoryForm">Create New Category</button> -->
  
+  
+
+
+
 <!--       <script>
 $('#myModal').on('shown.bs.modal', function () {
   $('#myInput').trigger('focus')
@@ -227,20 +264,7 @@ $('#myModal').on('shown.bs.modal', function () {
   </div>
 </div> -->
 
-  
-    {% for category in categories %}
 
-          <div class="catStyle" id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};"> 
-            <a href="{{url_for('edit_category', category_id=category.category_id)}}"> 
-              {{ category.category_name }}
-            </a>
-
-       {% endfor %}
-
-        <div id="background" class="alert success background" role="alert" style="display:none;"></div>
-     
-      </div>
-    </div>
 
 
     <!-- External JavaScript Files -->

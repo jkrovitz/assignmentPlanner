@@ -13,18 +13,20 @@
   <article class="media content-section">
     <div class="media-body">
       <div class="article-metadata">
+             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('home')}}">Home</a>
        <!--  <a class="mr-2" href="#">{{ category_name }}</a> -->
-        <small class="text-muted">{{ category_color }}</small>
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('edit_category', category_id=category.category_id) }}">Update</a>
-            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-          </div>
+        <!-- <small class="text-muted">{{ category_color }}</small> -->
+
        
       </div>
 
       <h2 class="article-title">{{ category_name }}</h2>
       <p class="article-content">{{ category_color }}</p>
-      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('home')}}">Home</a>
+ 
+                <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('edit_category', category_id=category.category_id) }}">Update</a>
+            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+          </div>
     </div>
   </article>
   <!-- Modal -->
