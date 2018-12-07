@@ -1,74 +1,57 @@
-/* BEGIN CATEGORY FORMS */
 
-var n = 0;
-function closeNewCategoryForm() {
-	n++;
-	$('#newCategoryForm').hide();
+function populateCalendarDates (startDateVar) {
+/*  */
+	var dates = [];
+	for (var i = 0; i < 7; i++) {
+		var newDate = new Date(startDateVar);
+		var day = newDate.getDate();
+		dates[i] = newDate.getDay();
+	};
 
-	var valueOfCategoryNameId = $('#category_name').val();
-	var valueOfBackgroundColor = $('#category_color').val();
-	var myNewButton = '<input type="button" class="new-subcategory-button" onclick="openNewSubcategoryForm() id="createSubButtonId' + n + '">+ Add Subcategory</input>';
-	$('.mt-4').after(' <div id="category' + n + '" class="individual_category"> <input type="checkbox" id="checkboxId' + n + '">' + valueOfCategoryNameId + myNewButton + ' </div>');
-	var backgroundColorStr = "#category" + n;
-	$(backgroundColorStr).css("backgroundColor", "#" + valueOfBackgroundColor);
+	var datesHTML = "";
+	for (var i = 0; i < 7; i++) {
+		datesHTML += '<span class="timeIncrementColHeader">' + dates[i]+ '</span> \n';
+	};
 
-	/* These two lines of code set the value to an empty string
-	so that if a user creates a new category, the fields from
-	the previous category submitted will not be populated with
-	the input from the previous category. */
-	document.getElementById('categoryName').value = "";
-	document.getElementById('categoryColor').value = "";
-}
+	$('#datesContainer').after(datesHTML);
+};
 
-$('#newCategoryForm').on('shown.bs.modal', function () {
-	$('#myInput').trigger('focus')
-})
-
-function cancelFillingOutCategoryForm() { // TODO: change to get parent
-	$('#newCategoryForm').hide();
-	// Sets category input value to empty string if the user decides to cancel creating a new category.
-	document.getElementById('categoryInput').value = "";
-}
-
-/* END CATEGORY FORMS */
-
-
-/* BEGIN TASK FORMS */
-
-function closeNewTaskForm() { // TODO: remove excess variables
-	n++;
-	$('#newTaskForm').hide();
-	var valueOfTaskNameId = $('#newTaskInput').val();
-	var valueOfStartDateInputId = $('#newTaskStartDateInput').val();
-	console.log(valueOfTaskNameId);
-	console.log(valueOfStartDateInputId);
-
-	$('.newTaskButton').after('<div id="task' + n + '">' + valueOfTaskNameId + ' </div>');
-
-	/* These two lines of code set the value to an empty string
-	so that if a user creates a new category, the fields from
-	the previous category submitted will not be populated with
-	the input from the previous category. */
-	document.getElementById('newTaskInput').value = "";
-	document.getElementById('newTaskStartDateInput').value = "";
-	return false;
-}
-
-// var cn = 0; // temporary
-// function addMilestoneForm() {
-// 	cn++;
-//
-// 	if (cn <= 3) {
-// 		var myNewMilestone = '<label>Milestone:</label><input type="text" id="milestoneNameId' + cn + '"><label>Milestone date:</label><input type="date" id="milestoneDateId' + cn + '" style="margin-right:50px">';
-// 		$('#newMilestoneButton').after(' <div id="milestonDiv' + cn + '">' + myNewMilestone + ' </div>');
-// 	}
-// }
-
-/* END TASK FORMS */
+function getDayOfWeek() {
+	$('#start').change(function () {
+		var startDateVar = $('#start').val();
+		var  dateObj = new Date(startDateVar);
+		var weekdays = new Array(6);
+    weekdays[6] = "Sunday";
+    weekdays[0] = "Monday";
+    weekdays[1] = "Tuesday";
+    weekdays[2] = "Wednesday";
+    weekdays[3] = "Thursday";
+    weekdays[4] = "Friday";
+    weekdays[5] = "Saturday";
+		var dayOfWeek = weekdays[dateObj.getDay()];
+    // var r = weekdays[A.getDay()];
+    $('#datesContainer').after(dayOfWeek);
+		// var dayOfWeekAsNum = dateObj.getDay();
+	});
+};
 
 
 
 $(document).ready(function () {
+
+/* BEGIN START-DATE LISTENER */
+	$('#start').change(function () {
+		console.log($('#start').val());
+		var startDateVar = $('#start').val();
+		// var startDayOfWeekVar = startDateVar.getDay();
+    // getDayOfWeek();
+
+		// populateCalendarDates(startDateVar);
+
+		 getDayOfWeek();
+
+	});
+	/* END START-DATE LISTENER */
 
 	/* CLICK BUTTONS. OPEN POP-UPS */
 	$('#newTaskButton').click(function () {
@@ -150,15 +133,29 @@ $('.task-form').on('submit', function (event) {
 
 });
 
+
+
+//This function calculates the width of the div with the Class called Timeline.
+function calculateTimelineWidth(){
+  var selectTimelineWidth = document.querySelector('.Timeline');
+  timelineWidth = selectTimelineWidth.clientWidth;
+  // return console.log("Width of Timeline div:" + timelineWidth);
+}
+
+
+//This function calculates the width of the div with the Class called Category.
+function calculateCategoryWidth(){
+  var selectCategoryWidth = document.querySelector('.Category');
+  categoryWidth = selectCategoryWidth.clientWidth;
+  // return console.log("Width of Category div:" + categoryWidth);
+}
+
+
 /* A helper function that calculates the height width of various elments such as divs when the window
 is resized. This function is placed within the html body tag and is called when the window is resized. */
 function calculateOnResize() {
 	// calculate timeline Width
-	var selectTimelineWidth = document.querySelector('.Timeline');
-	timelineWidth = selectTimelineWidth.clientWidth;
-	console.log("Width of Timeline div:" + timelineWidth);
+	calculateTimelineWidth();
 	// Calculate Timeline Height
-	var selectCategoryWidth = document.querySelector('.Category');
-	categoryWidth = selectCategoryWidth.clientWidth;
-	console.log("Width of Category div:" + categoryWidth);
-}
+	calculateCategoryWidth();
+};

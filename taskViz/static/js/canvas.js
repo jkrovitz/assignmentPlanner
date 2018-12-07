@@ -5,7 +5,7 @@ var canvas = document.getElementById('DemoCanvas');
    var sampleTaskStartDay2 = 3;
    var sampleTaskEndDay2 = 6;
 
-   {#var numTimeIncrements = $('#amountShortTimeUnits').val();#}   // temporarily out
+   // var numTimeIncrements = $('#amountShortTimeUnits').val();   // temporarily out
    numTimeIncrements = 7;  // temporary. for days of week
    var xSpaceIncrement = canvas.width / numTimeIncrements;
    var ySpaceIncrement = 60;
@@ -24,7 +24,7 @@ if (canvas.getContext) {
    context.stroke();
 
 //circle
-   {#var context = canvas.getContext('2d');#}
+   // var context = canvas.getContext('2d');
    var centerX = sampleTaskStartDay * xSpaceIncrement;
    var centerY = ySpaceIncrement;
    var radius = 20;
@@ -62,7 +62,7 @@ if (canvas.getContext) {
    context.stroke();
 
 //circle
-   {#var context = canvas.getContext('2d');#}
+   // var context = canvas.getContext('2d');
    var centerX = sampleTaskStartDay2 * xSpaceIncrement;
    var centerY = ySpaceIncrement*2;
    var radius = 20;

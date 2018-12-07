@@ -9,8 +9,8 @@
 
 
 {% block content %}
-{# TODO: fix mess of id names, mess of formatting #}
-<body onresize="calculateOnResize();">
+
+<body onresize="calculateOnResize()">
 	<!-- Form Popups -->
 	<div class="d-flex bd-highlight mb-3">
 		<div class="form-popup p-2 bd-highlight" id="newCategoryForm">
@@ -22,7 +22,7 @@
 		<div class="form-popup longTermFormClass p-2 bd-highlight" id="longTermForm">
 			{% include 'popups/long_term_form.html' ignore missing %}
 		</div>
-		<div class="form-popup" id="newTaskForm p-2 bd-highlight">
+		<div class="form-popup p-2 bd-highlight" id="newTaskForm">
 			{% include 'popups/task_form.html' ignore missing %}
 		</div>
 	</div>
@@ -57,8 +57,8 @@
 
 			<hr style="border: 2px solid black; margin-top: 10px;">
 			<!-- Main area for timeline display -->
-			<div class="pr-4 pr-4 pb-4 pl-4">
-				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around">
+			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
+				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
 					<span class="timeIncrementColHeader">Monday</span>
 					<span class="timeIncrementColHeader">Tuesday</span>
 					<span class="timeIncrementColHeader">Wednesday</span>
@@ -72,7 +72,12 @@
       <script type=text/javascript src="{{
         url_for('static', filename='js/canvas.js') }}"></script>
 		</div>
+
 	</div>
+
+
+
+
 	<!-- Sidebar of catgories  -->
 	<div class="Category p-4 text-center">
 	<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
