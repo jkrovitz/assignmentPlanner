@@ -8,12 +8,10 @@ import json
 
 @app.route("/")
 def AuthenticationRedirect():
-
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	else:
 		return redirect(url_for('login'))
-
 
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
@@ -24,38 +22,6 @@ def home():
 	print(categories)
 	# tasks = Task.query.all()    # also not used ... not yet anyway...
 	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` sin't being used? should it?
-
-	'''Attempt at combining category and edit_category in
-	the home function for popup forms. It's not working yet.  '''
-	# category_form = NewCategoryForm(request.form)
-	# category_name = category_form['category_name']
-	# category_color = category_form['category_color']
-	# if request.method == 'POST':
-	# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=is_checked, user_id=current_user.id)
-	# 	db.session.add(new_cat)
-	# 	db.session.commit()
-	# 	categories = Category.query.filter_by(user_id=current_user.id).all()
-	# 	print(categories)
-	# 		#category = Category.query.get(Category.category_id)
-	# #editCat = edit_category()
-	# else:
-	# 	category = Category.query.get(Category.category_id)
-	# 	category.user_id != current_user.id
-	# 	abort(403)
-	# 	if request.method == 'POST':
-	# 		category.category_name=request.category_form['category_name']
-	# 		category.category_color=request.category_form['category_color']
-	# 		category.is_checked = False
-	# 		db.session.commit()
-	# 		flash('Your category has been updated!', 'success')
-	# 	elif request.method == 'GET':
-	# 		category_form['category_name'] = category.category_name
-	# 		category_form['category_color'] = category.category_color
-	# tasks = Task.query.all()    # also not used
-
-
-
-	#return render_template('task_viz.html', categories=categories, new_category_form=category_form, category_name=category_name, category_color=category_color, editCat = editCat)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
@@ -71,7 +37,6 @@ def register():     # NOTE: when creating new account, thing to say it worked is
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():        # can only log in using email, not username? change later if possible
 	if current_user.is_authenticated:
@@ -86,7 +51,6 @@ def login():        # can only log in using email, not username? change later if
 		else:
 			flash('Login Unsuccessful. Please check email and password', 'danger')
 	return render_template('login.html', title='Login', form=form)
-
 
 @app.route("/logout")
 def logout():
@@ -120,7 +84,6 @@ def category():
 	cat = Category.query.all()
 	print(cat, 'categories')
 	# return Response(json.dumps([]))
-
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 @app.route("/category/<int:category_id>")

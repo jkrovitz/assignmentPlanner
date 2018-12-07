@@ -1,296 +1,95 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Timeline</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='timeline.css') }}">
-  <link rel="stylesheet" type="text/css" href="css/timeline.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-</head>
 
+{% extends "layout.html" %}
+{% block title %}Task Viz{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
+{% endblock %}
+
+
+{% block content %}
 {# TODO: fix mess of id names, mess of formatting #}
+<body onresize="calculateOnResize();">
+	<!-- Form Popups -->
+	<div class="form-popup" id="newCategoryForm">
+		{% include 'forms/category_form.html' ignore missing %}
+	</div>
+	<div class="form-popup shortTermFormClass" id="shortTermForm">
+		{% include 'popups/short_term_form.html' ignore missing %}
+	</div>
+	<div class="form-popup longTermFormClass" id="longTermForm">
+		{% include 'popups/long_term_form.html' ignore missing %}
+	</div>
+	<div class="form-popup" id="newTaskForm">
+		{% include 'popups/task_form2.html' ignore missing %}
+	</div>
+	<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		```Include 'forms/category_form.html' ignore missing``` will
+		go here when we decide to turn our category and task forms
+		 into popups.
+		</div> -->
+	<div class="grid-container">
+	<div class="Timeline" id="timelineId">
+		<div class="inline-elements">
+			<!-- Top bar for user input -->
+			<div class="p-4">
+				<label>Start date:</label>
+				<input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
 
-<body onresize="calculateTimelineWidth()">
-<!-- Form Popups -->
-
- <div class="form-popup" id="newCategoryForm">
-        {% include 'forms/category_form.html' ignore missing %}
-    </div>
-
-    <div class="form-popup shortTermFormClass" id="shortTermForm">
-      {% include 'popups/short_term_form.html' ignore missing %}
-    </div>
-    <div class="form-popup longTermFormClass" id="longTermForm">
-      {% include 'popups/long_term_form.html' ignore missing %}
-    </div>
-    <div class="form-popup" id="newTaskForm">
-        {% include 'popups/task_form2.html' ignore missing %}
-    </div>
-
-<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-  ------```Include 'forms/category_form.html' ignore missing``` will
-  ------ go here when we decide to turn our category and task forms
-  ------ into popups.
-</div> -->
-
-    <div class="grid-container">
-      <div class="Timeline" id="timelineId">
-        <div class="inline-elements">
-          <!-- Top bar for user input -->
-          <div class="p-4">
-            <label>Start date:</label>
-            <input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
-            <div class="topButtons">
-              <div class="termButtons">
-                <button class="btn btn-primary" id="newTaskButton" onclick="openNewTaskForm();">New Task +</button>
-                
-
-                <div class="term-btn-group">
-                <button class="btn term-btn" id="shortTermButton" onclick="openNewShortTermForm();">Short Term</button>
-                <div class="term-btn-gap"></div>
-                <button class="btn term-btn" id="longTermButton" onclick="openNewLongTermForm();">Long Term</button>
-              </div>
+        <a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
 
 
-              </div>
-            </div>
+				<div class="topButtons">
+          <button class="btn btn-success" id="newTaskButton">New Task +</button>
+					<div class="term-btn-group">
+						<button class="btn btn-outline-primary" id="shortTermButton">Short Term</button>
+						<div class="term-btn-gap"></div>
+						<button class="btn btn-outline-primary" id="longTermButton">Long Term</button>
+						</div>
+					</div>
 
-            
-            <a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
-
-            
-
-            
-          </div>
           <h3 class="pl-4" style="margin:auto">{{ current_user.username }}'s Timeline</h3>
 
-          <hr style="border: 2px solid black; margin-top: 10px;">
+			</div>
 
-          <!-- Main area for timeline display -->
-          <div class="pr-4 pr-4 pb-4 pl-4">
-          <div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-between">
-            <span class="timeIncrementColHeader">Monday</span>
-            <span class="timeIncrementColHeader">Tuesday</span>
-            <span class="timeIncrementColHeader">Wednesday</span>
-            <span class="timeIncrementColHeader">Thursday</span>
-            <span class="timeIncrementColHeader">Friday</span>
-            <span class="timeIncrementColHeader">Saturday</span>
-            <span class="timeIncrementColHeader">Sunday</span>
-          </div>
-
-
- <canvas id="DemoCanvas" width="400" height="400"></canvas>
-
-<script>
-
-
-var canvas = document.getElementById('DemoCanvas');
-    var sampleTaskStartDay = 1;
-    var sampleTaskEndDay = 5;
-
-    var sampleTaskStartDay2 = 3;
-    var sampleTaskEndDay2 = 6;
-
-    {#var numTimeIncrements = $('#amountShortTimeUnits').val();#}   // temporarily out
-    numTimeIncrements = 7;  // temporary. for days of week
-    var xSpaceIncrement = canvas.width / numTimeIncrements;
-    var ySpaceIncrement = 60;
-
-
-if (canvas.getContext) {
-
-    // task 1
-    var context = canvas.getContext("2d");
-    context.beginPath();
-    context.moveTo(sampleTaskStartDay * xSpaceIncrement, ySpaceIncrement);
-    context.lineTo(sampleTaskEndDay * xSpaceIncrement, ySpaceIncrement);
-    context.lineWidth = 5;
-    // set line color
-    context.strokeStyle = '#00b500';
-    context.stroke();
-
-//circle
-    {#var context = canvas.getContext('2d');#}
-    var centerX = sampleTaskStartDay * xSpaceIncrement;
-    var centerY = ySpaceIncrement;
-    var radius = 20;
-
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = '#00b500';
-
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-    context.fill();
-    context.lineWidth = 5;
-
-
-    var centerX = sampleTaskEndDay * xSpaceIncrement;
-    var centerY = ySpaceIncrement;
-    var radius = 20;
-
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = '#00b500';
-
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-    context.fill();
-
-
-    // task 2
-
-    var context = canvas.getContext("2d");
-    context.beginPath();
-    context.moveTo(sampleTaskStartDay2 * xSpaceIncrement, ySpaceIncrement*2);
-    context.lineTo(sampleTaskEndDay2 * xSpaceIncrement, ySpaceIncrement*2);
-    context.lineWidth = 5;
-    // set line color
-    context.strokeStyle = '#00b500';
-    context.stroke();
-
-//circle
-    {#var context = canvas.getContext('2d');#}
-    var centerX = sampleTaskStartDay2 * xSpaceIncrement;
-    var centerY = ySpaceIncrement*2;
-    var radius = 20;
-
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = '#00b500';
-
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = '2E1919';
-    context.stroke();
-    context.fillStyle = '#2E1919';
-
-    var centerX = sampleTaskEndDay2 * xSpaceIncrement;
-    var centerY = ySpaceIncrement*2;
-    var radius = 20;
-
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = '#00b500';
-
-    //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-    context.fill();
-}
-
-</script>
+			<hr style="border: 2px solid black; margin-top: 10px;">
+			<!-- Main area for timeline display -->
+			<div class="pr-4 pr-4 pb-4 pl-4">
+				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-between">
+					<span class="timeIncrementColHeader">Monday</span>
+					<span class="timeIncrementColHeader">Tuesday</span>
+					<span class="timeIncrementColHeader">Wednesday</span>
+					<span class="timeIncrementColHeader">Thursday</span>
+					<span class="timeIncrementColHeader">Friday</span>
+					<span class="timeIncrementColHeader">Saturday</span>
+					<span class="timeIncrementColHeader">Sunday</span>
+				</div>
+			</div>
+			<canvas id="DemoCanvas" width="400" height="400"></canvas>
+      <script type=text/javascript src="{{
+        url_for('static', filename='js/canvas.js') }}"></script>
+		</div>
+	</div>
+	<!-- Sidebar of catgories  -->
+	<div class="Category p-4 text-center">
+	<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
+	<div class="mt-4">
+	{% for category in categories %}
+	<div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
+	<a href="{{url_for('edit_category', category_id=category.category_id)}}">
+	{{ category.category_name }}
+	</a>
+	{% endfor %}
+	<div id="background" class="alert success background" role="alert" style="display:none;"></div>
+	</div>
+	</div>
 </div>
-
-        </div>
-      </div>
-
-
-<!-- Sidebar of catgories  -->
-      <div class="Category p-4 text-center">
-
-
- <a class="btn btn-primary" href="{{ url_for('category') }}"> New Category +</a>
-
-
-<div class="mt-4">
-
-     {% for category in categories %}
-
-          <div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
-        
-              <a href="{{url_for('edit_category', category_id=category.category_id)}}">
-              {{ category.category_name }}
-            </a>
-
-       {% endfor %}
-
-        <div id="background" class="alert success background" role="alert" style="display:none;"></div>
-
-      </div>
-    </div>
-
-
-
-<!-- Code for when we decide to turn the category and task forms into
-popups  -->
-
-
-
-        <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newCategoryForm">
-  Launch demo modal
-</button> -->
-
-
-
-<!-- Modal -->
-
-
-
-
-      <!--   <button type="button" class="new-category-button" data-toggle="modal" data-target="#newCategoryForm">Create New Category</button> -->
-
-
-
-
-
-<!--       <script>
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-        </script> -->
-
-        <!-- Button trigger modal -->
-<!-- <button type="button" class="new-category-button btn btn-primary" data-toggle="modal" data-target="#newCategoryForm" onclick="openNewCategoryForm()">
-  Launch demo modal
-</button> -->
-
-<!-- Modal -->
-<!-- <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <label>New Category:</label>
-
-        <input id="category_name" name="category_name" required="" type="text" value="" class="">
-        <label>Color:</label>
-        <input id="category_color" name="category_color" required="" type="text" value="">
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-         <input type="submit" class="btn btn-default" onclick="closeNewCategoryForm()" data-dismiss="modal">
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-
-
-    <!-- External JavaScript Files -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Optional JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type=text/javascript src="{{
-    url_for('static', filename='js/timeline.js') }}"></script>
-
-  </body>
-  </html>
+	<!-- External JavaScript Files -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script type=text/javascript src="{{
+		url_for('static', filename='js/timeline.js') }}"></script>
+</body>
+	{% endblock content %}
