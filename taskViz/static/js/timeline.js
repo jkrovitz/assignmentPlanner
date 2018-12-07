@@ -1,25 +1,6 @@
 
-function populateCalendarDates (startDateVar) {
-/*  */
-	var dates = [];
-	for (var i = 0; i < 7; i++) {
-		var newDate = new Date(startDateVar);
-		var day = newDate.getDate();
-		dates[i] = newDate.getDay();
-	};
-
-	var datesHTML = "";
-	for (var i = 0; i < 7; i++) {
-		datesHTML += '<span class="timeIncrementColHeader">' + dates[i]+ '</span> \n';
-	};
-
-	$('#datesContainer').after(datesHTML);
-};
-
-function getDayOfWeek() {
+function getDayOfWeek(startDateVar) {
 	$('#start').change(function () {
-		//Get date
-		var startDateVar = $('#start').val();
 		var dateObj = new Date(startDateVar);
 		var weekdays = new Array(6);
     weekdays[6] = "Sun";
@@ -30,33 +11,26 @@ function getDayOfWeek() {
     weekdays[4] = "Fri";
     weekdays[5] = "Sat";
 		var dayOfWeek = weekdays[dateObj.getDay()];
-    // Now we fill in the view accordingly
-		// $( "#timeSlot1" ).replaceWith( "<span class=\"timeIncrementColHeader\" id=\"timeSlot1\">"+ dayOfWeek + " " + (dateObj.getMonth()+1) + "/" +dateObj.getDate() + "</span>" );
-		var tomorrow = dateObj;
-		for (var i = 0; i <= 7; i++) {
-			$( "#timeSlot" + i ).replaceWith( "<span class=\"timeIncrementColHeader\" id=\"timeSlot1\">"+ dayOfWeek + " " + (tomorrow.getMonth()+1) + "/" +tomorrow.getDate() + "</span>" );
-			tomorrow.setDate(tomorrow.getDate() + 1);
-			dayOfWeek = weekdays[tomorrow.getDay()];
+    // Now we fill in the view accordingl
+		for (var i = 0; i < 7; i++) {
+			var labelDivID = "#timeSlot" + i + "";
+			var myText = "<span class=\"timeIncrementColHeader\" id=\"timeSlot" + i + "\">" + dayOfWeek + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
+			console.log(myText);
+			$( labelDivID ).replaceWith(myText);
+			dateObj.setDate(dateObj.getDate() + 1);
+			dayOfWeek = weekdays[dateObj.getDay()];
 		}
-
-
 	});
 };
 
 
 
 $(document).ready(function () {
-
-/* BEGIN START-DATE LISTENER */
+/* START-DATE LISTENER */
 	$('#start').change(function () {
 		console.log($('#start').val());
-		var startDateVar = $('#start').val();
-		// var startDayOfWeekVar = startDateVar.getDay();
-    // getDayOfWeek();
-		// populateCalendarDates(startDateVar);
-		 getDayOfWeek();
+		 getDayOfWeek($('#start').val());
 	});
-	/* END START-DATE LISTENER */
 
 	/* CLICK BUTTONS. OPEN POP-UPS */
 	$('#newTaskButton').click(function () {
@@ -70,10 +44,8 @@ $(document).ready(function () {
 	$('#longTermButton').click(function () {
 		$('#longTermForm').css("display", "block");
 	});
-	/* END CLICK BUTTONS. OPEN POP-UPS */
 
-
-	/* BEGIN SUBMIT FORM BUTTONS */
+	/* SUBMIT FORM BUTTONS */
 	$('#taskFormSubmit').click(function () {
 		$('#newTaskForm').hide();
 	});
@@ -83,10 +55,8 @@ $(document).ready(function () {
 	$('#longTermSubmit').click(function () {
 		$('#longTermForm').hide();
 	});
-	/* END SUBMIT FORM BUTTONS */
 
-
-	/* BEGIN CANCEL FORMS */
+	/* CANCEL FORMS LISTENERS */
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
 		console.log("task form cancel works!")
@@ -99,11 +69,10 @@ $(document).ready(function () {
 		$('#longTermForm').hide();
 		console.log("long term cancel works!")
 	});
-	/* END CANCEL FORMS */
 
 
+	/* Function for changing category colors  */
 	$('#category_color').on('change', function (e) {
-
 		var optionSelected = $("option:selected", this);
 		var valueSelected = this.value;
 		$(".background").css("background-color", valueSelected);
@@ -132,35 +101,18 @@ $('.task-form').on('submit', function (event) {
 				$('#textFromTask').val(text);
 				$("#textFromCategory").val(textFromTask);
 			}
-
 		});
 	event.preventDefault();
-
 });
-
-
-
-//This function calculates the width of the div with the Class called Timeline.
-function calculateTimelineWidth(){
-  var selectTimelineWidth = document.querySelector('.Timeline');
-  timelineWidth = selectTimelineWidth.clientWidth;
-  // return console.log("Width of Timeline div:" + timelineWidth);
-}
-
-
-//This function calculates the width of the div with the Class called Category.
-function calculateCategoryWidth(){
-  var selectCategoryWidth = document.querySelector('.Category');
-  categoryWidth = selectCategoryWidth.clientWidth;
-  // return console.log("Width of Category div:" + categoryWidth);
-}
 
 
 /* A helper function that calculates the height width of various elments such as divs when the window
 is resized. This function is placed within the html body tag and is called when the window is resized. */
 function calculateOnResize() {
 	// calculate timeline Width
-	calculateTimelineWidth();
+	var selectTimelineWidth = document.querySelector('.Timeline');
+  timelineWidth = selectTimelineWidth.clientWidth;
 	// Calculate Timeline Height
-	calculateCategoryWidth();
+	var selectCategoryWidth = document.querySelector('.Category');
+  categoryWidth = selectCategoryWidth.clientWidth;
 };
