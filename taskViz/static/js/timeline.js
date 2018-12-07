@@ -1,11 +1,7 @@
-/* CATEGORY FORMS */
-// function openNewCategoryForm() {
-//     $('#newCategoryForm').css("display", "block");
-// }
+/* BEGIN CATEGORY FORMS */
 
-
-var n = 0; // temporary
-function closeNewCategoryForm() { // TODO: remove excess variables
+var n = 0;
+function closeNewCategoryForm() {
 	n++;
 	$('#newCategoryForm').hide();
 
@@ -34,15 +30,10 @@ function cancelFillingOutCategoryForm() { // TODO: change to get parent
 	document.getElementById('categoryInput').value = "";
 }
 
-
-/* SUBCATEGORY FORMS */
-
-function openNewSubcategoryForm() {
-
-}
+/* END CATEGORY FORMS */
 
 
-/* TASK FORMS */
+/* BEGIN TASK FORMS */
 
 function closeNewTaskForm() { // TODO: remove excess variables
 	n++;
@@ -63,61 +54,65 @@ function closeNewTaskForm() { // TODO: remove excess variables
 	return false;
 }
 
-var cn = 0; // temporary
-function addMilestoneForm() {
-	cn++;
+// var cn = 0; // temporary
+// function addMilestoneForm() {
+// 	cn++;
+//
+// 	if (cn <= 3) {
+// 		var myNewMilestone = '<label>Milestone:</label><input type="text" id="milestoneNameId' + cn + '"><label>Milestone date:</label><input type="date" id="milestoneDateId' + cn + '" style="margin-right:50px">';
+// 		$('#newMilestoneButton').after(' <div id="milestonDiv' + cn + '">' + myNewMilestone + ' </div>');
+// 	}
+// }
 
-	if (cn <= 3) {
-		var myNewMilestone = '<label>Milestone:</label><input type="text" id="milestoneNameId' + cn + '"><label>Milestone date:</label><input type="date" id="milestoneDateId' + cn + '" style="margin-right:50px">';
-		$('#newMilestoneButton').after(' <div id="milestonDiv' + cn + '">' + myNewMilestone + ' </div>');
-	}
-}
+/* END TASK FORMS */
 
-function cancelFillingOutTaskForm() { // TODO: change to get parent
-	$('#newTaskForm').hide();
-}
-
-
-/* TERM FORMS */
-
-function openNewShortTermForm() {
-	$('#shortTermForm').css("display", "block");
-}
-
-function openNewLongTermForm() {
-	$('#longTermForm').css("display", "block");
-}
-
-function openNewTaskForm() {
-	$('#newTaskForm').css("display", "block");
-}
-
-function cancelFillingOutShortTermForm() { // TODO: FIX THIS
-	$('#shortTermForm').hide();
-}
-
-function cancelFillingOutLongTermForm() {
-	$('#longTermForm').hide();
-}
 
 
 $(document).ready(function () {
-	// closeNewTermForm
+
+	/* CLICK BUTTONS. OPEN POP-UPS */
+	$('#newTaskButton').click(function () {
+		$('#newTaskForm').css("display", "block");
+	});
+
+	$('#shortTermButton').click(function () {
+		$('#shortTermForm').css("display", "block");
+	});
+
+	$('#longTermButton').click(function () {
+		$('#longTermForm').css("display", "block");
+	});
+	/* END CLICK BUTTONS. OPEN POP-UPS */
+
+
+	/* BEGIN SUBMIT FORM BUTTONS */
+	$('#taskFormSubmit').click(function () {
+		$('#newTaskForm').hide();
+	});
 	$('#shortTermSubmit').click(function () {
 		$('#shortTermForm').hide();
-		console.log($('#amountShortTimeUnits').val());
-		console.log($('#shortTimeUnit').val());
 	});
-	// hide form on click
-	$('#taskFormSubmit').click(function () {
-		$('#task-form').hide();
-	});
-	// closeNewTermForm
 	$('#longTermSubmit').click(function () {
 		$('#longTermForm').hide();
-		console.log($('#amountLongTimeUnits').val());
-		console.log($('#longTimeUnit').val());
 	});
+	/* END SUBMIT FORM BUTTONS */
+
+
+	/* BEGIN CANCEL FORMS */
+	$('#cancelIdTask').click(function () {
+		$('#newTaskForm').hide();
+		console.log("task form cancel works!")
+	});
+	$('#cancelId').click(function () {
+		$('#shortTermForm').hide();
+		console.log("short term cancel works!")
+	});
+	$('#cancelIdLongTerm').click(function () {
+		$('#longTermForm').hide();
+		console.log("long term cancel works!")
+	});
+	/* END CANCEL FORMS */
+
 
 	$('#category_color').on('change', function (e) {
 
@@ -125,7 +120,6 @@ $(document).ready(function () {
 		var valueSelected = this.value;
 		$(".background").css("background-color", valueSelected);
 	});
-
 });
 
 // changed this to post correctly

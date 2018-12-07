@@ -1,4 +1,8 @@
-/* This chunk of code holds the overall structure of our page together. */
+/* BEGIN OVERALL STRUCTURE OF CODE */
+
+* {
+	box-sizing: border-box;
+}
 
 html,
 body,
@@ -41,9 +45,10 @@ body,
 	grid-area: Category;
 	border: solid 2px black;
 }
+/* END OVERALL STRUCTURE OF CODE */
 
-/* ------------------------------- */
-/* Button Formatting */
+
+/* START BUTTON STYLING */
 
 .individual-cat-btns {
 	margin-bottom: 5px;
@@ -86,15 +91,9 @@ body,
 	opacity: 0.8;
 }
 
-* {
-	box-sizing: border-box;
-}
-
-
 .individual-cat-btns {
 	margin-bottom: 5px;
 }
-
 
 .term-btn-gap {
 	display: inline-block;
@@ -119,7 +118,11 @@ body,
 	opacity: 0.8;
 }
 
-/* The popup form - hidden by default */
+/* END BUTTON STYLING */
+
+
+
+/* START FORM STYLING */
 
 .form-popup {
 	display: none;
@@ -131,8 +134,6 @@ body,
 	z-index: 9;
 }
 
-/* Add styles to the form container */
-
 .form-container {
 	max-width: 300px;
 	text-align: center;
@@ -140,9 +141,6 @@ body,
 	padding: 10px;
 	background-color: #eeeeee;
 }
-
-
-/* Full-width input fields */
 
 .form-container input[type=text],
 .form-container input[type=password] {
@@ -177,9 +175,6 @@ body,
 	border: solid black 1px;
 }
 
-
-/* Add styles to the form container */
-
 .new-task-form-container {
 	max-width: 300px;
 	text-align: center;
@@ -187,9 +182,6 @@ body,
 	padding: 10px;
 	background-color: #eeeeee;
 }
-
-
-/* Full-width input fields */
 
 .new-task-form-container input[type=text],
 .new-task-form-container input[type=password] {

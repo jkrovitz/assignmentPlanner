@@ -12,17 +12,19 @@
 {# TODO: fix mess of id names, mess of formatting #}
 <body onresize="calculateOnResize();">
 	<!-- Form Popups -->
-	<div class="form-popup" id="newCategoryForm">
-		{% include 'forms/category_form.html' ignore missing %}
-	</div>
-	<div class="form-popup shortTermFormClass" id="shortTermForm">
-		{% include 'popups/short_term_form.html' ignore missing %}
-	</div>
-	<div class="form-popup longTermFormClass" id="longTermForm">
-		{% include 'popups/long_term_form.html' ignore missing %}
-	</div>
-	<div class="form-popup" id="newTaskForm">
-		{% include 'popups/task_form2.html' ignore missing %}
+	<div class="d-flex bd-highlight mb-3">
+		<div class="form-popup p-2 bd-highlight" id="newCategoryForm">
+			{% include 'forms/category_form.html' ignore missing %}
+		</div>
+		<div class="form-popup shortTermFormClass p-2 bd-highlight" id="shortTermForm">
+			{% include 'popups/short_term_form.html' ignore missing %}
+		</div>
+		<div class="form-popup longTermFormClass p-2 bd-highlight" id="longTermForm">
+			{% include 'popups/long_term_form.html' ignore missing %}
+		</div>
+		<div class="form-popup" id="newTaskForm p-2 bd-highlight">
+			{% include 'popups/task_form.html' ignore missing %}
+		</div>
 	</div>
 	<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		```Include 'forms/category_form.html' ignore missing``` will
@@ -56,7 +58,7 @@
 			<hr style="border: 2px solid black; margin-top: 10px;">
 			<!-- Main area for timeline display -->
 			<div class="pr-4 pr-4 pb-4 pl-4">
-				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-between">
+				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around">
 					<span class="timeIncrementColHeader">Monday</span>
 					<span class="timeIncrementColHeader">Tuesday</span>
 					<span class="timeIncrementColHeader">Wednesday</span>
