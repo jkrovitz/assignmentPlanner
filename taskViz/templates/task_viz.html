@@ -59,13 +59,13 @@
 			<!-- Main area for timeline display -->
 			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
 				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
-					<span class="timeIncrementColHeader">Monday</span>
-					<span class="timeIncrementColHeader">Tuesday</span>
-					<span class="timeIncrementColHeader">Wednesday</span>
-					<span class="timeIncrementColHeader">Thursday</span>
-					<span class="timeIncrementColHeader">Friday</span>
-					<span class="timeIncrementColHeader">Saturday</span>
-					<span class="timeIncrementColHeader">Sunday</span>
+					<span class="timeIncrementColHeader" id="timeSlot1">Monday</span>
+					<span class="timeIncrementColHeader" id="timeSlot2">Tuesday</span>
+					<span class="timeIncrementColHeader" id="timeSlot3">Wednesday</span>
+					<span class="timeIncrementColHeader" id="timeSlot4">Thursday</span>
+					<span class="timeIncrementColHeader" id="timeSlot5">Friday</span>
+					<span class="timeIncrementColHeader" id="timeSlot6">Saturday</span>
+					<span class="timeIncrementColHeader" id="timeSlot7">Sunday</span>
 				</div>
 			</div>
 			<canvas id="DemoCanvas" width="400" height="400"></canvas>
@@ -75,15 +75,13 @@
 
 	</div>
 
-
-
-
 	<!-- Sidebar of catgories  -->
 	<div class="Category p-4 text-center">
 	<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
 	<div class="mt-4">
 	{% for category in categories %}
 	<div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
+	<input type="checkbox">
 	<a href="{{url_for('edit_category', category_id=category.category_id)}}">
 	{{ category.category_name }}
 	</a>

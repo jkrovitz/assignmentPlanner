@@ -18,20 +18,28 @@ function populateCalendarDates (startDateVar) {
 
 function getDayOfWeek() {
 	$('#start').change(function () {
+		//Get date
 		var startDateVar = $('#start').val();
-		var  dateObj = new Date(startDateVar);
+		var dateObj = new Date(startDateVar);
 		var weekdays = new Array(6);
-    weekdays[6] = "Sunday";
-    weekdays[0] = "Monday";
-    weekdays[1] = "Tuesday";
-    weekdays[2] = "Wednesday";
-    weekdays[3] = "Thursday";
-    weekdays[4] = "Friday";
-    weekdays[5] = "Saturday";
+    weekdays[6] = "Sun";
+    weekdays[0] = "Mon";
+    weekdays[1] = "Tues";
+    weekdays[2] = "Wed";
+    weekdays[3] = "Thur";
+    weekdays[4] = "Fri";
+    weekdays[5] = "Sat";
 		var dayOfWeek = weekdays[dateObj.getDay()];
-    // var r = weekdays[A.getDay()];
-    $('#datesContainer').after(dayOfWeek);
-		// var dayOfWeekAsNum = dateObj.getDay();
+    // Now we fill in the view accordingly
+		// $( "#timeSlot1" ).replaceWith( "<span class=\"timeIncrementColHeader\" id=\"timeSlot1\">"+ dayOfWeek + " " + (dateObj.getMonth()+1) + "/" +dateObj.getDate() + "</span>" );
+		var tomorrow = dateObj;
+		for (var i = 0; i <= 7; i++) {
+			$( "#timeSlot" + i ).replaceWith( "<span class=\"timeIncrementColHeader\" id=\"timeSlot1\">"+ dayOfWeek + " " + (tomorrow.getMonth()+1) + "/" +tomorrow.getDate() + "</span>" );
+			tomorrow.setDate(tomorrow.getDate() + 1);
+			dayOfWeek = weekdays[tomorrow.getDay()];
+		}
+
+
 	});
 };
 
@@ -45,11 +53,8 @@ $(document).ready(function () {
 		var startDateVar = $('#start').val();
 		// var startDayOfWeekVar = startDateVar.getDay();
     // getDayOfWeek();
-
 		// populateCalendarDates(startDateVar);
-
 		 getDayOfWeek();
-
 	});
 	/* END START-DATE LISTENER */
 
