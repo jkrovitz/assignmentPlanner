@@ -31,23 +31,20 @@ $(document).ready(function () {
 	getDayOfWeek($('#start').val());
 
 
-	// $('#taskFormSubmit').click( function() {
-	// 	console.log("this button worked");
-	// 	var task_id = $(this).attr('task_id');
-	//
-	// 	var name = $('#new_task_input' + task_id).val();
-	//
-	// 	req = $.ajax({
-	// 			url : '/update',
-	// 			type : 'POST',
-	// 			data : { task_name : task_name, task_id : task_id }
-	// 	});
-	//
-	// 	req.done(function(data) {
-	// 			console.log($('#task_name' + task_id).val());
-	// 			console.log("task name" + data.task_name);
-	// 	});
-	// });
+	$('#taskFormSubmit').click( function() {
+		var task_id = $(this).attr('task_id');
+		var task_name = $('#new_task_input' + task_id).val();
+		req = $.ajax({
+				url : '/update',
+				type : 'POST',
+				data : { task_name : task_name, task_id : task_id }
+		});
+
+		req.done(function(data) {
+				console.log($('#task_name' + task_id).val());
+				console.log("task name" + data.task_name);
+		});
+	});
 
 /* START-DATE LISTENER */
 
@@ -126,7 +123,7 @@ $(document).ready(function () {
 // });
 
 
-// ---------- PLEASE DO NOT REMOVE THE BELOW CODE -------- 
+// ---------- PLEASE DO NOT REMOVE THE BELOW CODE --------
 
 //This function calculates the width of the div with the Class called Timeline.
 function calculateTimelineWidth(){

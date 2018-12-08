@@ -13,7 +13,7 @@
 {% block content %}
 
 <body onresize="calculateOnResize()">
-<div class="btn btn-primary updateButton" task_id="{{ task_name }}">Update</div>
+
 
 
 	<!-- Form Popups -->
@@ -62,6 +62,7 @@
 
 			<hr style="border: 2px solid black; margin-top: 10px;">
 			<!-- Main area for timeline display -->
+			<div class="task-name" task_id="{{ task_id }}">Name of Task: {{ task_name }}</div>
 			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
 				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
 					<span class="timeIncrementColHeader" id="timeSlot0">date</span>

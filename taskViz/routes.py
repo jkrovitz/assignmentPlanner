@@ -131,4 +131,10 @@ def update():
 
 	db.session.commit()
 
-	return jsonify({'result' : 'success', 'task_name' : task.task_name})
+	return jsonify({'result' : 'success', 'task_name' : task_name})
+
+@app.route('/signUpUser', methods=['POST'])
+def signUpUser():
+    user =  request.form['username'];
+    password = request.form['password'];
+    return json.dumps({'status':'OK','user':user,'pass':password});
