@@ -72,12 +72,12 @@ class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    # task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
 
     def __repr__(self):
-        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.category_id}')"
+        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
         # return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
 
 

@@ -5,12 +5,17 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
 {% endblock %}
 
 
 {% block content %}
 
 <body onresize="calculateOnResize()">
+<div class="btn btn-primary updateButton" task_id="{{ task_name }}">Update</div>
+
+
 	<!-- Form Popups -->
 	<div class="d-flex bd-highlight mb-3">
 		<div class="form-popup p-2 bd-highlight" id="newCategoryForm">
@@ -37,7 +42,7 @@
 			<!-- Top bar for user input -->
 			<div class="p-4">
 				<label>Start date:</label>
-				<input type="date" id="start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+				<input type="date" id="start" value="2018-07-22" min="" max="">
 
         <a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
 
@@ -59,15 +64,17 @@
 			<!-- Main area for timeline display -->
 			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
 				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
-					<span class="timeIncrementColHeader" id="timeSlot0">Monday</span>
-					<span class="timeIncrementColHeader" id="timeSlot1">Tuesday</span>
-					<span class="timeIncrementColHeader" id="timeSlot2">Wednesday</span>
-					<span class="timeIncrementColHeader" id="timeSlot3">Thursday</span>
-					<span class="timeIncrementColHeader" id="timeSlot4">Friday</span>
-					<span class="timeIncrementColHeader" id="timeSlot5">Saturday</span>
-					<span class="timeIncrementColHeader" id="timeSlot6">Sunday</span>
+					<span class="timeIncrementColHeader" id="timeSlot0">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot1">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot2">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot3">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot4">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot5">date</span>
+					<span class="timeIncrementColHeader" id="timeSlot6">date</span>
 				</div>
 			</div>
+
+
 			<canvas id="DemoCanvas" width="400" height="400"></canvas>
       <script type=text/javascript src="{{
         url_for('static', filename='js/canvas.js') }}"></script>

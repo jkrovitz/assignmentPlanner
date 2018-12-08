@@ -3,8 +3,6 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextF
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from taskViz.models import User, Category, Task
 
-# category_query = Category.query.all()
-# category_choices = [(category.category_id, category.category_name) for category in category_query]
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])

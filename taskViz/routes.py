@@ -1,10 +1,12 @@
-from flask import render_template, url_for, flash, redirect, request, Response
+from flask import render_template, url_for, flash, redirect, request, Response, jsonify
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
 from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
+from flask_moment import Moment
 
+moment = Moment(app)
 
 @app.route("/")
 def AuthenticationRedirect():
@@ -67,8 +69,6 @@ def account():
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
-	# new_cat = Category(category_name='Math', category_color="#222", is_checked=False)
-	# db.session.add(new_cat)
 	category_name = request.form.get('category_name')
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
@@ -79,11 +79,9 @@ def category():
 			db.session.add(new_cat)
 			db.session.commit()
 			print(Category.query.all())
-		# return Response({})
 		return redirect(url_for('home'))
 	cat = Category.query.all()
 	print(cat, 'categories')
-	# return Response(json.dumps([]))
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 @app.route("/category/<int:category_id>")
@@ -123,27 +121,14 @@ def delete_category(category_id):
     flash('Your category has been deleted!', 'success')
     return redirect(url_for('home'))
 
+@app.route('/update', methods=['POST'])
+def update():
 
-@app.route("/task_viz", methods=['GET', 'POST'])
-@login_required
-def task_viz():
-	new_task_form = NewTaskForm()
-	new_category_form = NewCategoryForm()
-	print(request.method,'request method')
-	if request.method == 'POST':
-		return Response(json.dumps({'id': '1', 'name': 'books', 'color': '#222'}))  # TODO: fix?
-	# if new_category_form.validate_on_submit():
-	# 	print(self.model, 'category model')
-	# 	new_category = self.model(category_id.data, category_name.data, category_color.data, is_checked.data)
-	# 	self.db.session.add(new_category)
-	# 	self.db.session.commit()
-	# 	return redirect(url_for(task_viz))
+	task = Task.query.filter_by(task_id=request.form['task_id']).all()
+	task.task_name = request.form['task_name']
+	# task.task_start_date = request.form['task_start_date']
+	# task.task_end_date = request.form['task_end_date']
 
-	if request.method == 'POST':
-		print(new_task_form.data, 'NewTaskForm')
+	db.session.commit()
 
-	return render_template(
-		'task_viz.html',
-		new_category_form=new_category_form,
-		new_task_form=new_task_form
-		)
+	return jsonify({'result' : 'success', 'task_name' : task.task_name})

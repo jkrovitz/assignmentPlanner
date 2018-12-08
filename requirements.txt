@@ -1,5 +1,5 @@
-#These are modules that will be installed with the command
-#'pip install -r requirements.txt'
+#These are modules that will be installed with the command 
+#'pip install -r requirements.txt' 
 
 
 pip==18.1
@@ -12,4 +12,4 @@ libsass
 wtforms
 flask-bcrypt
 flask-login
-Flask-Moment==0.6.0
+Flask-Moment
