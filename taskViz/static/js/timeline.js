@@ -1,35 +1,39 @@
+/**
+* This file contains the functions for displaying 
+* time increments for the short and long term 
+* views. It also handles click events for form
+* submission, as well as setting the color
+* for each category based on user input.
+/*
+
 
 /* Returns day of week based on value from start input, which is translated
 into a string object.*/
 function getDayOfWeek(startDateVar) {
-		var dateObj = new Date(startDateVar);
-		var weekdays = new Array(6);
-    weekdays[6] = "Sun";
-    weekdays[0] = "Mon";
-    weekdays[1] = "Tues";
-    weekdays[2] = "Wed";
-    weekdays[3] = "Thur";
-    weekdays[4] = "Fri";
-    weekdays[5] = "Sat";
-		var dayOfWeek = weekdays[dateObj.getDay()];
+	var dateObj = new Date(startDateVar);
+	var weekdays = new Array(6);
+	weekdays[0] = "Mon";
+	weekdays[1] = "Tues";
+	weekdays[2] = "Wed";
+	weekdays[3] = "Thur";
+	weekdays[4] = "Fri";
+	weekdays[5] = "Sat";
+	weekdays[6] = "Sun";
+	var dayOfWeek = weekdays[dateObj.getDay()];
 
     // Loop over the number of days in a week. Increment
-		for (var i = 0; i < 7; i++) {
-			var timeSlotSpanId = "timeSlot" + i + "";
-			var timeSlotSpan = "<span class=\"timeIncrementColHeader\" id=\"" + timeSlotSpanId + "\">" + dayOfWeek + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
-			$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
-			dateObj.setDate(dateObj.getDate() + 1);
-			dayOfWeek = weekdays[dateObj.getDay()];
-		}
+    for (var i = 0; i < 7; i++) {
+    	var timeSlotSpanId = "timeSlot" + i + "";
+    	var timeSlotSpan = "<span class=\"timeIncrementColHeader\" id=\"" + timeSlotSpanId + "\">" + dayOfWeek + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
+    	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+    	dateObj.setDate(dateObj.getDate() + 1);
+    	dayOfWeek = weekdays[dateObj.getDay()];
+    }
 };
-
-
-
 
 $(document).ready(function () {
 
 	getDayOfWeek($('#start').val());
-
 
 	$('#taskFormSubmit').click( function() {
 		var task_id = $(this).attr('task_id');
@@ -57,12 +61,39 @@ $(document).ready(function () {
 		$('#newTaskForm').css("display", "block");
 	});
 
-	$('#shortTermButton').click(function () {
-		$('#shortTermForm').css("display", "block");
+
+	/*Since we're just going to be toggling for 
+	now between short and long term, this 
+	code block will show all of the timeslots 
+	that correspond with the short term view
+	when the button with id shortTermButton
+	(the button for short term view) is clicked.*/
+	$("#shortTermButton").click(function(){
+		$("#timeSlot0").show();
+		$("#timeSlot1").show();
+		$("#timeSlot2").show();
+		$("#timeSlot3").show();
+		$("#timeSlot4").show();
+		$("#timeSlot5").show();
+		$("#timeSlot6").show();
+
 	});
 
-	$('#longTermButton').click(function () {
-		$('#longTermForm').css("display", "block");
+	/*Since we're just going to be toggling for 
+	now between short and long term, this 
+	code block hides all of the timeslots 
+	that correspond with the short term view
+	when the button with id longTermButton
+	(the button for long term view) is clicked.*/
+	$("#longTermButton").click(function(){
+		$("#timeSlot0").hide();
+		$("#timeSlot1").hide();
+		$("#timeSlot2").hide();
+		$("#timeSlot3").hide();
+		$("#timeSlot4").hide();
+		$("#timeSlot5").hide();
+		$("#timeSlot6").hide();
+
 	});
 
 	/* SUBMIT FORM BUTTONS */
