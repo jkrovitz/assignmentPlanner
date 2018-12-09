@@ -17,7 +17,9 @@ function getDayOfWeek(startDateVar) {
     // For loop that adds new headings
     for (var i = 0; i < 7; i++) {
     	var timeSlotSpanId = "sTermTimeSlot" + i + "";
-    	var timeSlotSpan = "<span class=\"sTermTimeIncColHeader\" id=\"" + timeSlotSpanId + "\">" + dayOfWeek + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
+    	var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' +
+			timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) +
+			'/' + (dateObj.getDate()+1) + '</span>';
     	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
     	dateObj.setDate(dateObj.getDate() + 1);
     	dayOfWeek = weekdays[dateObj.getDay()];
@@ -28,53 +30,54 @@ function getDayOfWeek(startDateVar) {
 into a string object.*/
 function getMonthOfYear(startDateVar) {
 	var dateObj = new Date(startDateVar);
-	var months= ["Jan","Feb","March","April","May","June","July",
+	var months = ["Jan","Feb","March","April","May","June","July",
             "Aug","Sept","Oct","Nov","Dec"];
 	var monthOfYear = months[dateObj.getMonth()];
-
+	var monthOffset = months.length - dateObj.getMonth() + 1;
     // For loop that adds new headings
-    for (var i = 0; i < 12; i++) {
-    	var timeSlotSpanId = "lTermTimeSlot" + i + "";
-    	var timeSlotSpan = "<span class=\"lTermTimeIncColHeader\" id=\"" + timeSlotSpanId + "\">" + monthOfYear + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
-    	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
-    	dateObj.setDate(dateObj.getDate() + 1);
-    	monthOfYear = months[dateObj.getMonth()];
-    }
+  for (var i = 0; i < 12; i++) {
+  	var timeSlotSpanId = 'lTermTimeSlot' + i + '';
+  	var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '">' + monthOfYear + ' ' + '</span>';
+  	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+		if (i == monthOffset) {
+			console.console.log("off set" + monthOffset);
+			var monthIncrement = 0;
+		}
+		if (monthIncrement){
+			monthOfYear = months[monthIncrement];
+			console.log("increment" + monthIncrement);
+			monthIncrement ++;
+		} else {
+			monthOfYear = months[dateObj.getMonth() + i + 1];
+		}
+  }
 };
 
 
 $(document).ready(function () {
 	getDayOfWeek($('#start').val());
 	getMonthOfYear($('#start').val());
-	$('#testingDiv').load("some text");
 
 	$('#taskFormSubmit').click( function() {
-		// var task_id = $(this).attr('task_id');
-		// console.log("The task id is: "  + task_id);
-		var task_name = $('#new_task_input').val();
-		console.log("The Task Name is: " + task_name);
-		// var task_name = $('#new_task_input' + task_id).val();
-
-		$.ajax({
-				url : '/update',
-				data : $('#newTaskFormId').serialize(),
-				type : 'POST',
-				success: function(response) {
-					console.log(response);
-					console.log(" ~ ajax happened ~ ");
-				},
-				error: function(error) {
-					console.log(error);
-				}
-		});
-		$('#testingDiv').load(task_name);
-		json.loads();
-
-
-		// req.done(function(data) {
-		// 		console.log($('#task_name' + task_id).val());
-		// 		console.log("task name" + data.task_name);
+		// $('#testingDiv2').load('localhost:5000/static/untitled.txt');
+		//
+		// var task_name = $('#new_task_input').val();
+		// console.log("The Task Name is: " + task_name);
+		//
+		// $.ajax({
+		// 		url : '/home',
+		// 		data : $('#newTaskFormId').serialize(),
+		// 		type : 'POST',
+		// 		success: function(response) {
+		// 			console.log(response);
+		// 			console.log(" ~ ajax happened ~ ");
+		// 		},
+		// 		error: function(error) {
+		// 			console.log(error);
+		// 		}
 		// });
+		//
+
 		$('#newTaskForm').hide();
 	});
 
@@ -147,31 +150,6 @@ $(document).ready(function () {
 	});
 
 });
-
-// changed this to post correctly
-// $('.task-form').on('submit', function (event) {
-// 	const taskName = document.getElementById('newTaskInput').value;
-// 	const taskStartDate = document.getElementById('newTaskStartDateInput').value;
-// 	$.post('/home', {
-// 			task: taskName,
-// 			startDate: taskStartDate,
-// 		})
-// 		.done(function (data) {
-// 			if (data.error) {
-// 				$('#taskErrorAlert').text(data.error).show();
-// 				// $('#background').hide();
-// 			} else {
-// 				// $('#background').text(data.color).show();
-// 				$('#taskErrorAlert').hide();
-// 				// $('#categorySuccessId').css('background-color');
-// 				$(".form-popup").hide();
-// 				var textFromTask = $("#newTaskInput").text();
-// 				$('#textFromTask').val(text);
-// 				$("#textFromCategory").val(textFromTask);
-// 			}
-// 		});
-// 	event.preventDefault();
-// });
 
 
 // ---------- PLEASE DO NOT REMOVE THE BELOW CODE --------

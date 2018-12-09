@@ -34,3 +34,9 @@ class NewCategoryForm(FlaskForm):
     category_name = StringField('Category Name:', validators=[DataRequired()])
     category_color = StringField('Category Color:', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class NewTaskForm(FlaskForm):
+    task_name = StringField('Task Name', validators=[DataRequired()])
+    task_start_date = DateField('Start Date', validators=[DataRequired()])
+    category = SelectField('Category Name', choices=[], validators=[DataRequired()])
+    submit = SubmitField('Submit')

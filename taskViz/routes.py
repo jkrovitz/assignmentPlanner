@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from taskViz import app, db, bcrypt
-from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm
+from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
 from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
@@ -133,18 +133,36 @@ def delete_category(category_id):
 	return redirect(url_for('home'))
 
 
-@app.route('/update', methods=['POST'])
+
+@app.route('/update', methods=['GET','POST'])
 def update():
 	"""working on AJAX. might work, might not."""
 	print("Working!!!")
-	# task = Task.query.filter_by(task_id=request.form['task_id']).all()
-	# task.task_name = request.form['task_name']
-	# # task.task_start_date = request.form['task_start_date']
-	# # task.task_end_date = request.form['task_end_date']
-	# db.session.commit()
-	# return jsonify({'result' : 'success', 'task_name' : task.task_name})
+	task_name = request.form.get('task_name')
+	task_form = NewTaskForm(request.form)
+	if request.method == 'POST':
+		new_task = Task(task_name=task_name)
+		new_task.task_name = task_name
+		new_task.task_id = task_id
+		if (task_name):
+			db.session.add(new_task)
+			db.session.commit()
+			print(Task.query.all())
+	return jsonify({'status':'OK', 'task_name':task_name});
 
-	task_name = request.form['taskNameAttribute']
-	taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-	print("This is the thing: " + taskThing)
-	return taskThing
+
+
+		# category_name = request.form.get('category_name')
+		# category_color = request.form.get('category_color')
+		# category_form = NewCategoryForm(request.form)
+		# if request.method == 'POST':
+		# 	print(category_name, category_color)
+		# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
+		# 	if(category_name):
+		# 		db.session.add(new_cat)
+		# 		db.session.commit()
+		# 		print(Category.query.all())
+		# 	return redirect(url_for('home'))
+		# cat = Category.query.all()
+		# print(cat, 'categories')
+		# return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
