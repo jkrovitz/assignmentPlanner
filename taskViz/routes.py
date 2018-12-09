@@ -4,9 +4,6 @@ from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskF
 from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
-from flask_moment import Moment
-
-moment = Moment(app)
 
 @app.route("/")
 def AuthenticationRedirect():
