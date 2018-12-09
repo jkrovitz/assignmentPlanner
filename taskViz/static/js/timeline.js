@@ -1,6 +1,6 @@
 /**
-* This file contains the functions for displaying 
-* time increments for the short and long term 
+* This file contains the functions for displaying
+* time increments for the short and long term
 * views. It also handles click events for form
 * submission, as well as setting the color
 * for each category based on user input.
@@ -23,7 +23,7 @@ function getDayOfWeek(startDateVar) {
 
     // Loop over the number of days in a week. Increment
     for (var i = 0; i < 7; i++) {
-    	var timeSlotSpanId = "timeSlot" + i + "";
+    	var timeSlotSpanId = "sTermTimeSlot" + i + "";
     	var timeSlotSpan = "<span class=\"timeIncrementColHeader\" id=\"" + timeSlotSpanId + "\">" + dayOfWeek + " " + (dateObj.getMonth()+1) + "/" + (dateObj.getDate()+1) + "</span>";
     	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
     	dateObj.setDate(dateObj.getDate() + 1);
@@ -44,11 +44,15 @@ $(document).ready(function () {
 				data : { task_name : task_name, task_id : task_id }
 		});
 
+
+
 		req.done(function(data) {
 				console.log($('#task_name' + task_id).val());
 				console.log("task name" + data.task_name);
 		});
+		$('#newTaskForm').hide();
 	});
+
 
 /* START-DATE LISTENER */
 
@@ -62,45 +66,45 @@ $(document).ready(function () {
 	});
 
 
-	/*Since we're just going to be toggling for 
-	now between short and long term, this 
-	code block will show all of the timeslots 
+	/*Since we're just going to be toggling for
+	now between short and long term, this
+	code block will show all of the timeslots
 	that correspond with the short term view
 	when the button with id shortTermButton
 	(the button for short term view) is clicked.*/
 	$("#shortTermButton").click(function(){
-		$("#timeSlot0").show();
-		$("#timeSlot1").show();
-		$("#timeSlot2").show();
-		$("#timeSlot3").show();
-		$("#timeSlot4").show();
-		$("#timeSlot5").show();
-		$("#timeSlot6").show();
+		$("#sTermTimeSlot0").show();
+		$("#sTermTimeSlot1").show();
+		$("#sTermTimeSlot2").show();
+		$("#sTermTimeSlot3").show();
+		$("#sTermTimeSlot4").show();
+		$("#sTermTimeSlot5").show();
+		$("#sTermTimeSlot6").show();
 
 	});
 
-	/*Since we're just going to be toggling for 
-	now between short and long term, this 
-	code block hides all of the timeslots 
+	/*Since we're just going to be toggling for
+	now between short and long term, this
+	code block hides all of the timeslots
 	that correspond with the short term view
 	when the button with id longTermButton
 	(the button for long term view) is clicked.*/
 	$("#longTermButton").click(function(){
-		$("#timeSlot0").hide();
-		$("#timeSlot1").hide();
-		$("#timeSlot2").hide();
-		$("#timeSlot3").hide();
-		$("#timeSlot4").hide();
-		$("#timeSlot5").hide();
-		$("#timeSlot6").hide();
+		$("#sTermTimeSlot0").hide();
+		$("#sTermTimeSlot1").hide();
+		$("#sTermTimeSlot2").hide();
+		$("#sTermTimeSlot3").hide();
+		$("#sTermTimeSlot4").hide();
+		$("#sTermTimeSlot5").hide();
+		$("#sTermTimeSlot6").hide();
 
 	});
 
 	/* SUBMIT FORM BUTTONS */
-	$('#taskFormSubmit').click(function () {
-		console.log("well the hiding thing works");
-		$('#newTaskForm').hide();
-	});
+	// $('#taskFormSubmit').click(function () {
+	// 	console.log("well the hiding thing works");
+	// 	$('#newTaskForm').hide();
+	// });
 	$('#shortTermSubmit').click(function () {
 		$('#shortTermForm').hide();
 	});
@@ -161,7 +165,7 @@ function calculateTimelineWidth(){
   var selectTimelineWidth = document.querySelector('.Timeline');
   timelineWidth = selectTimelineWidth.clientWidth;
   // return console.log("Width of Timeline div:" + timelineWidth);
-}
+};
 
 
 //This function calculates the width of the div with the Class called Category.
@@ -169,7 +173,7 @@ function calculateCategoryWidth(){
   var selectCategoryWidth = document.querySelector('.Category');
   categoryWidth = selectCategoryWidth.clientWidth;
   // return console.log("Width of Category div:" + categoryWidth);
-}
+};
 
 
 /* A helper function that calculates the height width of various elments such as divs when the window

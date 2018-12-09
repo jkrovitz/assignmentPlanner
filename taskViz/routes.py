@@ -1,6 +1,6 @@
-from flask import render_template, url_for, flash, redirect, request, Response, jsonify
+from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from taskViz import app, db, bcrypt
-from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
+from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm
 from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
@@ -24,17 +24,17 @@ def home():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
-        db.session.add(user)
-        db.session.commit()
-        flash('Your account has been created! You are now able to log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		user = User(username=form.username.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
+		db.session.add(user)
+		db.session.commit()
+		flash('Your account has been created! You are now able to log in', 'success')
+		return redirect(url_for('login'))
+	return render_template('register.html', title='Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():        # can only log in using email, not username? change later if possible
@@ -53,16 +53,8 @@ def login():        # can only log in using email, not username? change later if
 
 @app.route("/logout")
 def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
-'''Eventually this function will be a route to a page where the user will be able to
-view and edit their account info.
-'''
-@app.route("/account")
-@login_required
-def account():
-    return render_template('account.html', title='Account')
+	logout_user()
+	return redirect(url_for('home'))
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
@@ -90,33 +82,34 @@ def get_category_id(category_id):
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
-    category = Category.query.get(category_id)
-    form = NewCategoryForm()
-    if category.user_id != current_user.id:
-        abort(403)
-    if request.method == 'POST':
-        category.category_name=request.form['category_name']
-        category.category_color=request.form['category_color']
-        db.session.commit()
-        flash('Your category has been updated!', 'success')
-        return redirect(url_for('home', category=category_id))
-    elif request.method == 'GET':
-        form.category_name.data = category.category_name
-        form.category_color.data = category.category_color
-    return render_template('forms/category_form.html',
-                           new_category_form=form)
+	category = Category.query.get(category_id)
+	form = NewCategoryForm()
+	if category.user_id != current_user.id:
+		abort(403)
+	if request.method == 'POST':
+		category.category_name=request.form['category_name']
+		category.category_color=request.form['category_color']
+		db.session.commit()
+		flash('Your category has been updated!', 'success')
+		return redirect(url_for('home', category=category_id))
+	elif request.method == 'GET':
+		form.category_name.data = category.category_name
+		form.category_color.data = category.category_color
+	return render_template('forms/category_form.html', new_category_form=form)
+
 
 #We should decide where we want to have the options for deleting categories.
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
-    category = Category.query.get_or_404(category_id)
-    if category.user_id != current_user.id:
-        abort(403)
-    db.session.delete(category)
-    db.session.commit()
-    flash('Your category has been deleted!', 'success')
-    return redirect(url_for('home'))
+	category = Category.query.get_or_404(category_id)
+	if category.user_id != current_user.id:
+		abort(403)
+	db.session.delete(category)
+	db.session.commit()
+	flash('Your category has been deleted!', 'success')
+	return redirect(url_for('home'))
+
 
 @app.route('/update', methods=['POST'])
 def update():
@@ -125,13 +118,12 @@ def update():
 	task.task_name = request.form['task_name']
 	# task.task_start_date = request.form['task_start_date']
 	# task.task_end_date = request.form['task_end_date']
-
 	db.session.commit()
+	return jsonify({'result' : 'success', 'task_name' : task.task_name})
 
-	return jsonify({'result' : 'success', 'task_name' : task_name})
 
 @app.route('/signUpUser', methods=['POST'])
 def signUpUser():
-    user =  request.form['username'];
-    password = request.form['password'];
-    return json.dumps({'status':'OK','user':user,'pass':password});
+	user = request.form['username']
+	password = request.form['password']
+	return json.dumps({'status':'OK','user':user,'pass':password})

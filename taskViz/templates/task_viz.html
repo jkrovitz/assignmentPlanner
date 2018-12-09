@@ -5,8 +5,6 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
-{{ moment.include_jquery() }}
-{{ moment.include_moment() }}
 {% endblock %}
 
 
@@ -65,13 +63,13 @@
 			<div class="task-name" task_id="{{ task_id }}">Name of Task: {{ task_name }}</div>
 			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
 				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
-					<span class="timeIncrementColHeader" id="timeSlot0">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot1">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot2">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot3">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot4">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot5">date</span>
-					<span class="timeIncrementColHeader" id="timeSlot6">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot0">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot1">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot2">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot3">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot4">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot5">date</span>
+					<span class="timeIncrementColHeader" id="sTermTimeSlot6">date</span>
 				</div>
 			</div>
 
@@ -98,6 +96,7 @@
 	</div>
 	</div>
 </div>
+    </div>
 	<!-- External JavaScript Files -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
