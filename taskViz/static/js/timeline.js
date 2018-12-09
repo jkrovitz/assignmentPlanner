@@ -33,23 +33,24 @@ function getMonthOfYear(startDateVar) {
 	var months = ["Jan","Feb","March","April","May","June","July",
             "Aug","Sept","Oct","Nov","Dec"];
 	var monthOfYear = months[dateObj.getMonth()];
-	var monthOffset = months.length - dateObj.getMonth() + 1;
+	var monthOffset = months.length - dateObj.getMonth();
     // For loop that adds new headings
   for (var i = 0; i < 12; i++) {
   	var timeSlotSpanId = 'lTermTimeSlot' + i + '';
-  	var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '">' + monthOfYear + ' ' + '</span>';
-  	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 		if (i == monthOffset) {
-			console.console.log("off set" + monthOffset);
-			var monthIncrement = 0;
+			var monthIncrement = 1;
+			monthOfYear = months[0];
 		}
 		if (monthIncrement){
-			monthOfYear = months[monthIncrement];
-			console.log("increment" + monthIncrement);
+			monthOfYear = months[monthIncrement - 1];
 			monthIncrement ++;
-		} else {
-			monthOfYear = months[dateObj.getMonth() + i + 1];
 		}
+		else {
+			monthOfYear = months[dateObj.getMonth() + i];
+			monthIncrement ++;
+		}
+		var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '">' + monthOfYear + ' ' + '</span>';
+		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
   }
 };
 
