@@ -5,12 +5,14 @@ from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
+
 @app.route("/")
 def AuthenticationRedirect():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	else:
 		return redirect(url_for('login'))
+
 
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
@@ -20,7 +22,12 @@ def home():
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	print(categories)
 	# tasks = Task.query.all()    # also not used ... not yet anyway...
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` sin't being used? should it?
+	if request.form :
+		task_name = request.form['taskNameAttribute']
+		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
+		print("This is the thing: " + taskThing)
+	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` isn't being used? should it?
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
@@ -35,6 +42,15 @@ def register():     # NOTE: when creating new account, thing to say it worked is
 		flash('Your account has been created! You are now able to log in', 'success')
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
+
+# um are both of these used? (register() and signUpUser())??
+
+@app.route('/signUpUser', methods=['POST'])
+def signUpUser():
+	user = request.form['username']
+	password = request.form['password']
+	return json.dumps({'status':'OK','user':user,'pass':password})
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():        # can only log in using email, not username? change later if possible
@@ -51,13 +67,16 @@ def login():        # can only log in using email, not username? change later if
 			flash('Login Unsuccessful. Please check email and password', 'danger')
 	return render_template('login.html', title='Login', form=form)
 
+
 @app.route("/logout")
 def logout():
 	logout_user()
 	return redirect(url_for('home'))
 
+
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
+	"""used to create category"""
 	category_name = request.form.get('category_name')
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
@@ -73,11 +92,14 @@ def category():
 	print(cat, 'categories')
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
+
 @app.route("/category/<int:category_id>")
 @login_required
 def get_category_id(category_id):
+	"""used to edit category"""
 	category = Category.query.get_or_404(category_id)
 	return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
+
 
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
@@ -98,7 +120,7 @@ def edit_category(category_id):
 	return render_template('forms/category_form.html', new_category_form=form)
 
 
-#We should decide where we want to have the options for deleting categories.
+# We should decide where we want to have the options for deleting categories.
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
@@ -113,17 +135,16 @@ def delete_category(category_id):
 
 @app.route('/update', methods=['POST'])
 def update():
+	"""working on AJAX. might work, might not."""
+	print("Working!!!")
+	# task = Task.query.filter_by(task_id=request.form['task_id']).all()
+	# task.task_name = request.form['task_name']
+	# # task.task_start_date = request.form['task_start_date']
+	# # task.task_end_date = request.form['task_end_date']
+	# db.session.commit()
+	# return jsonify({'result' : 'success', 'task_name' : task.task_name})
 
-	task = Task.query.filter_by(task_id=request.form['task_id']).all()
-	task.task_name = request.form['task_name']
-	# task.task_start_date = request.form['task_start_date']
-	# task.task_end_date = request.form['task_end_date']
-	db.session.commit()
-	return jsonify({'result' : 'success', 'task_name' : task.task_name})
-
-
-@app.route('/signUpUser', methods=['POST'])
-def signUpUser():
-	user = request.form['username']
-	password = request.form['password']
-	return json.dumps({'status':'OK','user':user,'pass':password})
+	task_name = request.form['taskNameAttribute']
+	taskThing = json.dumps({'status':'OK', 'task_name':task_name});
+	print("This is the thing: " + taskThing)
+	return taskThing

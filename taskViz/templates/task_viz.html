@@ -1,5 +1,3 @@
-
-
 {% extends "layout.html" %}
 {% block title %}Task Viz{% endblock %}
 {% block head %}
@@ -7,12 +5,8 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
 {% endblock %}
 
-
 {% block content %}
-
 <body onresize="calculateOnResize()">
-
-
 
 	<!-- Form Popups -->
 	<div class="d-flex bd-highlight mb-3">
@@ -35,73 +29,72 @@
 		 into popups.
 		</div> -->
 	<div class="grid-container">
-	<div class="Timeline" id="timelineId">
-		<div class="inline-elements">
+		<div class="Timeline" id="timelineId">
+			<div id="testingDiv"></div>
+			<div class="inline-elements">
 			<!-- Top bar for user input -->
-			<div class="p-4">
-				<label>Start date:</label>
-				<input type="date" id="start" value="2018-07-22" min="" max="">
+				<div class="p-4">
+					<label>Start date:</label>
+					<input type="date" id="start" value="2018-07-22" min="" max="">
+        	<a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
 
-        <a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
-
-
-				<div class="topButtons">
-          <button class="btn btn-success" id="newTaskButton">New Task +</button>
-					<div class="term-btn-group">
-						<button class="btn btn-outline-primary" id="shortTermButton">Short Term</button>
-						<div class="term-btn-gap"></div>
-						<button class="btn btn-outline-primary" id="longTermButton">Long Term</button>
-						</div>
+					<div class="topButtons">
+          	<button class="btn btn-success" id="newTaskButton">New Task +</button>
+						<div class="term-btn-group">
+							<button class="btn btn-outline-primary" id="shortTermButton">Short Term</button>
+							<div class="term-btn-gap"></div>
+							<button class="btn btn-outline-primary" id="longTermButton">Long Term</button>
+							</div>
 					</div>
-
           <h3 class="pl-4" style="margin:auto">{{ current_user.username }}'s Timeline</h3>
-
-			</div>
-
-			<hr style="border: 2px solid black; margin-top: 10px;">
-			<!-- Main area for timeline display -->
-			<div class="task-name" task_id="{{ task_id }}">Name of Task: {{ task_name }}</div>
-			<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
-				<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
-					<span class="timeIncrementColHeader" id="sTermTimeSlot0">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot1">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot2">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot3">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot4">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot5">date</span>
-					<span class="timeIncrementColHeader" id="sTermTimeSlot6">date</span>
 				</div>
+				<hr style="border: 2px solid black; margin-top: 10px;">
+
+			<!-- Main area for timeline display -->
+				<div class="task-name" task_id="{{ task_id }}">Name of Task: {{ task_name }}</div>
+				<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
+					<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot0">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot1">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot2">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot3">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot4">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot5">date</span>
+						<span class="sTermTimeIncColHeader" id="sTermTimeSlot6">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot0">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot1">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot2">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot3">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot4">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot5">date</span>
+						<span class="lTermTimeIncColHeader" id="lTermTimeSlot6">date</span>
+					</div>
+				</div>
+				<canvas id="DemoCanvas" width="400" height="400"></canvas>
+      	<script type=text/javascript src="{{url_for('static', filename='js/canvas.js') }}"></script>
 			</div>
-
-
-			<canvas id="DemoCanvas" width="400" height="400"></canvas>
-      <script type=text/javascript src="{{
-        url_for('static', filename='js/canvas.js') }}"></script>
 		</div>
 
-	</div>
-
 	<!-- Sidebar of catgories  -->
-	<div class="Category p-4 text-center">
-	<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
-	<div class="mt-4">
-	{% for category in categories %}
-	<div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
-	<input type="checkbox">
-	<a href="{{url_for('edit_category', category_id=category.category_id)}}">
-	{{ category.category_name }}
-	</a>
-	{% endfor %}
-	<div id="background" class="alert success background" role="alert" style="display:none;"></div>
-	</div>
-	</div>
-</div>
-    </div>
+		<div class="Category p-4 text-center">
+			<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
+			<div class="mt-4">
+				{% for category in categories %}
+				<div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
+					<input type="checkbox">
+					<a href="{{url_for('edit_category', category_id=category.category_id)}}">
+						{{ category.category_name }}
+					</a>
+					{% endfor %}
+				<div id="background" class="alert success background" role="alert" style="display:none;"></div>
+				</div>
+			</div>
+		</div>
+  </div>
 	<!-- External JavaScript Files -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script type=text/javascript src="{{
-		url_for('static', filename='js/timeline.js') }}"></script>
+	<script type=text/javascript src="{{url_for('static', filename='js/timeline.js') }}"></script>
 </body>
-	{% endblock content %}
+{% endblock content %}
