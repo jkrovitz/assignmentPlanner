@@ -62,24 +62,24 @@ $(document).ready(function () {
 	getMonthOfYear($('#start').val());
 
 	$('#taskFormSubmit').click( function() {
-		// $('#testingDiv2').load('localhost:5000/static/untitled.txt');
-		//
-		// var task_name = $('#new_task_input').val();
-		// console.log("The Task Name is: " + task_name);
-		//
-		// $.ajax({
-		// 		url : '/home',
-		// 		data : $('#newTaskFormId').serialize(),
-		// 		type : 'POST',
-		// 		success: function(response) {
-		// 			console.log(response);
-		// 			console.log(" ~ ajax happened ~ ");
-		// 		},
-		// 		error: function(error) {
-		// 			console.log(error);
-		// 		}
-		// });
-		//
+		$('#testingDiv2').load('localhost:5000/static/untitled.txt');
+
+		var task_name = $('#new_task_input').val();
+		console.log("The Task Name is: " + task_name);
+
+		$.ajax({
+				url : '/home',
+				data : $('#newTaskFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened ~ ");
+				},
+				error: function(error) {
+					console.log(error);
+				}
+		});
+
 
 
 		$('#newTaskForm').hide();

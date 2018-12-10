@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
-from taskViz.models import User, Category, Task, TaskSchema
+from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
@@ -27,7 +27,7 @@ def home():
 	if request.form :
 		task_name = request.form['taskNameAttribute']
 		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-	
+
 	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks, new_task_form=new_task_form) #`new_category_form` isn't being used? should it?
 
 
@@ -142,23 +142,27 @@ def task_form():
 			output = task_schema.dump(tasks).data
 			return jsonify({'output':output})
 
-	
 
 
-@app.route('/update', methods=['GET','POST'])
-def update():
+
+@app.route('/create', methods=['GET','POST'])
+def create():
 	"""working on AJAX. might work, might not."""
 	print("Working!!!")
+	if request.method != 'POST':
+		abort(403)
+
 	task_name = request.form.get('task_name')
+	if not task_name:
+		abort(403)
 	task_form = NewTaskForm(request.form)
-	if request.method == 'POST':
-		new_task = Task(task_name=task_name)
-		new_task.task_name = task_name
-		new_task.task_id = task_id
-		if (task_name):
-			db.session.add(new_task)
-			db.session.commit()
-			print(Task.query.all())
+
+	new_task = Task(task_name=task_name)
+	new_task.task_name = task_name
+
+	db.session.add(new_task)
+	db.session.commit()
+	print(Task.query.all())
 	return jsonify({'status':'OK', 'task_name':task_name});
 
 
