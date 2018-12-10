@@ -6,18 +6,21 @@ We are building a website in which individuals will be able to visualize an over
 ## To run project: 
 
 ### On a Mac:
-1. Verify that Python version 3.7.1 is installed on your Mac by typing in **python3 --version**.
-   1. If Python 3.7.1 is installed, move on to step 2. 
-   2. If Python 3.7.1 is not installed, install it by going to: [https://www.python.org/downloads/](https://www.python.org/downloads/) and downloading the zip file. Continue through the steps for 
-   installation. Once Python3 has been installed, verify the installation by running the command **python3 --version** again.  If you see **Python 3.7.1**, this means that Python 3.7.1 has been successfully installed. Verify version of pip by entering **pip --version** in the terminal. Make sure that pip is upgraded to version 18.1. If not, update it by entering **pip install --upgrade pip** in the terminal. 
+1. Verify that Python version 3.7 is installed on your Mac by typing in **python3 --version**.
+   1. If Python 3.7 is installed, move on to step 2. 
+   2. If Python 3.7 is not installed, install it by going to: [https://www.python.org/downloads/](https://www.python.org/downloads/) and downloading the zip file. Continue through the steps for 
+   installation. Once Python3 has been installed, verify the installation by running the command **python3 --version** again.  If you see **Python 3.7.1**, this means that Python 3.7 has been successfully installed. Verify version of pip by entering **pip --version** in the terminal. Make sure that pip is upgraded to version 18.1. If not, update it by entering **pip install --upgrade pip** in the terminal. 
 2. Download the Task Visualizer code folder from Github. 
 3. Open the terminal. 
 4. Type **cd**; and drag project folder into the terminal. 
 5. Press [Enter]. 
-6. Type **pip install -r requirements.txt** in the terminal.
-7. Press [Enter].
-8. Type **python run.py** in the terminal. 
-9. Press [Enter].
-10. Open a web browser and paste http://127.0.0.1:5000/ into the address bar. 
-11. Project will be displayed. 
+6. Type ** . venv-3-7/bin/activate** to activate the virtual environment.
+7. Type **pip install -r requirements.txt** in the terminal.
+8. Press [Enter].
+9. Type **python run.py** in the terminal. 
+10. Press [Enter].
+11. Open a web browser and paste http://localhost:5000/ into the address bar. 
+12. Project will be displayed. 
+13. To stop running the project. Type **Control-c** in the terminal to disconnect from localhost:5000.
+14. Type **deactivate** in order to deactivate th3e virtual environment. 
 
