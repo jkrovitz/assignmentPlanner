@@ -14,7 +14,7 @@
     <br/><br/><br/>
     <div class="form-group row">
         <label>Category:</label>
-          <select id="new_task_category">
+          <select id="new_task_category" name="new_task_category">
             {% for cat in categories%}
             <option value="{{ cat.category_name }}">{{ cat.category_name }}</option>
             {% endfor %}

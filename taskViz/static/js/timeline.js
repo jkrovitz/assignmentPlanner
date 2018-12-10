@@ -62,13 +62,12 @@ $(document).ready(function () {
 	getMonthOfYear($('#start').val());
 
 	$('#taskFormSubmit').click( function() {
-		$('#testingDiv2').load('localhost:5000/static/untitled.txt');
 
 		var task_name = $('#new_task_input').val();
 		console.log("The Task Name is: " + task_name);
 
 		$.ajax({
-				url : '/home',
+				url : '/create',
 				data : $('#newTaskFormId').serialize(),
 				type : 'POST',
 				success: function(response) {
@@ -79,8 +78,6 @@ $(document).ready(function () {
 					console.log(error);
 				}
 		});
-
-
 
 		$('#newTaskForm').hide();
 	});

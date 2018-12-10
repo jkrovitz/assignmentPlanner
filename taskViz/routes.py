@@ -152,7 +152,8 @@ def create():
 	if request.method != 'POST':
 		abort(403)
 
-	task_name = request.form.get('task_name')
+	task_name = request.form.get('taskNameAttribute')
+	task_category = request.form.get('new_task_category')
 	if not task_name:
 		abort(403)
 	task_form = NewTaskForm(request.form)
