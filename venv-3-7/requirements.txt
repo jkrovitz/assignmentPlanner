@@ -1,0 +1,16 @@
+#These are modules that will be installed with the command 
+#'pip install -r /venv-3-7/requirements.txt' 
+
+
+pip==18.1
+Flask==1.0.2
+flask_sqlalchemy
+Flask-Scss==0.5
+flask-bootstrap==3.3.7.0
+flask_wtf==0.14.2
+libsass
+wtforms
+flask-bcrypt
+flask-login
+flask-marshmallow
+marshmallow-sqlalchemy
