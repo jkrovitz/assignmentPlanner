@@ -18,7 +18,6 @@ def AuthenticationRedirect():
 @login_required
 def home():
 	new_category_form = category()
-	new_task_form = task_form()
 	#new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	print(categories)
@@ -28,7 +27,7 @@ def home():
 		task_name = request.form['taskNameAttribute']
 		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
 
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks, new_task_form=new_task_form) #`new_category_form` isn't being used? should it?
+	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks) #`new_category_form` isn't being used? should it?
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -126,25 +125,6 @@ def delete_category(category_id):
 	flash('Your category has been deleted!', 'success')
 	return redirect(url_for('home'))
 
-def task_form():
-	task_name = request.form.get('task_name')
-	task_start_date = request.form.get('task_start_date')
-	task_form = NewTaskForm(request.form)
-	if task_form.validate_on_submit():
-		print(task_name, task_start_date)
-		new_task = Task (task_name=task_name, task_start_date=task_start_date)
-		if(task_name):
-			db.session.add(new_task)
-			db.session.commit()
-			print(Task.query.all())
-			print("This is the thing: " + taskThing)
-			task_schema = TaskSchema()
-			output = task_schema.dump(tasks).data
-			return jsonify({'output':output})
-
-
-
-
 @app.route('/create', methods=['GET','POST'])
 def create():
 	"""working on AJAX. might work, might not."""
@@ -153,17 +133,21 @@ def create():
 		abort(403)
 
 	task_name = request.form.get('taskNameAttribute')
-	task_category = request.form.get('new_task_category')
+	task_category = request.form.get('')
+	task_start = request.form.get('new_task_start_date_input')
+	task_end = request.form.get('new_task_end_date_input')
+
+	#code below helps us catch bugs in the ajax calls
+	print("Task Start: " + task_start + "  ")
 	if not task_name:
 		abort(403)
-	task_form = NewTaskForm(request.form)
+	# task_form = NewTaskForm(request.form)
 
-	new_task = Task(task_name=task_name)
+	new_task = Task(task_name=task_name) #THIS LINE IS THE CAUSE OF OUR PAIN
 	new_task.task_name = task_name
 
 	db.session.add(new_task)
 	db.session.commit()
-	print(Task.query.all())
 	return jsonify({'status':'OK', 'task_name':task_name});
 
 

@@ -1,4 +1,4 @@
-#from datetime import datetime
+from datetime import datetime
 from taskViz import db, login_manager
 from flask_login import UserMixin
 
@@ -71,14 +71,14 @@ class Subcategory(db.Model):
 class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
-    #task_start_date = db.Column(db.String(100), nullable=False, default=datetime.utcnow)
-    # task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    task_start_date = db.Column(db.DateTime, nullable=False)
+    task_end_date = db.Column(db.DateTime, nullable=False)
+    print(task_start_date)
     # for some reason this doesn't work
-    # category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
 
     def __repr__(self):
-        return f"Task('{self.task_id}', '{self.task_name}')"
-        # return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+        return f"Task('{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
 
 
 class Milestone(db.Model):
