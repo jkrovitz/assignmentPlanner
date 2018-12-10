@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
-from taskViz.models import User, Category, Task
+from taskViz.models import User, Category, Task, TaskSchema
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
@@ -18,15 +18,17 @@ def AuthenticationRedirect():
 @login_required
 def home():
 	new_category_form = category()
+	new_task_form = task_form()
 	#new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	print(categories)
+	tasks = Task.query.all()
 	# tasks = Task.query.all()    # also not used ... not yet anyway...
 	if request.form :
 		task_name = request.form['taskNameAttribute']
 		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-		print("This is the thing: " + taskThing)
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form) #`new_category_form` isn't being used? should it?
+	
+	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks, new_task_form=new_task_form) #`new_category_form` isn't being used? should it?
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -42,14 +44,6 @@ def register():     # NOTE: when creating new account, thing to say it worked is
 		flash('Your account has been created! You are now able to log in', 'success')
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
-
-# um are both of these used? (register() and signUpUser())??
-
-@app.route('/signUpUser', methods=['POST'])
-def signUpUser():
-	user = request.form['username']
-	password = request.form['password']
-	return json.dumps({'status':'OK','user':user,'pass':password})
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -132,6 +126,23 @@ def delete_category(category_id):
 	flash('Your category has been deleted!', 'success')
 	return redirect(url_for('home'))
 
+def task_form():
+	task_name = request.form.get('task_name')
+	task_start_date = request.form.get('task_start_date')
+	task_form = NewTaskForm(request.form)
+	if task_form.validate_on_submit():
+		print(task_name, task_start_date)
+		new_task = Task (task_name=task_name, task_start_date=task_start_date)
+		if(task_name):
+			db.session.add(new_task)
+			db.session.commit()
+			print(Task.query.all())
+			print("This is the thing: " + taskThing)
+			task_schema = TaskSchema()
+			output = task_schema.dump(tasks).data
+			return jsonify({'output':output})
+
+	
 
 
 @app.route('/update', methods=['GET','POST'])
@@ -149,7 +160,6 @@ def update():
 			db.session.commit()
 			print(Task.query.all())
 	return jsonify({'status':'OK', 'task_name':task_name});
-
 
 
 		# category_name = request.form.get('category_name')

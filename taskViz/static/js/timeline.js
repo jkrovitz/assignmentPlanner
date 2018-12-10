@@ -26,6 +26,8 @@ function getDayOfWeek(startDateVar) {
     }
 };
 
+
+
 /* Returns months based on value from start input, which is translated
 into a string object.*/
 function getMonthOfYear(startDateVar) {
@@ -78,6 +80,7 @@ $(document).ready(function () {
 		// 		}
 		// });
 		//
+
 
 		$('#newTaskForm').hide();
 	});

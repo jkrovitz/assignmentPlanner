@@ -12,3 +12,5 @@ libsass
 wtforms
 flask-bcrypt
 flask-login
+flask-marshmallow
+marshmallow-sqlalchemy

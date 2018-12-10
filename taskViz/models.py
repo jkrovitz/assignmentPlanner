@@ -1,7 +1,6 @@
 from datetime import datetime
-from taskViz import db, login_manager
+from taskViz import db, login_manager, ma
 from flask_login import UserMixin
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -63,6 +62,7 @@ class Subcategory(db.Model):
     subcategory_name = db.Column(db.String(100), nullable=False)
     is_checked = db.Column(db.Boolean, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Subcategory('{self.subcategory_id}', '{self.subcategory_name}', '{self.category_id}')" # should this return `is_checked`?
@@ -71,7 +71,7 @@ class Subcategory(db.Model):
 class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
-    # task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    task_start_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     # task_end_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     # for some reason this doesn't work
     # category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
@@ -89,3 +89,15 @@ class Milestone(db.Model):
 
     def __repr__(self):
         return f"Milestone('{self.milestone_id}', '{self.milestone_name}', '{self.milestone_date}', '{self.task_id}')"
+
+
+
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User 
+
+class TaskSchema(ma.ModelSchema):
+    class Meta:
+        model = Task
+
+
