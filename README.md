@@ -14,7 +14,7 @@ We are building a website in which individuals will be able to visualize an over
 3. Open the terminal. 
 4. Type **cd**; and drag project folder into the terminal. 
 5. Press [Enter]. 
-6. Type ** . venv-3-7/bin/activate** to activate the virtual environment.
+6. Type **. venv-3-7/bin/activate** to activate the virtual environment.
 7. Type **pip install -r requirements.txt** in the terminal.
 8. Press [Enter].
 9. Type **python run.py** in the terminal. 

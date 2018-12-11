@@ -63,8 +63,9 @@ $(document).ready(function () {
 
 	$('#taskFormSubmit').click( function() {
 
-		var task_name = $('#new_task_input').val();
+		var task_name = $('#taskNameAttribute').val();
 		console.log("The Task Name is: " + task_name);
+		var start_input = $('#')
 
 		$.ajax({
 				url : '/create',
@@ -80,6 +81,7 @@ $(document).ready(function () {
 		});
 
 		$('#newTaskForm').hide();
+
 	});
 
 

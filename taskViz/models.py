@@ -1,5 +1,5 @@
 from datetime import datetime
-from taskViz import db, login_manager
+from taskViz import db, login_manager, ma
 from flask_login import UserMixin
 
 @login_manager.user_loader
@@ -52,6 +52,7 @@ class Category(db.Model):
     category_color = db.Column(db.String(100), nullable=False)
     is_checked = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref="categories")
 
     def __repr__(self):
         return f"Category('{self.category_name}', '{self.category_color}')"     # why doesn't this return `category_id` or`is_checked`?
@@ -71,12 +72,15 @@ class Subcategory(db.Model):
 class Task(db.Model):
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
-    task_start_date = db.Column(db.DateTime, nullable=False)
-    task_end_date = db.Column(db.DateTime, nullable=False)
+    task_start_date = db.Column(db.String(100), nullable=False)
+    task_end_date = db.Column(db.String(100), nullable=False)
     print(task_start_date)
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    #user = db.relationship('User', backref='tasks')
     # for some reason this doesn't work
-    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
 
+   
     def __repr__(self):
         return f"Task('{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
 
@@ -92,10 +96,10 @@ class Milestone(db.Model):
 
 
 
-# class UserSchema(ma.ModelSchema):
-#     class Meta:
-#         model = User
-#
-# class TaskSchema(ma.ModelSchema):
-#     class Meta:
-#         model = Task
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+
+class TaskSchema(ma.ModelSchema):
+    class Meta:
+        model = Task
