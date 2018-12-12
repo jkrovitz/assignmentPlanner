@@ -38,5 +38,6 @@ class NewCategoryForm(FlaskForm):
 class NewTaskForm(FlaskForm):
     task_name = StringField('Task Name', validators=[DataRequired()])
     task_start_date = DateField('Start Date', validators=[DataRequired()])
-    category = SelectField('Category Name', choices=[], validators=[DataRequired()])
+    task_end_date = DateField('Start Date', validators=[DataRequired()])
+    # category = SelectField('Category Name', choices=[], validators=[DataRequired()])
     submit = SubmitField('Submit')

@@ -80,7 +80,7 @@ class Task(db.Model):
     # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
 
-
+    categeory = db.relationship('Category', backref="tasks")
     def __repr__(self):
         return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
         # return f"Task('{self.task_id}', '{self.task_name}')"

@@ -124,6 +124,7 @@ def delete_category(category_id):
 	db.session.commit()
 	flash('Your category has been deleted!', 'success')
 	return redirect(url_for('home'))
+	
 
 @app.route('/create', methods=['GET','POST'])
 def create():
@@ -154,6 +155,7 @@ def create():
 	db.session.add(new_task)
 	db.session.commit()
 	return jsonify({'status':'OK', 'task_name':task_name})
+
 
 #more flask_marshmallow experimentation.
 # @app.route('/get_task', methods=['GET','POST'])

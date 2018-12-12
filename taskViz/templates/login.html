@@ -2,20 +2,26 @@
 {% block title %}Login{% endblock %}
 {% block head %}
   {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reg-login.css') }}">
   {% endblock %}
 {% block content %}
 
     <div class="my-container">
         <div class="vertical-center align-items-center">
+        
           {% with messages = get_flashed_messages() %}
+           
             {% if messages %}
-              <ul class="alert alert-danger">
-              {% for message in messages %}
-                <li>{{ message }}</li>
-              {% endfor %}
-              </ul>
-            {% endif %}
+                {%for message in messages %}
+             <ul class="alert alert-success">
+                
+            <li>{{ message }}</li>
+            </ul>
+            {% endfor %}
+                 {% endif %}
+              
+              
+       
           {% endwith %}
         <form method="POST" action="">
             {{ form.hidden_tag() }}
