@@ -387,6 +387,16 @@ fieldset {
 	display: none;
 }
 
+/* .alert.success and .alert.error set the colors
+for the flash messages.*/
+.alert.success {
+  background-color: #DFEFD8;
+}
+
+.alert.error {
+  background-color: #F2DEDE;
+}
+
 /* // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {}
 // Medium devices (tablets, 768px and up)

@@ -6,6 +6,9 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#This line changes the default message category, so the message background will appear in red instead of white.
+login_manager.login_message_category = "error"
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -85,7 +88,7 @@ class Task(db.Model):
     print("cat task start date" + task_start_date)
     print("cat task end date" + task_end_date)
     print("cat category_id" + category_id)
-    categeory = db.relationship('Category', backref="tasks")
+    category = db.relationship('Category', backref="tasks")
     def __repr__(self):
         return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
         # return f"Task('{self.task_id}', '{self.task_name}')"

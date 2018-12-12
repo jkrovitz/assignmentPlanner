@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, request, jsonify, abort
+from flask import render_template, url_for, flash, redirect, request, jsonify, abort, json
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
 from taskViz.models import User, Category, Task
@@ -40,7 +40,7 @@ def register():     # NOTE: when creating new account, thing to say it worked is
 		user = User(username=form.username.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
 		db.session.add(user)
 		db.session.commit()
-		flash('Your account has been created! You are now able to log in', 'success')
+		flash('Your account has been created! You are now able to login.', 'success')
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 
@@ -57,7 +57,7 @@ def login():        # can only log in using email, not username? change later if
 			next_page = request.args.get('next')
 			return redirect(next_page) if next_page else redirect(url_for('home'))
 		else:
-			flash('Login Unsuccessful. Please check email and password', 'danger')
+			flash('Login Unsuccessful. Please check email and password', 'error')
 	return render_template('login.html', title='Login', form=form)
 
 
@@ -135,11 +135,15 @@ def create():
 
 	print("form:")
 	print(request.form)
-	task_name = request.form.get('task_name')
-	task_start_date = request.form.get('new_task_start_date_input')
-	task_end_date = request.form.get('new_task_end_date_input')
-	task_category = request.form.get('new_task_category')
-
+	# task_name = request.form.get('task_name')
+	# task_start_date = request.form.get('new_task_start_date_input')
+	# task_end_date = request.form.get('new_task_end_date_input')
+	# task_category = request.form.get('new_task_category')
+    #It has to get the names of the html elements rather than the ids
+	task_name = request.form['new_task_input']
+	task_start_date = request.form['new_task_start_date_input']
+	task_end_date = request.form['new_task_end_date_input']
+	new_task_category = request.form['new_task_category']
 	if not task_name:
 		print("Name missing")
 		abort(403)
@@ -148,15 +152,25 @@ def create():
 	print("Route Task Name: " + task_name)
 	print("Route start date: " + task_start_date)
 	print("Route end date: " + task_end_date)
-	print("Route Category: " + task_category)
+	print("Route Category: " + new_task_category)
 
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, task_category=task_category) #THIS LINE IS THE CAUSE OF OUR PAIN
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category) #THIS LINE IS THE CAUSE OF OUR PAIN
 	#new_task.task_name = task_name
 
 
 	db.session.add(new_task)
 	db.session.commit()
-	return jsonify({'status':'OK', 'task_name':task_name})
+	return jsonify({'status':'OK'})
+
+@app.route('/retrieveTasks')
+def retrieve_tasks():
+	tasks = Task.query.all()
+	task_list = []
+	for task in tasks:
+		json_task = {"Task Name":task.task_name, "Task Start Date":task.task_start_date, "Task End Date":task.task_end_date, "Category Id":task.category_id, "Category":task.category.category_name }
+		task_list.append(json_task)
+	return jsonify(task_list)
+
 
 
 #more flask_marshmallow experimentation.

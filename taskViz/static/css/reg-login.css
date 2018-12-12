@@ -31,7 +31,14 @@ body
 	font-size: 2.1vw;
 }
 
-.success{
-  background-color: #00ff00;
+
+/* .alert.success and .alert.error set the colors
+for the flash messages.*/
+.alert.success {
+  background-color: #DFEFD8;
+}
+
+.alert.error {
+  background-color: #F2DEDE;
 }
 
