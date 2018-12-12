@@ -79,7 +79,11 @@ class Task(db.Model):
     #user = db.relationship('User', backref='tasks')
     # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
-
+    print("task_id: " + task_id)
+    print("task_name: " + task_name)
+    print("task start date" + task_start_date)
+    print("task end date" + task_end_date)
+    print("category_id" + category_id)
     categeory = db.relationship('Category', backref="tasks")
     def __repr__(self):
         return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
