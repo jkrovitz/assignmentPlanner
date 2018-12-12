@@ -1,5 +1,5 @@
 from datetime import datetime
-from taskViz import db, login_manager, ma
+from taskViz import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
@@ -74,15 +74,16 @@ class Task(db.Model):
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.String(100), nullable=False)
     task_end_date = db.Column(db.String(100), nullable=False)
-    print(task_start_date)
+    print("task start date", task_start_date)
     #user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     #user = db.relationship('User', backref='tasks')
     # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
 
-   
+
     def __repr__(self):
-        return f"Task('{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+        # return f"Task('{self.task_id}', '{self.task_name}')"
 
 
 class Milestone(db.Model):
@@ -95,11 +96,11 @@ class Milestone(db.Model):
         return f"Milestone('{self.milestone_id}', '{self.milestone_name}', '{self.milestone_date}', '{self.task_id}')"
 
 
-
-class UserSchema(ma.ModelSchema):
-    class Meta:
-        model = User
-
-class TaskSchema(ma.ModelSchema):
-    class Meta:
-        model = Task
+#
+# class UserSchema(ma.ModelSchema):
+#     class Meta:
+#         model = User
+#
+# class TaskSchema(ma.ModelSchema):
+#     class Meta:
+#         model = Task

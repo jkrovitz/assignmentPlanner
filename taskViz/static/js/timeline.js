@@ -56,32 +56,50 @@ function getMonthOfYear(startDateVar) {
   }
 };
 
+var tasks = []
+function loadTasks(){
+	$.getJSON('/create', function(data, status){
+		for(var i=0; i< data.length; i++) {
+			var taskNames = data[i].task_name;
+			console.log("Task names from the database: " + taskNames);
+		}
+	});
+};
 
 $(document).ready(function () {
 	getDayOfWeek($('#start').val());
 	getMonthOfYear($('#start').val());
+	loadTasks();
 
 	$('#taskFormSubmit').click( function() {
 
-		var task_name = $('#taskNameAttribute').val();
+		var task_name = $('#new_task_input').val();
 		console.log("The Task Name is: " + task_name);
-		var start_input = $('#')
+		var taskStartDate = $('#new_task_start_date_input').val();
+		var taskEndDate = $('#new_task_end_date_input').val();
+		console.log("task start date" + taskStartDate);
+		console.log("task end date" + taskEndDate);
 
 		$.ajax({
 				url : '/create',
-				data : $('#newTaskFormId').serialize(),
+				// data : $('#newTaskFormId').serialize(),
+				data : {
+					task_name: $('#new_task_input').val()
+				},
 				type : 'POST',
 				success: function(response) {
 					console.log(response);
 					console.log(" ~ ajax happened ~ ");
 				},
+
 				error: function(error) {
 					console.log(error);
 				}
+
+
 		});
 
 		$('#newTaskForm').hide();
-
 	});
 
 

@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
-from taskViz.models import User, Category, Task, UserSchema, TaskSchema
+from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
@@ -132,26 +132,30 @@ def create():
 	if request.method != 'POST':
 		abort(403)
 
-	task_name = request.form.get('taskNameAttribute')
-	task_start = request.form.get('new_task_start_date_input')
-	task_end = request.form.get('new_task_end_date_input')
+	print("form:")
+	print(request.form)
+	task_name = request.form.get('task_name')
+	task_start_date = request.form.get('new_task_start_date_input')
+	task_end_date = request.form.get('new_task_end_date_input')
 	task_category = request.form.get('new_task_category')
-	
+
 	if not task_name:
+		print("Name missing")
 		abort(403)
 	# task_form = NewTaskForm(request.form)
 	#code below helps us catch bugs in the ajax calls
-	print("Task Name: " + task_name + "  ")
-	print("Task Start: " + task_start + "  ")	
-	new_task = Task(task_name=task_name) #THIS LINE IS THE CAUSE OF OUR PAIN
-	new_task.task_name = task_name
+	print("Task Name: " + task_name)
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, task_category=task_category) #THIS LINE IS THE CAUSE OF OUR PAIN
+	print("new task:")
+	print(new_task)
+	#new_task.task_name = task_name
 
 
 	db.session.add(new_task)
 	db.session.commit()
-	return jsonify({'status':'OK', 'task_name':task_name});
+	return jsonify({'status':'OK', 'task_name':task_name})
 
-#more flask_marshmallow experimentation. 
+#more flask_marshmallow experimentation.
 # @app.route('/get_task', methods=['GET','POST'])
 # def get_task():
 # 	task_name = request.form.get('taskNameAttribute')
