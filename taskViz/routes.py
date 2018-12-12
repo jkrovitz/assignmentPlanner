@@ -124,7 +124,7 @@ def delete_category(category_id):
 	db.session.commit()
 	flash('Your category has been deleted!', 'success')
 	return redirect(url_for('home'))
-	
+
 
 @app.route('/create', methods=['GET','POST'])
 def create():
@@ -145,10 +145,12 @@ def create():
 		abort(403)
 	# task_form = NewTaskForm(request.form)
 	#code below helps us catch bugs in the ajax calls
-	print("Task Name: " + task_name)
+	print("Route Task Name: " + task_name)
+	print("Route start date: " + task_start_date)
+	print("Route end date: " + task_end_date)
+	print("Route Category: " + task_category)
+
 	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, task_category=task_category) #THIS LINE IS THE CAUSE OF OUR PAIN
-	print("new task:")
-	print(new_task)
 	#new_task.task_name = task_name
 
 
