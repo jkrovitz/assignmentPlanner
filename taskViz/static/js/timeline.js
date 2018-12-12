@@ -58,10 +58,10 @@ function getMonthOfYear(startDateVar) {
 
 var tasks = []
 function loadTasks(){
-	$.getJSON('/create', function(data, status){
+	$.getJSON('/retrieveTasks', function(data, status){
 		for(var i=0; i< data.length; i++) {
-			var taskNames = data[i].task_name;
-			console.log("Task names from the database: " + taskNames);
+			var tasks= data[i];
+			console.log("Task from the database: " + tasks);
 		}
 	});
 };
@@ -100,7 +100,11 @@ $(document).ready(function () {
 
 		});
 
-		// $('#newTaskForm').hide();
+		 $('#newTaskForm').hide();
+
+		 loadTasks();
+
+
 	});
 
 
