@@ -135,11 +135,7 @@ def create():
 
 	print("form:")
 	print(request.form)
-	# task_name = request.form.get('task_name')
-	# task_start_date = request.form.get('new_task_start_date_input')
-	# task_end_date = request.form.get('new_task_end_date_input')
-	# task_category = request.form.get('new_task_category')
-    #It has to get the names of the html elements rather than the ids
+
 	task_name = request.form['new_task_input']
 	task_start_date = request.form['new_task_start_date_input']
 	task_end_date = request.form['new_task_end_date_input']
@@ -147,15 +143,13 @@ def create():
 	if not task_name:
 		print("Name missing")
 		abort(403)
-	# task_form = NewTaskForm(request.form)
 	#code below helps us catch bugs in the ajax calls
 	print("Route Task Name: " + task_name)
 	print("Route start date: " + task_start_date)
 	print("Route end date: " + task_end_date)
 	print("Route Category: " + new_task_category)
 
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category) #THIS LINE IS THE CAUSE OF OUR PAIN
-	#new_task.task_name = task_name
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category)
 
 
 	db.session.add(new_task)
@@ -167,40 +161,23 @@ def retrieve_tasks():
 	tasks = Task.query.all()
 	task_list = []
 	for task in tasks:
-		json_task = {"Task Name":task.task_name, "Task Start Date":task.task_start_date, "Task End Date":task.task_end_date, "Category Id":task.category_id, "Category":task.category.category_name }
+		json_task = {"task_name":task.task_name, "task_start_date":task.task_start_date, "task_end_date":task.task_end_date, "category_id":task.category_id, "category":task.category.category_name }
 		task_list.append(json_task)
 	return jsonify(task_list)
 
-
-
-#more flask_marshmallow experimentation.
-# @app.route('/get_task', methods=['GET','POST'])
-# def get_task():
-# 	task_name = request.form.get('taskNameAttribute')
-# 	# print("get_task: task_name" + task_name)
-# 	task_start = request.form.get('new_task_start_date_input')
-# 	task_end = request.form.get('new_task_end_date_input')
-# 	task_category = request.form.get('new_task_category')
-# 	task = Task()
-# 	db.session.add(task)
-# 	db.session.commit()
-# 	one_task = Task.query.first()
-# 	task_schema = TaskSchema();
-# 	output = task_schema.dump(one_task).data
-# 	return jsonify({'task': output})
-
-
-		# category_name = request.form.get('category_name')
-		# category_color = request.form.get('category_color')
-		# category_form = NewCategoryForm(request.form)
-		# if request.method == 'POST':
-		# 	print(category_name, category_color)
-		# 	new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
-		# 	if(category_name):
-		# 		db.session.add(new_cat)
-		# 		db.session.commit()
-		# 		print(Category.query.all())
-		# 	return redirect(url_for('home'))
-		# cat = Category.query.all()
-		# print(cat, 'categories')
-		# return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
+@app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
+def edit_task(task_id):
+	task = Task.query.get(task_id)
+	form = NewTaskForm()
+	if task.user_id != current_user.id:
+		abort(403)
+	if request.method == 'POST':
+		task.task_name=request.form['task_name']
+		category.task_color=request.form['task_color']
+		db.session.commit()
+		flash('Your task has been updated!', 'success')
+		return redirect(url_for('home', task=task_id))
+	elif request.method == 'GET':
+		form.task_name.data = task.task_name
+		form.task_color.data = task.task_color
+	return render_template('forms/task_form.html', new_task_form=form)

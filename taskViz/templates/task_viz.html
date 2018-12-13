@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<body>
+<body onresize="calculateOnResize()">
 
 	<!-- Form Popups -->
 	<div class="form-popup bd-highlight mb-3">
@@ -22,7 +22,7 @@
 		<div class="form-popup p-2 bd-highlight" id="newTaskForm">
 			{% include 'popups/task_form.html' ignore missing %}
 		</div>
-	</div>
+
 	<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		```Include 'forms/category_form.html' ignore missing``` will
 		go here when we decide to turn our category and task forms

@@ -9,11 +9,12 @@ body,
 .grid-container {
 	height: 100%;
 	margin: 0;
+	background-color: #fffff2;
 }
 
 .grid-container * {
-	/*border: 1px solid black;*/
-	position: relative;
+	/* border: 1px solid grey; */
+	'position: relative;
 }
 
 .grid-container *:after {
@@ -38,12 +39,12 @@ body,
 
 .Timeline {
 	grid-area: Timeline;
-	border: solid 2px black;
+	border: solid 2px grey;
 }
 
 .Category {
 	grid-area: Category;
-	border: solid 2px black;
+	border: solid 2px grey;
 }
 /* END OVERALL STRUCTURE OF CODE */
 
@@ -137,7 +138,7 @@ body,
 .form-container {
 	max-width: 300px;
 	text-align: center;
-	border: 1px solid black;
+	border: 1px solid grey;
 	padding: 10px;
 	background-color: #eeeeee;
 }
@@ -147,7 +148,7 @@ body,
 	width: 100%;
 	padding: 15px;
 	margin: 5px 0 22px 0;
-	border: solid black 1px;
+	border: solid grey 1px;
 	background: #ffffff;
 }
 
@@ -160,7 +161,7 @@ body,
 	background-color: #eeeeee;
 	padding: 15px;
 	/*margin: 5px 5px 5px 5px;*/
-	border: solid black 1px;
+	border: solid grey 1px;
 }
 
 .shortTermFormClass {
@@ -172,13 +173,13 @@ body,
 	background-color: #eeeeee;
 	padding: 15px;
 	/*margin: 5px 5px 5px 5px;*/
-	border: solid black 1px;
+	border: solid grey 1px;
 }
 
 .new-task-form-container {
 	max-width: 300px;
 	text-align: center;
-	border: 1px solid black;
+	border: 1px solid grey;
 	padding: 10px;
 	background-color: #eeeeee;
 }
@@ -188,7 +189,7 @@ body,
 	width: 100%;
 	padding: 15px;
 	margin: 5px 0 22px 0;
-	border: solid black 1px;
+	border: solid grey 1px;
 	background: #ffffff;
 }
 
@@ -228,7 +229,7 @@ body,
 .form-container input[type=text]:focus,
 .form-container input[type=password]:focus {
 	background-color: #ffffff;
-	border: solid black 1px;
+	border: solid grey 1px;
 }
 
 
@@ -237,7 +238,7 @@ body,
 .new-task-form-container input[type=text]:focus,
 .new-task-form-container input[type=password]:focus {
 	background-color: #ffffff;
-	border: solid black 1px;
+	border: solid grey 1px;
 }
 
 .new-task-input {
@@ -249,11 +250,11 @@ body,
 
 .form-container .my-submit-btn {
 	background-color: #eeeeee;
-	color: black;
+	color: grey;
 	padding: 8px 10px;
 	font-size: 1.5vw;
 	/*border: none;*/
-	border: solid black 1px;
+	border: solid grey 1px;
 	cursor: pointer;
 	width: 50%;
 	margin-bottom: 10px;
@@ -393,8 +394,13 @@ for the flash messages.*/
   background-color: #DFEFD8;
 }
 
+
 .alert.error {
   background-color: #F2DEDE;
+}
+
+hr{
+	border: 1px solid grey;
 }
 
 /* // Small devices (landscape phones, 576px and up)

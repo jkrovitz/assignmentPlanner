@@ -1,16 +1,13 @@
  <div class="form-group">
       <form class="form-inline form-container category-form" action="" method="POST" >
-       <!--  <div class="cancelCatFilloutDiv">
-        <a class="cancel cancelCategoryFillout" id="cancelId" onclick="cancelFillingOutCategoryForm()">X</a> -->
-<!--     </div> -->
+
 
         <label>New Category:</label>
-        {{new_category_form.category_name}}
-        <!-- <input type="text" id="category-name" name="categoryNameAttribute"/> -->
+        {{ new_category_form.category_name }}
         <label>Color:</label>
-        <!-- <input type="text" id="category-color" name="categoryColorAttribute"> -->
-        {{new_category_form.category_color}}
-        {{new_category_form.submit}}
+
+        {{ new_category_form.category_color }}
+        {{ new_category_form.submit }}
 
 
 
