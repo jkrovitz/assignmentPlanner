@@ -12,4 +12,3 @@ libsass
 wtforms
 flask-bcrypt
 flask-login
-Flask-Colorpicker

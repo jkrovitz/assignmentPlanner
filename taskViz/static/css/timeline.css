@@ -9,7 +9,7 @@ body,
 .grid-container {
 	height: 100%;
 	margin: 0;
-	background-color: #ffffff;
+	background-color: #E4E3DF;
 }
 
 .grid-container * {
@@ -53,6 +53,7 @@ body,
 
 input[type=date] {
   border: solid 1px grey;
+	border-radius: 5px
 }
 
 .individual-cat-btns {

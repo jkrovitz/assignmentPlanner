@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<body onresize="calculateOnResize()">
+<body onresize="calculateOnResize();">
 
 	<!-- Form Popups -->
 	<div class="form-popup bd-highlight mb-3">
@@ -71,6 +71,8 @@
 						<span class="lTermTimeIncColHeader" id="lTermTimeSlot6">date</span>
 					</div>
 				</div>
+
+
 				<canvas id="DemoCanvas" width="400" height="400"></canvas>
       	<script type=text/javascript src="{{url_for('static', filename='js/canvas.js') }}"></script>
 			</div>

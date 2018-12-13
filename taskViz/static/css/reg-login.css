@@ -3,13 +3,13 @@
 
 body
 {
-  background-color: #ffffff;
+  background-color: #E4E3DF;
   font: 14px 'Arial';
 }
 
 
 
-.my-container { 
+.my-container {
   height: 	100%;
   position: relative;
 }
@@ -41,4 +41,3 @@ for the flash messages.*/
 .alert.error {
   background-color: #F2DEDE;
 }
-

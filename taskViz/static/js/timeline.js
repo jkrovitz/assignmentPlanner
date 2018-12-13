@@ -25,6 +25,7 @@ function getDayOfWeek(startDateVar) {
 			console.log(newDateObj)
     	dateObj.setDate(dateObj.getDate() + 1);
     	dayOfWeek = weekdays[dateObj.getDay()];
+			return dateObj;
     }
 };
 
@@ -58,42 +59,79 @@ function getMonthOfYear(startDateVar) {
 };
 
 
-function getTaskStartDate (startDateString) {
-	var startDateObject = new Date(startDateString);
-	// var startDateInfoArray = [startDateObject.getDay(), startDateObject.getMonth(), startDateObject.getYear()];
-	console.log("task start date: " + startDateObject)
-	return startDateObject;
-};
 
-function getTaskEndDate (endDateString) {
-	var endDateObject = new Date(endDateString);
-	// var endDateInfoArray = [endDateObject.getDay(), endDateObject.getMonth(), endDateObject.getYear()];
-	return endDateObject;
-};
-
-
-var task = []
-function loadTasks(task){
-	$.getJSON('/retrieveTasks', function(data, status){
-		for(var i=0; i< data.length; i++) {
-			task = data[i];
-			var stringifiedTask = JSON.stringify(task) //turn JSON object into something readable by JavaScript
-			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
-			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
-			var parsedTaskStartDate = parsedTask.task_start_date;
-			var parsedTaskEndDate = parsedTask.task_end_date;
-			// console.log(getTaskStartDate(parsedTaskStartDate));
-			// console.log(getTaskEndDate(parsedTaskEndDate));
-		}
-	});
-};
-
+// var task = []
+// function drawTasks(task, present_day){
+// 	$.getJSON('/retrieveTasks', function(data, status){
+// 		for(var i=0; i< data.length; i++) {
+// 			task = data[i];
+//
+// 			var stringifiedTask = JSON.stringify(task) //turn JSON object into something readable by JavaScript
+// 			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
+// 			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
+// 			var parsedTaskStartDate = parsedTask.task_start_date;
+//
+// 			console.log("today is: " + present_day)
+// 			console.log("This is the parsedTaskStartDate (day from database) " + present_day.getDay());
+//
+// 			if (parsedTaskStartDate == present_day) {
+// 				// draw task start
+// 			}
+// 			var parsedTaskEndDate = parsedTask.task_end_date;
+// 		}
+// 	});
+// };
 
 
 $(document).ready(function () {
-	getDayOfWeek($('#start').val());
+	var present_day = getDayOfWeek($('#start').val());
 	getMonthOfYear($('#start').val());
-	loadTasks();
+
+	console.warn("This is the day selected on the calendar: " + present_day);
+	// ------------------------------------------
+
+	// drawTasks(present_day);
+	var task = []
+	$.getJSON('/retrieveTasks', function(data, status){
+		for(var i=0; i< data.length; i++) {
+			task = data[i];
+
+			var stringifiedTask = JSON.stringify(task) //turn JSON object into something readable by JavaScript
+			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
+			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
+			var parsedTaskStartDate = new Date(parsedTask.task_start_date);
+
+
+			console.log("This is the present year) " + present_day.getFullYear());
+			console.log("This is the present month " + present_day.getMonth());
+			console.log("This is the present day " + present_day.getDate());
+
+			console.log("This is the parsedTaskStartDate (year from database) " + parsedTaskStartDate.getFullYear());
+			console.log("This is the parsedTaskStartDate (month from database) " + parsedTaskStartDate.getMonth());
+			console.log("This is the parsedTaskStartDate (day from database) " + parsedTaskStartDate.getDate());
+
+			if (parsedTaskStartDate.getDate() === present_day.getDate()) {
+				console.warn("BWAHAHAHAHAHAHA!");
+				// draw task start
+
+				//circle
+				// var context = canvas.getContext('2d');
+				var centerX = sampleTaskStartDay * xSpaceIncrement;
+				var centerY = ySpaceIncrement;
+				var radius = 10;
+
+				context.beginPath();
+				context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+				context.fillStyle = '#00b500';
+			} else {
+				console.warn("Did not Work!");
+			}
+			var parsedTaskEndDate = parsedTask.task_end_date;
+		}
+	});
+
+
+	//-------------------------------------------
 
 	// var result = JSON.parse(tasks);
 
@@ -123,8 +161,7 @@ $(document).ready(function () {
 
 		 $('#newTaskForm').hide();
 
-		 loadTasks();
-
+		 // drawTasks(present_day);
 
 	});
 
