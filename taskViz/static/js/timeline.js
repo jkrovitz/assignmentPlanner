@@ -17,16 +17,15 @@ function getDayOfWeek(startDateVar) {
     // For loop that adds new headings
     for (var i = 0; i < 7; i++) {
     	var timeSlotSpanId = "sTermTimeSlot" + i + "";
-    	var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' +
-			timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) +
-			'/' + (dateObj.getDate()+1) + '</span>';
 			var newDateObj = new Date(dateObj);
+    	var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) + '</span>';
+			// $( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
     	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan).data("date", newDateObj);
-			console.log(newDateObj)
+			// console.log(newDateObj)
     	dateObj.setDate(dateObj.getDate() + 1);
     	dayOfWeek = weekdays[dateObj.getDay()];
-			return dateObj;
     }
+		return new Date(startDateVar);
 };
 
 
@@ -60,37 +59,13 @@ function getMonthOfYear(startDateVar) {
 
 
 
-// var task = []
-// function drawTasks(task, present_day){
-// 	$.getJSON('/retrieveTasks', function(data, status){
-// 		for(var i=0; i< data.length; i++) {
-// 			task = data[i];
-//
-// 			var stringifiedTask = JSON.stringify(task) //turn JSON object into something readable by JavaScript
-// 			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
-// 			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
-// 			var parsedTaskStartDate = parsedTask.task_start_date;
-//
-// 			console.log("today is: " + present_day)
-// 			console.log("This is the parsedTaskStartDate (day from database) " + present_day.getDay());
-//
-// 			if (parsedTaskStartDate == present_day) {
-// 				// draw task start
-// 			}
-// 			var parsedTaskEndDate = parsedTask.task_end_date;
-// 		}
-// 	});
-// };
-
-
 $(document).ready(function () {
 	var present_day = getDayOfWeek($('#start').val());
+	console.log("Day being saved as: " + present_day)
 	getMonthOfYear($('#start').val());
 
 	console.warn("This is the day selected on the calendar: " + present_day);
-	// ------------------------------------------
 
-	// drawTasks(present_day);
 	var task = []
 	$.getJSON('/retrieveTasks', function(data, status){
 		for(var i=0; i< data.length; i++) {
@@ -101,37 +76,34 @@ $(document).ready(function () {
 			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
 			var parsedTaskStartDate = new Date(parsedTask.task_start_date);
 
+			var taskStartYear = parsedTaskStartDate.getFullYear();
+			var taskStartMonth = parsedTaskStartDate.getMonth()+1;
+			var taskStartDay = parsedTaskStartDate.getDate()+1;
 
-			console.log("This is the present year) " + present_day.getFullYear());
-			console.log("This is the present month " + present_day.getMonth());
-			console.log("This is the present day " + present_day.getDate());
+			//From this point, make a for loop over each day shown to see if the timeline gets displayed
 
-			console.log("This is the parsedTaskStartDate (year from database) " + parsedTaskStartDate.getFullYear());
-			console.log("This is the parsedTaskStartDate (month from database) " + parsedTaskStartDate.getMonth());
-			console.log("This is the parsedTaskStartDate (day from database) " + parsedTaskStartDate.getDate());
+			var calStartYear =  present_day.getFullYear();
+			var calStartMonth = present_day.getMonth()+1;
+			var calStartDay = present_day.getDate()+1;
 
-			if (parsedTaskStartDate.getDate() === present_day.getDate()) {
-				console.warn("BWAHAHAHAHAHAHA!");
-				// draw task start
 
-				//circle
-				// var context = canvas.getContext('2d');
-				var centerX = sampleTaskStartDay * xSpaceIncrement;
-				var centerY = ySpaceIncrement;
-				var radius = 10;
-
-				context.beginPath();
-				context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-				context.fillStyle = '#00b500';
+			if (calStartYear == taskStartYear && calStartMonth == taskStartMonth && calStartDay == taskStartDay) {
+				console.warn("The Days match");
+				drawTaskLine();
 			} else {
-				console.warn("Did not Work!");
+				console.warn("Days do not match");
+				console.log("taskStartYear: " + taskStartYear);
+				console.log("taskStartMonth: " + taskStartMonth);
+				console.log("taskStartDay: " + taskStartDay);
+
+				console.log("calStartYear: " + calStartYear);
+				console.log("calStartMonth: " + calStartMonth);
+				console.log("calStartDay: " + calStartDay);
 			}
 			var parsedTaskEndDate = parsedTask.task_end_date;
 		}
 	});
 
-
-	//-------------------------------------------
 
 	// var result = JSON.parse(tasks);
 
@@ -151,39 +123,33 @@ $(document).ready(function () {
 					console.log(response);
 					console.log(" ~ ajax happened ~ ");
 				},
-
 				error: function(error) {
 					console.log(error);
 				}
-
-
 		});
 
 		 $('#newTaskForm').hide();
 
-		 // drawTasks(present_day);
+		 // drawTaskLine()
 
 	});
 
 
 	/* START-DATE LISTENER */
-
 	$('#start').change(function () {
 		 getDayOfWeek($('#start').val());
 		 getMonthOfYear($('#start').val());
 	});
 
 
-	/* BEGIN CLICK BUTTONS, OPEN POP-UPS LISTENERS */
+	/* CLICK BUTTONS, OPEN POP-UPS LISTENERS */
 
 	$('#newTaskButton').click(function () {
 		$('#newTaskForm').css("display", "block");
 	});
 
-	/* END CLICK BUTTONS, OPEN POP-UPS LISTENERS */
 
-
-	/* BEGIN CLICK SHORT TERM/LONG FORM BUTTON LISTENERS */
+	/* CLICK SHORT TERM/LONG FORM BUTTON LISTENERS */
 
 	$("#shortTermButton").click(function() {
 		$('.sTermTimeIncColHeader').show();
@@ -195,25 +161,16 @@ $(document).ready(function () {
 		$('.lTermTimeIncColHeader').show();
 	});
 
-	/* END CLICK SHORT TERM/LONG FORM BUTTON LISTENERS */
 
-
-	/* BEGIN SUBMIT FORM BUTTON LISTENERS */
-
-	// $('#taskFormSubmit').click(function () {
-	// 	console.log("well the hiding thing works");
-	// 	$('#newTaskForm').hide();
-	// });
+	/* SUBMIT FORM BUTTON LISTENERS */
 	$('#shortTermSubmit').click(function () {
 		$('#shortTermForm').hide();
 	});
 	$('#longTermSubmit').click(function () {
 		$('#longTermForm').hide();
 	});
-	/* END SUBMIT FORM BUTTONS LISTENERS */
 
-
-	/* BEGIN CANCEL FORM BUTTON LISTENERS */
+	/* CANCEL FORM BUTTON LISTENERS */
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
 	});
@@ -223,10 +180,8 @@ $(document).ready(function () {
 	$('#cancelIdLongTerm').click(function () {
 		$('#longTermForm').hide();
 	});
-	/* END CANCEL FORM BUTTON LISTENERS */
 
 
-	/* BEGIN
 
 	/* Function for changing category colors  */
 	$('#category_color').on('change', function (e) {
@@ -247,85 +202,47 @@ $(document).ready(function () {
 	   var xSpaceIncrement = canvas.width / numTimeIncrements;
 	   var ySpaceIncrement = 60;
 
-
+/* Function for drawing a task to the canvas*/
+function drawTaskLine(){
 	if (canvas.getContext) {
+		//TODO: CLEAR THE CANVAS OF EVERYTHING
 
-	   // task 1
-	   var context = canvas.getContext("2d");
-	   context.beginPath();
-	   context.moveTo(sampleTaskStartDay * xSpaceIncrement, ySpaceIncrement);
-	   context.lineTo(sampleTaskEndDay * xSpaceIncrement, ySpaceIncrement);
-	   context.lineWidth = 5;
-	   // set line color
-	   context.strokeStyle = '#00b500';
-	   context.stroke();
+		 var context = canvas.getContext("2d");
+		 context.beginPath();
+		 context.moveTo(sampleTaskStartDay * xSpaceIncrement, ySpaceIncrement);
+		 context.lineTo(sampleTaskEndDay * xSpaceIncrement, ySpaceIncrement);
+		 context.lineWidth = 5;
+		 // set line color
+		 context.strokeStyle = '#00b500';
+		 context.stroke();
 
-	//circle
-	   // var context = canvas.getContext('2d');
-	   var centerX = sampleTaskStartDay * xSpaceIncrement;
-	   var centerY = ySpaceIncrement;
-	   var radius = 20;
+		 //circle
+		 var centerX = sampleTaskStartDay * xSpaceIncrement;
+		 var centerY = ySpaceIncrement;
+		 var radius = 20;
 
-	   context.beginPath();
-	   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-	   context.fillStyle = '#00b500';
+		 context.beginPath();
+		 context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+		 context.fillStyle = '#00b500';
 
-	   //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-	   context.fill();
-	   context.lineWidth = 5;
-
-
-	   var centerX = sampleTaskEndDay * xSpaceIncrement;
-	   var centerY = ySpaceIncrement;
-	   var radius = 20;
-
-	   context.beginPath();
-	   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-	   context.fillStyle = '#00b500';
-
-	   //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-	   context.fill();
+		 //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
+		 context.fill();
+		 context.lineWidth = 5;
 
 
-	   // task 2
+		 var centerX = sampleTaskEndDay * xSpaceIncrement;
+		 var centerY = ySpaceIncrement;
+		 var radius = 20;
 
-	   var context = canvas.getContext("2d");
-	   context.beginPath();
-	   context.moveTo(sampleTaskStartDay2 * xSpaceIncrement, ySpaceIncrement*2);
-	   context.lineTo(sampleTaskEndDay2 * xSpaceIncrement, ySpaceIncrement*2);
-	   context.lineWidth = 5;
-	   // set line color
-	   context.strokeStyle = '#00b500';
-	   context.stroke();
+		 context.beginPath();
+		 context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+		 context.fillStyle = '#00b500';
 
-	//circle
-	   // var context = canvas.getContext('2d');
-	   var centerX = sampleTaskStartDay2 * xSpaceIncrement;
-	   var centerY = ySpaceIncrement*2;
-	   var radius = 20;
+		 //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
+		 context.fill();
+	 }
+ };
 
-	   context.beginPath();
-	   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-	   context.fillStyle = '#00b500';
-
-	   //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-	   context.fill();
-	   context.lineWidth = 5;
-	   context.strokeStyle = '2E1919';
-	   context.stroke();
-	   context.fillStyle = '#2E1919';
-
-	   var centerX = sampleTaskEndDay2 * xSpaceIncrement;
-	   var centerY = ySpaceIncrement*2;
-	   var radius = 20;
-
-	   context.beginPath();
-	   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-	   context.fillStyle = '#00b500';
-
-	   //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-	   context.fill();
-	}
 });
 
 
