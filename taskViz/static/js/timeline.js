@@ -60,14 +60,15 @@ function getMonthOfYear(startDateVar) {
 
 function getTaskStartDate (startDateString) {
 	var startDateObject = new Date(startDateString);
-	var startDateInfoArray = [startDateObject.getDay(), startDateObject.getMonth(), startDateObject.getYear()];
-	return startDateInfoArray;
+	// var startDateInfoArray = [startDateObject.getDay(), startDateObject.getMonth(), startDateObject.getYear()];
+	console.log("task start date: " + startDateObject)
+	return startDateObject;
 };
 
 function getTaskEndDate (endDateString) {
 	var endDateObject = new Date(endDateString);
-	var endDateInfoArray = [endDateObject.getDay(), endDateObject.getMonth(), endDateObject.getYear()];
-	return endDateInfoArray;
+	// var endDateInfoArray = [endDateObject.getDay(), endDateObject.getMonth(), endDateObject.getYear()];
+	return endDateObject;
 };
 
 
