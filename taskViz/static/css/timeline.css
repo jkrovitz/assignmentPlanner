@@ -51,6 +51,10 @@ body,
 
 /* START BUTTON STYLING */
 
+input[type=date] {
+  border: solid 1px grey;
+}
+
 .individual-cat-btns {
 	margin-bottom: 5px;
 }

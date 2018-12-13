@@ -78,8 +78,8 @@ class Task(db.Model):
     task_start_date = db.Column(db.String(100), nullable=False)
     task_end_date = db.Column(db.String(100), nullable=False)
     print("task start date", task_start_date)
-    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    #user = db.relationship('User', backref='tasks')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref='tasks')
     # for some reason this doesn't work
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=False)
 

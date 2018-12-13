@@ -20,7 +20,9 @@ function getDayOfWeek(startDateVar) {
     	var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' +
 			timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) +
 			'/' + (dateObj.getDate()+1) + '</span>';
-    	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+			var newDateObj = new Date(dateObj);
+    	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan).data("date", newDateObj);
+			console.log(newDateObj)
     	dateObj.setDate(dateObj.getDate() + 1);
     	dayOfWeek = weekdays[dateObj.getDay()];
     }

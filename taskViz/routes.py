@@ -140,6 +140,7 @@ def create():
 	task_start_date = request.form['new_task_start_date_input']
 	task_end_date = request.form['new_task_end_date_input']
 	new_task_category = request.form['new_task_category']
+	task_user_id = current_user.id
 	if not task_name:
 		print("Name missing")
 		abort(403)
@@ -149,7 +150,7 @@ def create():
 	print("Route end date: " + task_end_date)
 	print("Route Category: " + new_task_category)
 
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category)
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = task_user_id)
 
 
 	db.session.add(new_task)
@@ -158,26 +159,26 @@ def create():
 
 @app.route('/retrieveTasks')
 def retrieve_tasks():
-	tasks = Task.query.all()
+	tasks = Task.query.filter_by(user_id=current_user.id).all()
 	task_list = []
 	for task in tasks:
 		json_task = {"task_name":task.task_name, "task_start_date":task.task_start_date, "task_end_date":task.task_end_date, "category_id":task.category_id, "category":task.category.category_name }
 		task_list.append(json_task)
 	return jsonify(task_list)
 
-@app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
-def edit_task(task_id):
-	task = Task.query.get(task_id)
-	form = NewTaskForm()
-	if task.user_id != current_user.id:
-		abort(403)
-	if request.method == 'POST':
-		task.task_name=request.form['task_name']
-		category.task_color=request.form['task_color']
-		db.session.commit()
-		flash('Your task has been updated!', 'success')
-		return redirect(url_for('home', task=task_id))
-	elif request.method == 'GET':
-		form.task_name.data = task.task_name
-		form.task_color.data = task.task_color
-	return render_template('forms/task_form.html', new_task_form=form)
+# @app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
+# def edit_task(task_id):
+# 	task = Task.query.get(task_id)
+# 	form = NewTaskForm()
+# 	if task.user_id != current_user.id:
+# 		abort(403)
+# 	if request.method == 'POST':
+# 		task.task_name=request.form['task_name']
+# 		category.task_color=request.form['task_color']
+# 		db.session.commit()
+# 		flash('Your task has been updated!', 'success')
+# 		return redirect(url_for('home', task=task_id))
+# 	elif request.method == 'GET':
+# 		form.task_name.data = task.task_name
+# 		form.task_color.data = task.task_color
+# 	return render_template('forms/task_form.html', new_task_form=form)
