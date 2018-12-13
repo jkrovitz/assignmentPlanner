@@ -57,12 +57,12 @@ function getMonthOfYear(startDateVar) {
 };
 
 var tasks = []
-function loadTasks(){
+function loadTasks(tasks){
 	$.getJSON('/retrieveTasks', function(data, status){
 		console.log(data);
 		for(var i=0; i< data.length; i++) {
 			var tasks= data[i];
-			console.log("Task from the database: " + tasks);
+			$('#timelineId').after(JSON.stringify(tasks));
 		}
 	});
 };
