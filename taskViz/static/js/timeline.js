@@ -41,6 +41,7 @@ function getMonthOfYear(startDateVar) {
 	"Aug","Sept","Oct","Nov","Dec"];
 	var monthOfYear = months[dateObj.getMonth()];
 	var monthOffset = months.length - dateObj.getMonth();
+
 	// For loop that adds new headings
 	for (var i = 0; i < 12; i++) {
 		var timeSlotSpanId = 'lTermTimeSlot' + i;
@@ -72,6 +73,7 @@ $(document).ready(function () {
 	var present_day = getDayOfWeek($('#start').val());
 	console.log("Day being saved as: " + present_day);
 	getMonthOfYear($('#start').val());
+
 
 	console.warn("This is the day selected on the calendar: " + present_day);
 
@@ -160,7 +162,6 @@ $(document).ready(function () {
 						taskStartColumn = 0;		// temporary variables
 						taskEndColumn = 2;
 						var xSpaceIncrement = canvas.width / numTimeIncrements;
-						var color = $('#category1').css('color');
 						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
 					} else {
 						console.warn("Days do not match");
@@ -231,32 +232,19 @@ $(document).ready(function () {
 	});
 
 
-	/* SUBMIT FORM BUTTON LISTENERS */
-	$('#shortTermSubmit').click(function () {
-		$('#shortTermForm').hide();
-	});
-	$('#longTermSubmit').click(function () {
-		$('#longTermForm').hide();
-	});
-
-
 	/* CANCEL FORM BUTTON LISTENERS */
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
 	});
-	$('#cancelId').click(function () {
-		$('#shortTermForm').hide();
-	});
-	$('#cancelIdLongTerm').click(function () {
-		$('#longTermForm').hide();
-	});
 
-	/* Function for changing category colors  */
-	$('#category_color').on('change', function (e) {
-		var optionSelected = $("option:selected", this);
-		var valueSelected = this.value;
-		$(".background").css("background-color", valueSelected);
-	});
+
+	// /* Function for changing category colors  */
+	// $('#category_color').on('change', function (e) {
+	// 	var optionSelected = $("option:selected", this);
+	// 	var valueSelected = this.value;
+	// 	$(".background").css("background-color", valueSelected);
+	// });
+
 
 	// TODO: currently static
 	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="100px"></canvas>');
@@ -270,6 +258,7 @@ $(document).ready(function () {
 
 	/* Function for drawing a task to the canvas*/
 });
+
 
 function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, task){
 	if (canvas.getContext) {
@@ -287,6 +276,7 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 	}
 };
 
+
 function drawTimelineLine(context, xPos1, xPos2, yPos, color){
 	context.beginPath();
 	context.moveTo(xPos1, yPos);
@@ -296,6 +286,7 @@ function drawTimelineLine(context, xPos1, xPos2, yPos, color){
 	context.strokeStyle = color;
 	context.stroke();
 }
+
 
 function drawCircles(context, xPos1, xPos2, yPos, color){
 	var radius = 20;
@@ -316,6 +307,7 @@ function drawCircles(context, xPos1, xPos2, yPos, color){
 	context.fill();
 }
 
+
 /* Calculates the width of the div with the Class called Timeline. */
 function calculateTimelineWidth(){
 	var selectTimelineWidth = document.querySelector('.Timeline');
@@ -324,12 +316,14 @@ function calculateTimelineWidth(){
 	// return console.log("Width of Timeline div:" + timelineWidth);
 };
 
+
 /* Calculates the width of the div with the Class called Category. */
 function calculateCategoryWidth(){
 	var selectCategoryWidth = document.querySelector('.Category');
 	categoryWidth = selectCategoryWidth.clientWidth;
 	// return console.log("Width of Category div:" + categoryWidth);
 };
+
 
 /* A helper function. Calculates the height width of various elments, such as divs when the window
 is resized. This function is placed within the html body tag and is called when the window is resized. */
