@@ -23,7 +23,7 @@ function getDayOfWeek(startDateVar) {
 
 		var timeSlotSpanId = "sTermTimeSlot" + i;
 		// var newDateObj = new Date(dateObj);
-		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" value="' + dateVal + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) +  '</span>';
+		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) +  '</span>';
 		console.warn("my string says: "+ timeSlotSpan);
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 		dateObj.setDate(dateObj.getDate() + 1);
@@ -93,6 +93,7 @@ $(document).ready(function () {
 					var sectionFullDate = $('#sTermTimeSlot' + j).attr('dateVal');
 					console.log("sectionFullDate: " + sectionFullDate);
 					console.log("sectionFullDate j: " + j);
+					console.log('#sTermTimeSlot' + j, $('#sTermTimeSlot' + j));
 					//Get display section info
 				} else {
 					//Get display section info
