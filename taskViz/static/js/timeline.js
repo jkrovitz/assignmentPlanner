@@ -14,18 +14,16 @@ function getDayOfWeek(startDateVar) {
 	var weekdays = ["Mon", "Tues", "Wed", "Thur",	"Fri", "Sat", "Sun"];
 	var dayOfWeek = weekdays[dateObj.getDay()];
 
-    // For loop that adds new headings
-    for (var i = 0; i < 7; i++) {
-    	var timeSlotSpanId = "sTermTimeSlot" + i + "";
-			var newDateObj = new Date(dateObj);
-    	var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) + '</span>';
-			// $( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
-    	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan).data("date", newDateObj);
-			// console.log(newDateObj)
-    	dateObj.setDate(dateObj.getDate() + 1);
-    	dayOfWeek = weekdays[dateObj.getDay()];
-    }
-		return new Date(startDateVar);
+	// For loop that adds new headings
+	for (var i = 0; i < 7; i++) {
+		var timeSlotSpanId = "sTermTimeSlot" + i + "";
+		var newDateObj = new Date(dateObj);
+		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) + '</span>';
+		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan).data("date", newDateObj);
+		dateObj.setDate(dateObj.getDate() + 1);
+		dayOfWeek = weekdays[dateObj.getDay()];
+	}
+	return new Date(startDateVar);
 };
 
 
@@ -34,13 +32,13 @@ into a string object.*/
 function getMonthOfYear(startDateVar) {
 	var dateObj = new Date(startDateVar);
 	var months = ["Jan","Feb","March","April","May","June","July",
-            "Aug","Sept","Oct","Nov","Dec"];
+	"Aug","Sept","Oct","Nov","Dec"];
 	var monthOfYear = months[dateObj.getMonth()];
 	var monthOffset = months.length - dateObj.getMonth();
-    // For loop that adds new headings
-  for (var i = 0; i < 12; i++) {
-  	var timeSlotSpanId = 'lTermTimeSlot' + i + '';
-		if (i == monthOffset) {
+	// For loop that adds new headings
+	for (var i = 0; i < 12; i++) {
+		var timeSlotSpanId = 'lTermTimeSlot' + i + '';
+		if (i === monthOffset) {
 			var monthIncrement = 1;
 			monthOfYear = months[0];
 		}
@@ -54,24 +52,25 @@ function getMonthOfYear(startDateVar) {
 		}
 		var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '">' + monthOfYear + ' ' + '</span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
-  }
+	}
 };
 
-
-
 $(document).ready(function () {
+	var taskStartColumn, taskEndColumn;
 	var present_day = getDayOfWeek($('#start').val());
-	console.log("Day being saved as: " + present_day)
+	console.log("Day being saved as: " + present_day);
 	getMonthOfYear($('#start').val());
 
 	console.warn("This is the day selected on the calendar: " + present_day);
 
-	var task = []
+	$('body').resize(calculateOnResize());
+
+	var task = [];
 	$.getJSON('/retrieveTasks', function(data, status){
 		for(var i=0; i< data.length; i++) {
 			task = data[i];
 
-			var stringifiedTask = JSON.stringify(task) //turn JSON object into something readable by JavaScript
+			var stringifiedTask = JSON.stringify(task); //turn JSON object into something readable by JavaScript
 			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
 			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
 			var parsedTaskStartDate = new Date(parsedTask.task_start_date);
@@ -86,10 +85,11 @@ $(document).ready(function () {
 			var calStartMonth = present_day.getMonth()+1;
 			var calStartDay = present_day.getDate()+1;
 
-
-			if (calStartYear == taskStartYear && calStartMonth == taskStartMonth && calStartDay == taskStartDay) {
+			if (calStartYear === taskStartYear && calStartMonth === taskStartMonth && calStartDay === taskStartDay) {
 				console.warn("The Days match");
-				drawTaskLine();
+				taskStartColumn = 0;
+				taskEndColumn = 2;
+				drawTaskLine(canvas, context, taskStartColumn, taskEndColumn);
 			} else {
 				console.warn("Days do not match");
 				console.log("taskStartYear: " + taskStartYear);
@@ -104,7 +104,6 @@ $(document).ready(function () {
 		}
 	});
 
-
 	// var result = JSON.parse(tasks);
 
 	$('#newTaskFormId').submit( function(e) {
@@ -114,49 +113,47 @@ $(document).ready(function () {
 		var taskStartDate = $('#new_task_start_date_input').val();
 		var taskEndDate = $('#new_task_end_date_input').val();
 
-
 		$.ajax({
-				url : '/create',
-				 data : $('#newTaskFormId').serialize(),
-				type : 'POST',
-				success: function(response) {
-					console.log(response);
-					console.log(" ~ ajax happened ~ ");
-				},
-				error: function(error) {
-					console.log(error);
-				}
+			url : '/create',
+			data : $('#newTaskFormId').serialize(),
+			type : 'POST',
+			success: function(response) {
+				console.log(response);
+				console.log(" ~ ajax happened ~ ");
+			},
+			error: function(error) {
+				console.log(error);
+			}
 		});
 
-		 $('#newTaskForm').hide();
+		$('#newTaskForm').hide();
 
-		 // drawTaskLine()
+		// drawTaskLine()
 
 	});
 
 
 	/* START-DATE LISTENER */
 	$('#start').change(function () {
-		 getDayOfWeek($('#start').val());
-		 getMonthOfYear($('#start').val());
+		var startVal = $('#start').val();
+		getDayOfWeek(startVal);
+		getMonthOfYear(startVal);
 	});
 
 
 	/* CLICK BUTTONS, OPEN POP-UPS LISTENERS */
-
 	$('#newTaskButton').click(function () {
 		$('#newTaskForm').css("display", "block");
 	});
 
 
 	/* CLICK SHORT TERM/LONG FORM BUTTON LISTENERS */
-
-	$("#shortTermButton").click(function() {
+	$('#shortTermButton').click(function() {
 		$('.sTermTimeIncColHeader').show();
 		$('.lTermTimeIncColHeader').hide();
 	});
 
-	$("#longTermButton").click(function() {
+	$('#longTermButton').click(function() {
 		$('.sTermTimeIncColHeader').hide();
 		$('.lTermTimeIncColHeader').show();
 	});
@@ -170,6 +167,7 @@ $(document).ready(function () {
 		$('#longTermForm').hide();
 	});
 
+
 	/* CANCEL FORM BUTTON LISTENERS */
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
@@ -181,8 +179,6 @@ $(document).ready(function () {
 		$('#longTermForm').hide();
 	});
 
-
-
 	/* Function for changing category colors  */
 	$('#category_color').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
@@ -191,73 +187,81 @@ $(document).ready(function () {
 	});
 
 	var canvas = document.getElementById('DemoCanvas');
-	   var sampleTaskStartDay = 1;
-	   var sampleTaskEndDay = 5;
+	var numTimeIncrements = 7;  // temporary. for days of week
+	var xSpaceIncrement = calculateTimelineWidth() / numTimeIncrements;
+	var ySpaceIncrement = 60;
 
-	   var sampleTaskStartDay2 = 3;
-	   var sampleTaskEndDay2 = 6;
+	var context = canvas.getContext("2d");
 
-	   // var numTimeIncrements = $('#amountShortTimeUnits').val();   // temporarily out
-	   numTimeIncrements = 7;  // temporary. for days of week
-	   var xSpaceIncrement = canvas.width / numTimeIncrements;
-	   var ySpaceIncrement = 60;
-
-/* Function for drawing a task to the canvas*/
-function drawTaskLine(){
-	if (canvas.getContext) {
-		//TODO: CLEAR THE CANVAS OF EVERYTHING
-
-		 var context = canvas.getContext("2d");
-		 context.beginPath();
-		 context.moveTo(sampleTaskStartDay * xSpaceIncrement, ySpaceIncrement);
-		 context.lineTo(sampleTaskEndDay * xSpaceIncrement, ySpaceIncrement);
-		 context.lineWidth = 5;
-		 // set line color
-		 context.strokeStyle = '#00b500';
-		 context.stroke();
-
-		 //circle
-		 var centerX = sampleTaskStartDay * xSpaceIncrement;
-		 var centerY = ySpaceIncrement;
-		 var radius = 20;
-
-		 context.beginPath();
-		 context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-		 context.fillStyle = '#00b500';
-
-		 //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-		 context.fill();
-		 context.lineWidth = 5;
-
-
-		 var centerX = sampleTaskEndDay * xSpaceIncrement;
-		 var centerY = ySpaceIncrement;
-		 var radius = 20;
-
-		 context.beginPath();
-		 context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-		 context.fillStyle = '#00b500';
-
-		 //we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
-		 context.fill();
-	 }
- };
-
+	/* Function for drawing a task to the canvas*/
 });
 
+function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn){
+	if (canvas.getContext) {
+		// TODO: CLEAR THE CANVAS OF EVERYTHING
+
+		console.log("this works");
+		console.log(taskStartColumn);
+		console.log(taskEndColumn);
+
+		drawTimelineLine(context);
+		drawCircles(context);
+	}
+};
+
+function drawTimelineLine(context){
+	context.beginPath();
+	// context.moveTo(taskStartColumn * xSpaceIncrement + xSpaceIncrement, ySpaceIncrement);
+	// context.lineTo(taskEndColumn * xSpaceIncrement + xSpaceIncrement, ySpaceIncrement);
+	context.moveTo(60, 60);
+	context.lineTo(300, 60);
+	context.lineWidth = 5;
+	// set line color
+	context.strokeStyle = '#00b500';
+	context.stroke();
+}
+
+function drawCircles(context){
+	//circle
+	// var centerX = taskStartColumn * xSpaceIncrement + xSpaceIncrement;
+	var centerX = 300;
+	var centerY = 60;
+	var radius = 20;
+
+	context.beginPath();
+	context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+	context.fillStyle = '#00b500';
+
+	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
+	context.fill();
+	context.lineWidth = 5;
+
+	// var centerX = sampleTaskEndDay * xSpaceIncrement;
+	var centerX = 100;
+	var centerY = 60;
+	var radius = 20;
+
+	context.beginPath();
+	context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+	context.fillStyle = '#00b500';
+
+	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
+	context.fill();
+}
 
 /* Calculates the width of the div with the Class called Timeline. */
 function calculateTimelineWidth(){
-  var selectTimelineWidth = document.querySelector('.Timeline');
-  timelineWidth = selectTimelineWidth.clientWidth;
-  // return console.log("Width of Timeline div:" + timelineWidth);
+	var selectTimelineWidth = document.querySelector('.Timeline');
+	timelineWidth = selectTimelineWidth.clientWidth;
+	return timelineWidth;
+	// return console.log("Width of Timeline div:" + timelineWidth);
 };
 
 /* Calculates the width of the div with the Class called Category. */
 function calculateCategoryWidth(){
-  var selectCategoryWidth = document.querySelector('.Category');
-  categoryWidth = selectCategoryWidth.clientWidth;
-  // return console.log("Width of Category div:" + categoryWidth);
+	var selectCategoryWidth = document.querySelector('.Category');
+	categoryWidth = selectCategoryWidth.clientWidth;
+	// return console.log("Width of Category div:" + categoryWidth);
 };
 
 /* A helper function. Calculates the height width of various elments, such as divs when the window
