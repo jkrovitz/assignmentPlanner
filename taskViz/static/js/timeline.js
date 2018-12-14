@@ -94,6 +94,17 @@ $(document).ready(function () {
 					console.log("sectionFullDate: " + sectionFullDate);
 					console.log("sectionFullDate j: " + j);
 					console.log('#sTermTimeSlot' + j, $('#sTermTimeSlot' + j));
+
+					$("span.sTermTimeIncColHeader").each(function() {
+						var calColDate = $(this).attr('dateVal');
+						var calColDatePartsArray = calColDate.split('|');
+						var calColYear = calColDatePartsArray[0];
+						var calColMonth = calColDatePartsArray[1];
+						var calColDay = calColDatePartsArray[2];
+						console.log("The year for a column is: " + calColDatePartsArray[0]);
+						console.log("The month for a column is: " + calColDatePartsArray[1]);
+						console.log("The day for a column is: " + calColDatePartsArray[2]);
+					});
 					//Get display section info
 				} else {
 					//Get display section info
@@ -126,9 +137,9 @@ $(document).ready(function () {
 					var calStartMonth = present_day.getMonth()+1;
 					var calStartDay = present_day.getDate()+1;
 
-					// if (taskStartDay < calStartDay && taskEndDay >= calEndDay && taskStartMonth == calStartMonth){
-					//
-					// }
+					if (taskStartDay < calStartDay && taskEndDay >= calEndDay && taskStartMonth == calStartMonth){
+
+					}
 
 					/* draw timeline line on canvas if start date of task equal start date view */
 					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth && calStartDay === taskStartDay) {
