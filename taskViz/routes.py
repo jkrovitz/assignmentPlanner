@@ -69,7 +69,7 @@ def logout():
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
-	"""used to create category"""
+	"""used to create category and add it to the database"""
 	category_name = request.form.get('category_name')
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
@@ -89,7 +89,7 @@ def category():
 @app.route("/category/<int:category_id>")
 @login_required
 def get_category_id(category_id):
-	"""used to edit category"""
+	"""gets category_id. used for editing and deleting categories"""
 	category = Category.query.get_or_404(category_id)
 	return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
 
@@ -97,6 +97,7 @@ def get_category_id(category_id):
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
+	"""gets category by category_id. can edit category, then add it to the database"""
 	category = Category.query.get(category_id)
 	form = NewCategoryForm()
 	if category.user_id != current_user.id:
@@ -117,6 +118,8 @@ def edit_category(category_id):
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
+	"""gets category by category_id. can delete category from the screen and database"""
+	# TODO: Delete button doesn't work.
 	category = Category.query.get_or_404(category_id)
 	if category.user_id != current_user.id:
 		abort(403)

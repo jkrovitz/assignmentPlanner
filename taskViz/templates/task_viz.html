@@ -37,7 +37,7 @@
 			<!-- Top bar for user input -->
 				<div class="p-4">
 					<label>Start date:</label>
-					<input type="date" id="start" value="2018-07-22" min="" max="" onchange="location.reload()">
+					<input type="date" id="start" value="2018-07-22" min="" max="" onchange="location.reload(false)">
         	<a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
 
 					<div class="topButtons">
@@ -79,19 +79,19 @@
 		</div>
 
 	<!-- Sidebar of catgories  -->
-		<div class="Category p-4 text-center">
+		<div class="Category p-4">
 			<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
 			<div class="mt-4">
 				{% for category in categories %}
-				<div id="category{{ category.category_id }}" style="background-color:#{{ category.category_color }};">
+				<div id="category{{ category.category_id }}">
 					<input type="checkbox">
-					<a href="{{url_for('get_category_id', category_id=category.category_id)}}">
+					<a class="rounded text-center" style="border: 3px solid #{{ category.category_color }};" href="{{url_for('get_category_id', category_id=category.category_id)}}">
 						{{ category.category_name }}
 					</a>
+					</div>
 					{% endfor %}
 				<div id="background" class="alert success background" role="alert" style="display:none;"></div>
 				</div>
-			</div>
 		</div>
   </div>
 	<!-- External JavaScript Files -->
