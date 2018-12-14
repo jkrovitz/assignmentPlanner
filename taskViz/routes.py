@@ -142,7 +142,7 @@ def create():
 	task_name = request.form['new_task_input']
 	task_start_date = request.form['new_task_start_date_input']
 	task_end_date = request.form['new_task_end_date_input']
-	new_task_category = request.form['new_task_category']
+	new_task_category = request.form['new_task_category']	# TODO: SEND IN ID FOR CATEGORY. DOES NOT CURRENTLY DO SO
 	task_user_id = current_user.id
 	if not task_name:
 		print("Name missing")
@@ -153,7 +153,7 @@ def create():
 	print("Route end date: " + task_end_date)
 	print("Route Category: " + new_task_category)
 
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = task_user_id)
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = task_user_id)	# TODO: SEND IN ID FOR CATEGORY. DOES NOT CURRENTLY DO SO
 
 
 	db.session.add(new_task)

@@ -56,13 +56,13 @@ function getMonthOfYear(startDateVar) {
 			monthOfYear = months[dateObj.getMonth() + i];
 			monthIncrement ++;
 		}
-		if (dateObj.getMonth()+1+i != 13){
+		if (dateObj.getMonth()+1+i !== 13){
 			var dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i);
 		} else {
 			var dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i-12);
 		}
 		console.log("dateVal:" + dateVal);
-		var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '" name="' + dateVal + '">' + monthOfYear + ' </span>';
+		var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + monthOfYear + ' </span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 	}
 };
@@ -88,7 +88,7 @@ $(document).ready(function () {
 			for(var j=0; j< 7; j++) {
 
 				if (shortTermView) {
-					var sectionFullDate = $('#sTermTimeSlot' + j).attr("name");
+					var sectionFullDate = $('#sTermTimeSlot' + j).attr('dateVal');
 					console.log("sectionFullDate: " + sectionFullDate);
 					console.log("sectionFullDate j: " + j);
 					//Get display section info
@@ -97,9 +97,9 @@ $(document).ready(function () {
 				}
 			}
 
-			var stringifiedTask = JSON.stringify(task); //turn JSON object into something readable by JavaScript
-			$('#timelineId').after(stringifiedTask); //add task dictionary to DOM
-			var parsedTask = JSON.parse(stringifiedTask); //separate dictionary into individual Task objects
+			var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
+			$('#timelineId').after(stringifiedTask); // add task dictionary to DOM
+			var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
 
 			//make a date object for the start and end task dates
 			var parsedTaskStartDate = new Date(parsedTask.task_start_date);
@@ -130,10 +130,10 @@ $(document).ready(function () {
 					/* draw timeline line on canvas if start date of task equal start date view */
 					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth && calStartDay === taskStartDay) {
 						console.warn("The Days match");
-						taskStartColumn = 0;
+						taskStartColumn = 0;		// temporary variables
 						taskEndColumn = 2;
 						var xSpaceIncrement = canvas.width / numTimeIncrements;
-						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement);
+						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
 					} else {
 						console.warn("Days do not match");
 						console.log("taskStartYear: " + taskStartYear);
@@ -151,17 +151,17 @@ $(document).ready(function () {
 					var calStartMonth = present_day.getMonth()+1;
 					if (taskStartYear<calStartYear && taskendYear){
 
-					}else if (taskStartYear==calStartYear && taskStartMonth<calStartMonth){
+					}else if (taskStartYear === calStartYear && taskStartMonth < calStartMonth){
 
 					}
 					/* draw timeline line on canvas if start date of task equal start date view */
 					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth) {
 						console.warn("The Days match");
-						taskStartColumn = 0;
+						taskStartColumn = 0;		// temporary variables
 						taskEndColumn = 2;
 						var xSpaceIncrement = canvas.width / numTimeIncrements;
-						console.log(xSpaceIncrement);
-						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement);
+						var color = $('#category1').css('color');
+						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
 					} else {
 						console.warn("Days do not match");
 						console.log("taskStartYear: " + taskStartYear);
@@ -258,9 +258,11 @@ $(document).ready(function () {
 		$(".background").css("background-color", valueSelected);
 	});
 
+	// TODO: currently static
+	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="100px"></canvas>');
+
 	var canvas = document.getElementById('DemoCanvas');
-	canvas.attr({"width": "600px",
-							"height": "600px"});
+
 	var numTimeIncrements = 7;  // temporary. for days of week
 	var ySpaceIncrement = 60;
 
@@ -269,7 +271,7 @@ $(document).ready(function () {
 	/* Function for drawing a task to the canvas*/
 });
 
-function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement){
+function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, task){
 	if (canvas.getContext) {
 		console.log(taskStartColumn);
 		console.log(taskEndColumn);
@@ -278,27 +280,29 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
 		var yPos = 60;
 
-		drawTimelineLine(context, xPos1, xPos2, yPos);
-		drawCircles(context, xPos1, canvas.width, yPos);
+		var color = $('#category' + task.category_id).css('color'); // return RGB
+
+		drawTimelineLine(context, xPos1, xPos2, yPos, color);
+		drawCircles(context, xPos1, xPos2, yPos, color);
 	}
 };
 
-function drawTimelineLine(context, xPos1, xPos2, yPos){
+function drawTimelineLine(context, xPos1, xPos2, yPos, color){
 	context.beginPath();
 	context.moveTo(xPos1, yPos);
 	context.lineTo(xPos2, yPos);
+
 	context.lineWidth = 5;
-	// set line color
-	context.strokeStyle = '#00b500';
+	context.strokeStyle = color;
 	context.stroke();
 }
 
-function drawCircles(context, xPos1, xPos2, yPos){
+function drawCircles(context, xPos1, xPos2, yPos, color){
 	var radius = 20;
 
 	context.beginPath();
 	context.arc(xPos1, yPos, radius, 0, 2 * Math.PI, false);
-	context.fillStyle = '#00b500';
+	context.fillStyle = color;
 
 	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
 	context.fill();
@@ -306,7 +310,7 @@ function drawCircles(context, xPos1, xPos2, yPos){
 
 	context.beginPath();
 	context.arc(xPos2, yPos, radius, 0, 2 * Math.PI, false);
-	context.fillStyle = '#00b500';
+	context.fillStyle = color;
 
 	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
 	context.fill();

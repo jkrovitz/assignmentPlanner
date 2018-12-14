@@ -22,6 +22,7 @@
 		<div class="form-popup p-2 bd-highlight" id="newTaskForm">
 			{% include 'popups/task_form.html' ignore missing %}
 		</div>
+    </div>
 
 	<!--     <div class="modal fade" id="newCategoryForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		```Include 'forms/category_form.html' ignore missing``` will
@@ -38,7 +39,7 @@
 				<div class="p-4">
 					<label>Start date:</label>
 					<input type="date" id="start" value="2018-07-22" min="" max="" onchange="location.reload(false)">
-        	<a class="btn btn-outline-danger" style="float: right"; href="{{url_for('logout')}}">Logout</a>
+        	<a class="btn btn-outline-danger" style="float: right;" href="{{url_for('logout')}}">Logout</a>
 
 					<div class="topButtons">
           	<button class="btn btn-success" id="newTaskButton">New Task +</button>
@@ -70,11 +71,7 @@
 						<span class="lTermTimeIncColHeader" id="lTermTimeSlot6">date</span>
 					</div>
 				</div>
-
-
-				<canvas id="DemoCanvas" width="0px" height="0px"></canvas>
-      	<script type=text/javascript src="{{ url_for('static', filename='js/canvas.js') }}"></script>
-			</div>
+            </div>
 		</div>
 
 	<!-- Sidebar of catgories  -->
@@ -82,9 +79,9 @@
 		<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
 		<div class="mt-4">
 			{% for category in categories %}
-			<div id="category{{ category.category_id }}" class="d-flex p-2">
+			<div id="category{{ category.category_id }}" style="color:#{{ category.category_color }}" class="d-flex p-2">
 				<input type="checkbox">
-				<a class="category-name rounded text-center" style="border: 1.5px solid #{{ category.category_color }}; color:black; text-decoration:none;" href="{{ url_for('get_category_id', category_id=category.category_id) }}">
+				<a class="category-name btn rounded text-center" style="border-color:#{{ category.category_color }};" href="{{ url_for('get_category_id', category_id=category.category_id) }}">
 					{{ category.category_name }}
 				</a>
 			</div>
@@ -92,7 +89,7 @@
 			<div id="background" class="alert success background" role="alert" style="display:none;"></div>
 		</div>
 	</div>
-  </div>
+    </div>
 	<!-- External JavaScript Files -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
