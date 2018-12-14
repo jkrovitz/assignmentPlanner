@@ -44,7 +44,6 @@
           	<button class="btn btn-success" id="newTaskButton">New Task +</button>
 						<div class="term-btn-group">
 							<button class="btn btn-outline-primary" id="shortTermButton">Short Term</button>
-							<div class="term-btn-gap"></div>
 							<button class="btn btn-outline-primary" id="longTermButton">Long Term</button>
 							</div>
 					</div>
@@ -73,26 +72,26 @@
 				</div>
 
 
-				<canvas id="DemoCanvas" width="400" height="400"></canvas>
-      	<script type=text/javascript src="{{url_for('static', filename='js/canvas.js') }}"></script>
+				<canvas id="DemoCanvas" width="0px" height="0px"></canvas>
+      	<script type=text/javascript src="{{ url_for('static', filename='js/canvas.js') }}"></script>
 			</div>
 		</div>
 
 	<!-- Sidebar of catgories  -->
-		<div class="Category p-4">
-			<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
-			<div class="mt-4">
-				{% for category in categories %}
-				<div id="category{{ category.category_id }}">
-					<input type="checkbox">
-					<a class="rounded text-center" style="border: 3px solid #{{ category.category_color }};" href="{{url_for('get_category_id', category_id=category.category_id)}}">
-						{{ category.category_name }}
-					</a>
-					</div>
-					{% endfor %}
-				<div id="background" class="alert success background" role="alert" style="display:none;"></div>
-				</div>
+	<div class="Category p-4">
+		<a class="btn btn-success" href="{{ url_for('category') }}"> New Category +</a>
+		<div class="mt-4">
+			{% for category in categories %}
+			<div id="category{{ category.category_id }}" class="d-flex p-2">
+				<input type="checkbox">
+				<a class="category-name rounded text-center" style="border: 1.5px solid #{{ category.category_color }}; color:black; text-decoration:none;" href="{{ url_for('get_category_id', category_id=category.category_id) }}">
+					{{ category.category_name }}
+				</a>
+			</div>
+				{% endfor %}
+			<div id="background" class="alert success background" role="alert" style="display:none;"></div>
 		</div>
+	</div>
   </div>
 	<!-- External JavaScript Files -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

@@ -1,10 +1,13 @@
- <div class="form-group">
+{% extends "layout.html" %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
+{% block content %}
+<div class="form-group">
       <form class="form-inline form-container category-form" action="" method="POST" >
 
 
-        <label>New Category:</label>
-        {{ new_category_form.category_name }}
-        <label>Color:</label>
+        <label id="NewCatLabel">New Category:</label>
+        <div id="NewCatNameInput">{{ new_category_form.category_name }}</div>
+        <label id="NewCatColorLabel">Color:</label>
 
         {{ new_category_form.category_color }}
         {{ new_category_form.submit }}
@@ -13,3 +16,4 @@
 
       </form><br/>
       </div>
+{% endblock content %}

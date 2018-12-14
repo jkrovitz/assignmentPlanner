@@ -9,7 +9,7 @@ body,
 .grid-container {
 	height: 100%;
 	margin: 0;
-	background-color: #E4E3DF;
+	background-color: #efefef;
 }
 
 .grid-container * {
@@ -50,6 +50,19 @@ body,
 
 
 /* START BUTTON STYLING */
+
+#shortTermButton{
+	border-radius: 7px 0px 0px 7px;
+}
+
+#longTermButton{
+	border-radius: 0px 7px 7px 0px;
+}
+
+#categoryName {
+  flex-grow: 2;
+	margin-left: 10px;
+}
 
 input[type=date] {
   border: solid 1px grey;
@@ -265,7 +278,6 @@ input[type=date] {
 	margin-bottom: 10px;
 	opacity: 0.8;
 }
-
 
 /* Add a red background color to the cancel button */
 
