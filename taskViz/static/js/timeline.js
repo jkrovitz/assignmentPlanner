@@ -88,13 +88,14 @@ $(document).ready(function () {
 
 			//First we get the task dates from the database for this particular task.
 			for(var j=0; j< 7; j++) {
-
 				if (shortTermView) {
+					//below we get the date from the column spans, might not need since we have to iterating thing below
 					var sectionFullDate = $('#sTermTimeSlot' + j).attr('dateVal');
 					console.log("sectionFullDate: " + sectionFullDate);
 					console.log("sectionFullDate j: " + j);
 					console.log('#sTermTimeSlot' + j, $('#sTermTimeSlot' + j));
 
+					//below we iterate through the column spans to get their date and separate into year, month, and day
 					$("span.sTermTimeIncColHeader").each(function() {
 						var calColDate = $(this).attr('dateVal');
 						var calColDatePartsArray = calColDate.split('|');
@@ -105,6 +106,7 @@ $(document).ready(function () {
 						console.log("The month for a column is: " + calColDatePartsArray[1]);
 						console.log("The day for a column is: " + calColDatePartsArray[2]);
 					});
+
 					//Get display section info
 				} else {
 					//Get display section info
