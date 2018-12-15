@@ -109,6 +109,32 @@ input[type=date] {
 	opacity: 0.8;
 }
 
+#new_task_category{
+	/* margin-top: 20px; */
+}
+
+#new_task_input{
+	/* margin-bottom: 30px; */
+
+}
+
+#new_task_start_date_input{
+
+	margin-right:50px;
+}
+
+#new_task_end_date_input{
+	/* margin-top 50px; */
+	margin-right: 50px;
+}
+
+#taskFormSubmit{
+margin-top: 20px;
+border: solid 1px black;
+}
+
+
+
 .individual-cat-btns {
 	margin-bottom: 5px;
 }
@@ -147,7 +173,7 @@ input[type=date] {
 }
 
 .form-container {
-	max-width: 300px;
+	/* max-width: 300px; */
 	text-align: center;
 	border: 1px solid grey;
 	padding: 10px;
@@ -156,8 +182,8 @@ input[type=date] {
 
 .form-container input[type=text],
 .form-container input[type=password] {
-	width: 100%;
-	padding: 15px;
+	/* width: 100%; */
+	/* padding: 15px; */
 	margin: 5px 0 22px 0;
 	border: solid grey 1px;
 	background: #ffffff;
@@ -188,7 +214,7 @@ input[type=date] {
 }
 
 .new-task-form-container {
-	max-width: 300px;
+	/* max-width: 300px; */
 	text-align: center;
 	border: 1px solid grey;
 	padding: 10px;
@@ -198,7 +224,6 @@ input[type=date] {
 .new-task-form-container input[type=text],
 .new-task-form-container input[type=password] {
 	width: 100%;
-	padding: 15px;
 	margin: 5px 0 22px 0;
 	border: solid grey 1px;
 	background: #ffffff;
@@ -247,14 +272,14 @@ input[type=date] {
 }
 
 .new-task-input {
-	margin-bottom: 20px;
+	/* margin-bottom: 20px; */
 }
 
 /* Set a style for the submit/login button */
 .form-container .my-submit-btn {
 	background-color: #eeeeee;
 	color: grey;
-	padding: 8px 10px;
+	padding: 20px 10px;
 	font-size: 1.5vw;
 	/*border: none;*/
 	border: solid grey 1px;
@@ -409,4 +434,4 @@ hr{
 /* Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {}
 /* Extra large devices (large desktops, 1200px and up)*/
-@media (min-width: 1200px) {} 
+@media (min-width: 1200px) {}

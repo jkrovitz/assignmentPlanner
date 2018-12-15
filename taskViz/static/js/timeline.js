@@ -78,8 +78,22 @@ $(document).ready(function () {
 
 	$('body').resize(calculateOnResize());
 
+
+
 	var task = [];
-	$.getJSON('/retrieveTasks', function(data, status){
+	$.getJSON('/retrieveTasks', function(data, status) {
+		//----------------CANVAS SETUP-----------------------
+		// TODO: currently static
+		$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="200px"></canvas>');
+
+		var canvas = document.getElementById('DemoCanvas');
+
+		var numTimeIncrements = 7;  // number of columns
+		var ySpaceIncrement = 60; //
+
+		var context = canvas.getContext("2d");
+
+		//----------------VARIABLES FOR DISPLAYING TASKS-----------------------
 		// for loop to get the values of currently displayed calendar time time slots
 		var calStartYear =  present_day.getFullYear();
 		var calStartMonth = present_day.getMonth()+1;
@@ -93,19 +107,14 @@ $(document).ready(function () {
 		var calColMonth;
 		var calColDay;
 
-		for(var i=0; i< data.length; i++) {
-			task = data[i];
-			//First we get the task dates from the database for this particular task.
-			}
-
 		//below we iterate through the column spans to get their date and separate into year, month, and day
 		$("span.sTermTimeIncColHeader").each(function() {
 			var calColDate = $(this).attr('dateVal');
 			var calColDatePartsArray = calColDate.split('|');
 
-			calColYear = calColDatePartsArray[0];
-			calColMonth = calColDatePartsArray[1];
-			calColDay = calColDatePartsArray[2];
+			calColYear = calColDatePartsArray[0]; //get the year from the dateVal
+			calColMonth = calColDatePartsArray[1]; //get the month from the dateVal
+			calColDay = calColDatePartsArray[2]; //get the day from the dateVal
 
 			console.log("The year for a column is: " + calColDatePartsArray[0]);
 			console.log("The month for a column is: " + calColDatePartsArray[1]);
@@ -120,15 +129,13 @@ $(document).ready(function () {
 		console.log("The days of the columns are: " + calColDayArray);
 
 
+		var stringifiedTask;
 
-		for(var j=0; j< 7; j++) {
-			if (shortTermView) {
-				//Get display section info
-			} else {
-				//Get display section info
-			}
-
-			var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
+		for(var i = 0; i < data.length; i++) {
+			task = data[i];
+			console.log("_________LOOK HERE_______" + task); //this prints [object Object]
+			//First we get the task dates from the database for this particular task.
+			stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
 			$('#timelineId').after(stringifiedTask); // add task dictionary to DOM
 			var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
 
@@ -147,63 +154,34 @@ $(document).ready(function () {
 			var taskEndDay = parsedTaskEndDate.getDate()+1;
 
 
-			//Now we get the calendar dates
-
-			//From this point, make a for loop over each day shown to see if the timeline gets displayed
+			//------------------COMPARING CALENDAR COLUMN DATES WITH TASK DATES TO DISPLAY TASKS-----------------------
 			if (shortTermView){
+					//these variables are probably superfluous since we have the calColYearArray, calColMonthArray, and calColDayArray
 					var calStartYear =  present_day.getFullYear();
 					var calStartMonth = present_day.getMonth()+1;
 					var calStartDay = present_day.getDate()+1;
 
-					// if (taskStartDay < calStartDay && taskEndDay >= calEndDay && taskStartMonth == calStartMonth){
-					//
-					// }
-
 					/* draw timeline line on canvas if start date of task equal start date view */
-					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth && calStartDay === taskStartDay) {
-						console.warn("The Days match");
-						taskStartColumn = 0;		// temporary variables
-						taskEndColumn = 2;
-						var xSpaceIncrement = canvas.width / numTimeIncrements;
-						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
-					} else {
-						console.warn("Days do not match");
-						console.log("taskStartYear: " + taskStartYear);
-						console.log("taskStartMonth: " + taskStartMonth);
-						console.log("taskStartDay: " + taskStartDay);
-
-						console.log("calStartYear: " + calStartYear);
-						console.log("calStartMonth: " + calStartMonth);
-						console.log("calStartDay: " + calStartDay);
-					}
-
-			} else { // In the case of long term view
-
-					var calStartYear =  present_day.getFullYear();
-					var calStartMonth = present_day.getMonth()+1;
-					if (taskStartYear<calStartYear && taskendYear){
-
-					}else if (taskStartYear === calStartYear && taskStartMonth < calStartMonth){
-
-					}
-					/* draw timeline line on canvas if start date of task equal start date view */
-					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth) {
-						console.warn("The Days match");
-						taskStartColumn = 0;		// temporary variables
-						taskEndColumn = 2;
-						var xSpaceIncrement = canvas.width / numTimeIncrements;
-						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
-					} else {
-						console.warn("Days do not match");
-						console.log("taskStartYear: " + taskStartYear);
-						console.log("taskStartMonth: " + taskStartMonth);
-
-						console.log("calStartYear: " + calStartYear);
-						console.log("calStartMonth: " + calStartMonth);
-					}
-				}
-			}
-	 });
+					for(var j = 0; j < calColDayArray.length ; j++){
+						if (taskStartDay == calColDayArray[j]) {
+							if ((taskStartYear == calColYearArray[0] || taskStartYear == calColYearArray[6]) && taskEndYear <= calColYearArray[6]) {
+								if (taskStartMonth >= calColMonthArray[0] && taskEndMonth <= calColMonthArray[6]) {
+										console.warn("The Days match");
+										// Rae's drawing logic
+										taskStartColumn = j;
+										console.log("j: " + j);
+										taskEndColumn = (taskEndDay - taskStartDay) + taskStartColumn;
+										var xSpaceIncrement = canvas.width / numTimeIncrements;
+										drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
+								} // end month check
+							} // end year check
+						} else if (taskEndDay == calColDayArray[i]) { // end start day check
+							var zzzzzz = 1;
+						} //end end day check
+					} // end for loop over calColDayArray.length
+			} // end if short term view
+		} // end for loop over data.length
+	}); // end $.getJSON('/retrieveTasks', function(data, status)
 
 	// var result = JSON.parse(tasks);
 
@@ -266,31 +244,11 @@ $(document).ready(function () {
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
 	});
-
-
-	// /* Function for changing category colors  */
-	// $('#category_color').on('change', function (e) {
-	// 	var optionSelected = $("option:selected", this);
-	// 	var valueSelected = this.value;
-	// 	$(".background").css("background-color", valueSelected);
-	// });
-
-
-	// TODO: currently static
-	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="100px"></canvas>');
-
-	var canvas = document.getElementById('DemoCanvas');
-
-	var numTimeIncrements = 7;  // temporary. for days of week
-	var ySpaceIncrement = 60;
-
-	var context = canvas.getContext("2d");
-
-	/* Function for drawing a task to the canvas*/
 });
 
 
-function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, task){
+/* Function for drawing a task to the canvas */
+function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask){
 	if (canvas.getContext) {
 		console.log(taskStartColumn);
 		console.log(taskEndColumn);
@@ -299,7 +257,7 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
 		var yPos = 60;
 
-		var color = $('#category' + task.category_id).css('color'); // return RGB
+		var color = $('#category' + parsedTask.category_id).css('color'); // return RGB
 
 		drawTimelineLine(context, xPos1, xPos2, yPos, color);
 		drawCircles(context, xPos1, xPos2, yPos, color);
@@ -315,7 +273,7 @@ function drawTimelineLine(context, xPos1, xPos2, yPos, color){
 	context.lineWidth = 5;
 	context.strokeStyle = color;
 	context.stroke();
-}
+};
 
 
 function drawCircles(context, xPos1, xPos2, yPos, color){
@@ -324,18 +282,16 @@ function drawCircles(context, xPos1, xPos2, yPos, color){
 	context.beginPath();
 	context.arc(xPos1, yPos, radius, 0, 2 * Math.PI, false);
 	context.fillStyle = color;
-
-	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
 	context.fill();
+
 	context.lineWidth = 5;
 
 	context.beginPath();
 	context.arc(xPos2, yPos, radius, 0, 2 * Math.PI, false);
 	context.fillStyle = color;
 
-	//we're probably going to have something where if a user achieves a milestone and wants to check it off, context.fill() will be executed.
 	context.fill();
-}
+};
 
 
 /* Calculates the width of the div with the Class called Timeline. */

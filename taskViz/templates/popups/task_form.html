@@ -1,18 +1,21 @@
 
 <div>
-    <form class="form-inline new-task-form-container" id="newTaskFormId" method="POST" >
+
+  <span class="cancel" id="cancelIdTask">X</span>
+    <form class="col-lg-10 new-task-form-container" id="newTaskFormId" method="POST" >
+
       <div class="form-group">
-        <span class="cancel" id="cancelIdTask">X</span>
+
       </div>
 
-    <div class="form-group row">
+    <div class="form-group">
         <label class="col-10 col-form-label">New Task Name:</label>
         <div class="col-10">
-          <input type="text" class="form-control input-sm" id="new_task_input" style="margin-bottom:30px;" name="new_task_input"/>
+          <input type="text" class="form-control input-sm" id="new_task_input" name="new_task_input"/>
         </div>
     </div>
     <br/><br/><br/>
-    <div class="form-group row">
+    <div class="form-group ">
         <label>Category:</label>
           <select id="new_task_category" name="new_task_category">
             {% for cat in categories%}
@@ -21,23 +24,19 @@
           </select> <br />
     </div>
 
-    <div class="form-group row">
+    <div class="form-group ">
         <label>Start Date:</label>
-        <input type='date' class="form-control input-sm" id="new_task_start_date_input" name="new_task_start_date_input" style="margin-right:50px"><br />
+        <input type='date' class="form-control input-sm" id="new_task_start_date_input" name="new_task_start_date_input"><br />
     </div>
 
-    <div class="form-group row">
+    <div class="form-group ">
         <label>End Date:</label>
-        <input type='date' class="form-control input-sm" id="new_task_end_date_input" name="new_task_end_date_input" style="margin-right:50px"><br />
+        <input type='date' class="form-control input-sm" id="new_task_end_date_input" name="new_task_end_date_input"><br />
     </div>
 
-    <div class="form-group row">
-        <label>Milestones:</label>
-        <input type='button' class="btn btn-outline-secondary" id="newMilestoneButton" style="margin-right:100px" value="+" onclick="addMilestoneForm()"><br />
-    </div>
 
-    <div class="form-group row">
-         <input type="submit" class="btn btn-default" id="taskFormSubmit" style="margin-top:20px">
+    <div class="form-group ">
+         <input type="submit" class="btn btn-default" value="Submit" id="taskFormSubmit">
     </div>
   </form><br/>
 
