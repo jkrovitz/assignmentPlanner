@@ -1,3 +1,13 @@
+'''
+This file is composed of routes used to handle site 
+navigation including loging in and out, as well as
+handling the general home view where the tasks and 
+categories get displayed. Various functions also 
+render templates that are used for task creation, 
+as well as category creation, editing, and deletion.
+
+'''
+
 from flask import render_template, url_for, flash, redirect, request, jsonify, abort, json
 from taskViz import app, db, bcrypt
 from taskViz.forms import RegistrationForm, LoginForm, NewCategoryForm, NewTaskForm
@@ -18,20 +28,16 @@ def AuthenticationRedirect():
 @login_required
 def home():
 	new_category_form = category()
-	#new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 	categories = Category.query.filter_by(user_id=current_user.id).all()
-	print(categories)
 	tasks = Task.query.all()
-	# tasks = Task.query.all()    # also not used ... not yet anyway...
 	if request.form :
 		task_name = request.form['taskNameAttribute']
 		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-
 	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks) #`new_category_form` isn't being used? should it?
 
 
 @app.route("/register", methods=['GET', 'POST'])
-def register():     # NOTE: when creating new account, thing to say it worked is RED. change colour later
+def register():     
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = RegistrationForm()
@@ -46,7 +52,7 @@ def register():     # NOTE: when creating new account, thing to say it worked is
 
 
 @app.route("/login", methods=['GET', 'POST'])
-def login():        # can only log in using email, not username? change later if possible
+def login():        
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = LoginForm()
@@ -69,27 +75,26 @@ def logout():
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
-	"""used to create category and add it to the database"""
+	"""Used to create category and add it to the database."""
 	category_name = request.form.get('category_name')
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
 	if request.method == 'POST':
-		print(category_name, category_color)
 		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
 		if(category_name):
 			db.session.add(new_cat)
 			db.session.commit()
-			print(Category.query.all())
 		return redirect(url_for('home'))
 	cat = Category.query.all()
-	print(cat, 'categories')
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 
 @app.route("/category/<int:category_id>")
 @login_required
 def get_category_id(category_id):
-	"""gets category_id. used for editing and deleting categories"""
+	"""This function gets the category_id and 
+	is used for editing and deleting categories.
+	"""
 	category = Category.query.get_or_404(category_id)
 	return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
 
@@ -97,7 +102,11 @@ def get_category_id(category_id):
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
-	"""gets category by category_id. can edit category, then add it to the database"""
+	"""This function gets category by category_id. 
+	It renders a template where the user
+	is able to edit the category and
+	update the entry in the database.
+	"""
 	category = Category.query.get(category_id)
 	form = NewCategoryForm()
 	if category.user_id != current_user.id:
@@ -106,7 +115,6 @@ def edit_category(category_id):
 		category.category_name=request.form['category_name']
 		category.category_color=request.form['category_color']
 		db.session.commit()
-		flash('Your category has been updated!', 'success')
 		return redirect(url_for('home', category=category_id))
 	elif request.method == 'GET':
 		form.category_name.data = category.category_name
@@ -114,74 +122,47 @@ def edit_category(category_id):
 	return render_template('forms/category_form.html', new_category_form=form)
 
 
-# We should decide where we want to have the options for deleting categories.
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
-	"""gets category by category_id. can delete category from the screen and database"""
-	# TODO: Delete button doesn't work.
+	"""This function gets category by category_id. 
+	It deletes the category from the screen and database.
+	"""
 	category = Category.query.get_or_404(category_id)
 	if category.user_id != current_user.id:
 		abort(403)
 	db.session.delete(category)
 	db.session.commit()
-	flash('Your category has been deleted!', 'success')
 	return redirect(url_for('home'))
 
 
 @app.route('/create', methods=['GET','POST'])
+@login_required
 def create():
-	"""working on AJAX. might work, might not."""
-	print("Working!!!")
+	"""Route for the ajax call."""
 	if request.method != 'POST':
 		abort(403)
-
-	print("form:")
-	print(request.form)
-
 	task_name = request.form['new_task_input']
 	task_start_date = request.form['new_task_start_date_input']
 	task_end_date = request.form['new_task_end_date_input']
-	new_task_category = request.form['new_task_category']	# TODO: SEND IN ID FOR CATEGORY. DOES NOT CURRENTLY DO SO
-	task_user_id = current_user.id
+	new_task_category = request.form['new_task_category']	
 	if not task_name:
-		print("Name missing")
 		abort(403)
-	#code below helps us catch bugs in the ajax calls
-	print("Route Task Name: " + task_name)
-	print("Route start date: " + task_start_date)
-	print("Route end date: " + task_end_date)
-	print("Route Category: " + new_task_category)
-
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = task_user_id)	# TODO: SEND IN ID FOR CATEGORY. DOES NOT CURRENTLY DO SO
-
-
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = current_user.id)	
 	db.session.add(new_task)
 	db.session.commit()
 	return jsonify({'status':'OK'})
 
+
 @app.route('/retrieveTasks')
+@login_required
 def retrieve_tasks():
+	'''This function queries all the tasks in the database filtering by user. 
+	It adds each task to an array and then sends a JSON response to the browser.  
+	'''
 	tasks = Task.query.filter_by(user_id=current_user.id).all()
 	task_list = []
 	for task in tasks:
 		json_task = {"task_name":task.task_name, "task_start_date":task.task_start_date, "task_end_date":task.task_end_date, "category_id":task.category_id, "category":task.category.category_name }
 		task_list.append(json_task)
 	return jsonify(task_list)
-
-# @app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
-# def edit_task(task_id):
-# 	task = Task.query.get(task_id)
-# 	form = NewTaskForm()
-# 	if task.user_id != current_user.id:
-# 		abort(403)
-# 	if request.method == 'POST':
-# 		task.task_name=request.form['task_name']
-# 		category.task_color=request.form['task_color']
-# 		db.session.commit()
-# 		flash('Your task has been updated!', 'success')
-# 		return redirect(url_for('home', task=task_id))
-# 	elif request.method == 'GET':
-# 		form.task_name.data = task.task_name
-# 		form.task_color.data = task.task_color
-# 	return render_template('forms/task_form.html', new_task_form=form)

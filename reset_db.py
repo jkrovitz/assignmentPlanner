@@ -1,3 +1,8 @@
+'''
+This file handles resetting the database. 
+
+'''
+
 from taskViz.models import db
 
 print('Resetting database...')

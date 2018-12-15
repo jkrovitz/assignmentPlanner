@@ -1,16 +1,19 @@
+'''
+The WTF forms are created in this file.  
+
+'''
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextField, DateField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from taskViz.models import User, Category, Task
 
+
 class RegistrationForm(FlaskForm):
-    username = StringField('Username',
-                           validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
     def validate_username(self, username):
@@ -39,5 +42,4 @@ class NewTaskForm(FlaskForm):
     task_name = StringField('Task Name', validators=[DataRequired()])
     task_start_date = DateField('Start Date', validators=[DataRequired()])
     task_end_date = DateField('Start Date', validators=[DataRequired()])
-    # category = SelectField('Category Name', choices=[], validators=[DataRequired()])
     submit = SubmitField('Submit')
