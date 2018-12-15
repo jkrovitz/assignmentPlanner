@@ -74,7 +74,6 @@ $(document).ready(function () {
 	console.log("Day being saved as: " + present_day);
 	getMonthOfYear($('#start').val());
 
-
 	console.warn("This is the day selected on the calendar: " + present_day);
 
 	$('body').resize(calculateOnResize());
@@ -82,35 +81,51 @@ $(document).ready(function () {
 	var task = [];
 	$.getJSON('/retrieveTasks', function(data, status){
 		// for loop to get the values of currently displayed calendar time time slots
+		var calStartYear =  present_day.getFullYear();
+		var calStartMonth = present_day.getMonth()+1;
+		var calStartDay = present_day.getDate()+1;
+
+		var calColYearArray = [];
+		var calColMonthArray = [];
+		var calColDayArray = [];
+
+		var calColYear;
+		var calColMonth;
+		var calColDay;
 
 		for(var i=0; i< data.length; i++) {
 			task = data[i];
-
 			//First we get the task dates from the database for this particular task.
-			for(var j=0; j< 7; j++) {
-				if (shortTermView) {
-					//below we get the date from the column spans, might not need since we have to iterating thing below
-					var sectionFullDate = $('#sTermTimeSlot' + j).attr('dateVal');
-					console.log("sectionFullDate: " + sectionFullDate);
-					console.log("sectionFullDate j: " + j);
-					console.log('#sTermTimeSlot' + j, $('#sTermTimeSlot' + j));
+			}
 
-					//below we iterate through the column spans to get their date and separate into year, month, and day
-					$("span.sTermTimeIncColHeader").each(function() {
-						var calColDate = $(this).attr('dateVal');
-						var calColDatePartsArray = calColDate.split('|');
-						var calColYear = calColDatePartsArray[0];
-						var calColMonth = calColDatePartsArray[1];
-						var calColDay = calColDatePartsArray[2];
-						console.log("The year for a column is: " + calColDatePartsArray[0]);
-						console.log("The month for a column is: " + calColDatePartsArray[1]);
-						console.log("The day for a column is: " + calColDatePartsArray[2]);
-					});
+		//below we iterate through the column spans to get their date and separate into year, month, and day
+		$("span.sTermTimeIncColHeader").each(function() {
+			var calColDate = $(this).attr('dateVal');
+			var calColDatePartsArray = calColDate.split('|');
 
-					//Get display section info
-				} else {
-					//Get display section info
-				}
+			calColYear = calColDatePartsArray[0];
+			calColMonth = calColDatePartsArray[1];
+			calColDay = calColDatePartsArray[2];
+
+			console.log("The year for a column is: " + calColDatePartsArray[0]);
+			console.log("The month for a column is: " + calColDatePartsArray[1]);
+			console.log("The day for a column is: " + calColDatePartsArray[2]);
+
+			calColYearArray.push(calColYear);
+			calColMonthArray.push(calColMonth);
+			calColDayArray.push(calColDay);
+		});
+		console.log("The years of the columns are: " + calColYearArray);
+		console.log("The months of the columns are: " + calColMonthArray);
+		console.log("The days of the columns are: " + calColDayArray);
+
+
+
+		for(var j=0; j< 7; j++) {
+			if (shortTermView) {
+				//Get display section info
+			} else {
+				//Get display section info
 			}
 
 			var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
@@ -131,6 +146,7 @@ $(document).ready(function () {
 			var taskEndMonth = parsedTaskEndDate.getMonth()+1;
 			var taskEndDay = parsedTaskEndDate.getDate()+1;
 
+
 			//Now we get the calendar dates
 
 			//From this point, make a for loop over each day shown to see if the timeline gets displayed
@@ -139,9 +155,9 @@ $(document).ready(function () {
 					var calStartMonth = present_day.getMonth()+1;
 					var calStartDay = present_day.getDate()+1;
 
-					if (taskStartDay < calStartDay && taskEndDay >= calEndDay && taskStartMonth == calStartMonth){
-
-					}
+					// if (taskStartDay < calStartDay && taskEndDay >= calEndDay && taskStartMonth == calStartMonth){
+					//
+					// }
 
 					/* draw timeline line on canvas if start date of task equal start date view */
 					if (calStartYear === taskStartYear && calStartMonth === taskStartMonth && calStartDay === taskStartDay) {
@@ -187,7 +203,7 @@ $(document).ready(function () {
 					}
 				}
 			}
-	});
+	 });
 
 	// var result = JSON.parse(tasks);
 
