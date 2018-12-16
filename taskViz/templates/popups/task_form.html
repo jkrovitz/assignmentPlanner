@@ -1,23 +1,16 @@
 
 <div>
 
-  <span class="cancel" id="cancelIdTask">X</span>
-    <form class="col-lg-10 new-task-form-container" id="newTaskFormId" method="POST" >
-
-      <div class="form-group">
-
-      </div>
+  <div class="cancel" id="cancelIdTask">X</div>
+    <form class="new-task-form-container" id="newTaskFormId" method="POST" >
 
     <div class="form-group">
-        <label class="col-10 col-form-label">New Task Name:</label>
-        <div class="col-10">
+        <label class="col-form-label">New Task Name:</label>
           <input type="text" class="form-control input-sm" id="new_task_input" name="new_task_input"/>
-        </div>
     </div>
-    <br/><br/><br/>
     <div class="form-group ">
-        <label>Category:</label>
-          <select id="new_task_category" name="new_task_category">
+        <label class="col-form-label">Category:</label>
+          <select  class="form-control" id="new_task_category" name="new_task_category">
             {% for cat in categories%}
             <option value="{{ cat.category_id }}">{{ cat.category_name }}</option>
             {% endfor %}
