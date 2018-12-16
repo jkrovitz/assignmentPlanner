@@ -72,6 +72,18 @@ body,
 	vertical-align: middle;
 }
 
+.btn-space{
+	margin-right: 20px; 
+}
+
+.btn-group{
+	 margin-right: 20px;
+}
+
+.inlineDisp{
+	display: inline-flex;
+}
+
 input[type=date] {
   border: solid 1px grey;
 	border-radius: 5px

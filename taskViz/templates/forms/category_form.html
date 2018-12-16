@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
 {% block content %}
-
-<div class="p-5 content-section" style="background-color: #D5D6D2;">
+<script>
+  document.body.style.backgroundColor = "#D5D6D2";
+</script>
+<div class="p-5 content-section">
     <form method="POST" action="">
      
         <fieldset class="form-group">
@@ -36,7 +38,8 @@
         </fieldset>
         <div class="form-group">
          
-              <input type="submit" class="btn btn-default" value="Submit" style= "background-color: #3A5199; color: white" id="catFormSubmit">
+              <input type="submit" class="btn btn-default btn-space" value="Submit" style= "background-color: #3A5199; color: white" id="catFormSubmit">
+
         </div>
     </form>
 </div>

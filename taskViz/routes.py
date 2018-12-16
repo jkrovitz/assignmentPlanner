@@ -89,14 +89,6 @@ def category():
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 
-@app.route("/category/<int:category_id>")
-@login_required
-def get_category_id(category_id):
-	"""This function gets the category_id and 
-	is used for editing and deleting categories.
-	"""
-	category = Category.query.get_or_404(category_id)
-	return render_template('category.html', category_id=category.category_id, category_name=category.category_name, category=category, user_id=current_user.id)
 
 
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
@@ -119,7 +111,8 @@ def edit_category(category_id):
 	elif request.method == 'GET':
 		form.category_name.data = category.category_name
 		form.category_color.data = category.category_color
-	return render_template('forms/category_form.html', new_category_form=form)
+	new_category_form = form
+	return render_template('category.html', new_category_form=new_category_form, category=category, category_id=category_id)
 
 
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
