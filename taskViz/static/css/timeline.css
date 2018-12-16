@@ -63,6 +63,15 @@ body,
 	text-decoration: none;
 }
 
+.cat-form-bg{
+	background-color: #D5D6D2;
+}
+
+.category-form{
+	text-align: center;
+	vertical-align: middle;
+}
+
 input[type=date] {
   border: solid 1px grey;
 	border-radius: 5px
@@ -81,6 +90,7 @@ input[type=date] {
 #new_task_category{
 	border: solid 1px #2F2E33;
 }
+
 
 .topButtons{
 	display: inline-block;
@@ -127,7 +137,19 @@ color: white;
 box-shadow: 2px 2px grey;
 }
 
-.individual-cat-btns {
+
+#catFormSubmit{
+background-color: #3A5199;
+color: white;
+}
+
+
+
+#catFormSubmit:hover{
+box-shadow: 2px 2px grey;
+}
+
+#individual-cat-btns {
 	margin-bottom: 5px;
 }
 
@@ -276,6 +298,14 @@ box-shadow: 2px 2px grey;
 .new-category-button:hover,
 .new-subcategory-button:hover {
 	opacity: 1;
+
+}
+
+#new-cat-btn{
+	text-align: center;
+	top: 25%;
+	left: 25%;
+	position:relative;
 }
 
 .background {
