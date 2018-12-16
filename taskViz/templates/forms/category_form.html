@@ -5,44 +5,43 @@
   document.body.style.backgroundColor = "#D5D6D2";
 </script>
 <div class="p-5 content-section">
-    <form method="POST" action="">
-     
-        <fieldset class="form-group">
-            <legend class="mb-4">{{ legend }}</legend>
-            <div class="form-group">
-                {{ new_category_form.category_name.label }}
-                {% if new_category_form.category_name.errors %}
-                    {{ new_category_form.category_name(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in new_category_form.category_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ new_category_form.category_name(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ new_category_form.category_color.label}}
-                {% if new_category_form.category_color.errors %}
-                    {{ new_category_form.category_color(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in new_category_form.category_color.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ new_category_form.category_color(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-        </fieldset>
-        <div class="form-group">
-         
-              <input type="submit" class="btn btn-default btn-space" value="Submit" style= "background-color: #3A5199; color: white" id="catFormSubmit">
+  <form method="POST" action="">
 
-        </div>
-    </form>
+      <fieldset class="form-group">
+          <legend class="mb-4">{{ legend }}</legend>
+          <div class="form-group">
+              {{ new_category_form.category_name.label }}
+              {% if new_category_form.category_name.errors %}
+                  {{ new_category_form.category_name(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                      {% for error in new_category_form.category_name.errors %}
+                          <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+              {% else %}
+                  {{ new_category_form.category_name(class="form-control form-control-lg") }}
+              {% endif %}
+          </div>
+          <div class="form-group">
+              {{ new_category_form.category_color.label}}
+              {% if new_category_form.category_color.errors %}
+                  {{ new_category_form.category_color(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                      {% for error in new_category_form.category_color.errors %}
+                          <span>{{ error }}</span>
+                      {% endfor %}
+                  </div>
+              {% else %}
+                  {{ new_category_form.category_color(class="form-control form-control-lg") }}
+              {% endif %}
+          </div>
+      </fieldset>
+      <div class="form-group">
+
+            <input type="submit" class="btn btn-default btn-space" value="Submit" style= "background-color: #3A5199; color: white" id="catFormSubmit">
+
+      </div>
+  </form>
 </div>
 
 {% endblock content %}
-

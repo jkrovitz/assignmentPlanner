@@ -1,9 +1,9 @@
 '''
-This file is composed of routes used to handle site 
+This file is composed of routes used to handle site
 navigation including loging in and out, as well as
-handling the general home view where the tasks and 
-categories get displayed. Various functions also 
-render templates that are used for task creation, 
+handling the general home view where the tasks and
+categories get displayed. Various functions also
+render templates that are used for task creation,
 as well as category creation, editing, and deletion.
 
 '''
@@ -37,7 +37,7 @@ def home():
 
 
 @app.route("/register", methods=['GET', 'POST'])
-def register():     
+def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = RegistrationForm()
@@ -52,7 +52,7 @@ def register():
 
 
 @app.route("/login", methods=['GET', 'POST'])
-def login():        
+def login():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = LoginForm()
@@ -94,7 +94,7 @@ def category():
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
-	"""This function gets category by category_id. 
+	"""This function gets category by category_id.
 	It renders a template where the user
 	is able to edit the category and
 	update the entry in the database.
@@ -118,7 +118,7 @@ def edit_category(category_id):
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
-	"""This function gets category by category_id. 
+	"""This function gets category by category_id.
 	It deletes the category from the screen and database.
 	"""
 	category = Category.query.get_or_404(category_id)
@@ -138,10 +138,10 @@ def create():
 	task_name = request.form['new_task_input']
 	task_start_date = request.form['new_task_start_date_input']
 	task_end_date = request.form['new_task_end_date_input']
-	new_task_category = request.form['new_task_category']	
+	new_task_category = request.form['new_task_category']
 	if not task_name:
 		abort(403)
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = current_user.id)	
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, user_id = current_user.id)
 	db.session.add(new_task)
 	db.session.commit()
 	return jsonify({'status':'OK'})
@@ -150,8 +150,8 @@ def create():
 @app.route('/retrieveTasks')
 @login_required
 def retrieve_tasks():
-	'''This function queries all the tasks in the database filtering by user. 
-	It adds each task to an array and then sends a JSON response to the browser.  
+	'''This function queries all the tasks in the database filtering by user.
+	It adds each task to an array and then sends a JSON response to the browser.
 	'''
 	tasks = Task.query.filter_by(user_id=current_user.id).all()
 	task_list = []

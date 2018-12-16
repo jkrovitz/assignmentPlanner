@@ -73,7 +73,7 @@ body,
 }
 
 .btn-space{
-	margin-right: 20px; 
+	margin-right: 20px;
 }
 
 .btn-group{
@@ -128,13 +128,18 @@ input[type=date] {
 	opacity: 0.8;
 }
 
-.new-task-button {
+/* .new-task-button {
 	width: 25%;
 	margin: 5% 25%;
 	font-size: .9vw;
 	background-color: #eeeeee;
 	cursor: pointer;
 	opacity: 0.8;
+} */
+
+#newTaskButton{
+	background-color: #3512a1;
+	border: #3512a1;
 }
 
 #taskFormSubmit{
@@ -143,22 +148,11 @@ background-color: #3A5199;
 color: white;
 }
 
-
-
-#taskFormSubmit:hover{
-box-shadow: 2px 2px grey;
-}
-
-
 #catFormSubmit{
-background-color: #3A5199;
-color: white;
-}
-
-
-
-#catFormSubmit:hover{
-box-shadow: 2px 2px grey;
+	border-radius: 5px;
+	background-color: #3A5199;
+	color: white;
+	margin-right: 10px;
 }
 
 #individual-cat-btns {
@@ -190,7 +184,7 @@ box-shadow: 2px 2px grey;
 	z-index: 9;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);	
+	transform: translate(-50%, -50%);
 	width: 35%;
 }
 
@@ -314,10 +308,12 @@ box-shadow: 2px 2px grey;
 }
 
 #new-cat-btn{
-	text-align: center;
-	top: 25%;
-	left: 25%;
-	position:relative;
+	background-color: #3f12a1;
+	border-color: #3f12a1;
+	display: flex;
+	justify-content: center;
+	margin-left: 10em;
+	margin-right: 10em;
 }
 
 .background {
@@ -445,6 +441,22 @@ for the flash messages.*/
 
 hr{
 	border: 1px solid grey;
+}
+
+#categoryPage{
+	background-color: #E8E8E8;
+}
+
+#categoryInputs{
+	margin-left: 50px;
+}
+
+#category_name{
+	width: 250px;
+}
+
+#category_color{
+	width: 250px;
 }
 
  /* Small devices (landscape phones, 576px and up)*/

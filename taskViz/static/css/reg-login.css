@@ -27,8 +27,8 @@ body
 .loginButton{
 	background-color: #3f12a1;
 	color: white;
-	padding: 8px 10px;
-	font-size: 2.1vw;
+	/* padding: 8px 10px; */
+	font-size: 1.5vw;
 }
 
 
