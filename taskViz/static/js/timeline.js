@@ -15,17 +15,23 @@ function getDayOfWeek(startDateVar) {
 	var weekdays = ["Mon", "Tues", "Wed", "Thur",	"Fri", "Sat", "Sun"];
 	var dayOfWeek = weekdays[dateObj.getDay()];
 
+	dateObj.setDate(dateObj.getDate() + 1);
 
 	// For loop that adds new headings
 	for (var i = 0; i < 7; i++) {
+		var displayedDay = dateObj.getDate();
+		var displayedMonth = dateObj.getMonth() + 1;
 
-		var dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1) + '|' + (dateObj.getDate()+1);
+		var dateVal = dateObj.getFullYear() + "|" + (displayedMonth) + '|' + (displayedDay);
 
 		var timeSlotSpanId = "sTermTimeSlot" + i;
-		// var newDateObj = new Date(dateObj);
-		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (dateObj.getMonth()+1) + '/' + (dateObj.getDate()+1) +  '</span>';
+		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (displayedMonth) + '/' + (displayedDay) +  '</span>';
 		console.warn("my string says: "+ timeSlotSpan);
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+
+		console.log("MONTH EQUALS: " + (dateObj.getMonth() + 1));
+		console.log("DAY EQUALS: " + dateObj.getDate());
+
 		dateObj.setDate(dateObj.getDate() + 1);
 		dayOfWeek = weekdays[dateObj.getDay()];
 	}
@@ -52,8 +58,7 @@ function getMonthOfYear(startDateVar) {
 		if (monthIncrement){
 			monthOfYear = months[monthIncrement - 1];
 			monthIncrement ++;
-		}
-		else {
+		}	else {
 			monthOfYear = months[dateObj.getMonth() + i];
 			monthIncrement ++;
 		}
@@ -78,18 +83,16 @@ $(document).ready(function () {
 
 	$('body').resize(calculateOnResize());
 
-
-
 	var task = [];
 	$.getJSON('/retrieveTasks', function(data, status) {
 		//----------------CANVAS SETUP-----------------------
-		// TODO: currently static
-		$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="200px"></canvas>');
+		$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="200px"></canvas>'); // TODO: currently static
 
 		var canvas = document.getElementById('DemoCanvas');
 
 		var numTimeIncrements = 7;  // number of columns
 		var ySpaceIncrement = 60; //
+		var yPos = 0;
 
 		var context = canvas.getContext("2d");
 
@@ -129,13 +132,11 @@ $(document).ready(function () {
 		console.log("The days of the columns are: " + calColDayArray);
 
 
-		var stringifiedTask;
-
 		for(var i = 0; i < data.length; i++) {
 			task = data[i];
 			console.log("_________LOOK HERE_______" + task); //this prints [object Object]
 			//First we get the task dates from the database for this particular task.
-			stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
+			var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
 			$('#timelineId').after(stringifiedTask); // add task dictionary to DOM
 			var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
 
@@ -164,15 +165,35 @@ $(document).ready(function () {
 					/* draw timeline line on canvas if start date of task equal start date view */
 					for(var j = 0; j < calColDayArray.length ; j++){
 						if (taskStartDay == calColDayArray[j]) {
-							if ((taskStartYear == calColYearArray[0] || taskStartYear == calColYearArray[6]) && taskEndYear <= calColYearArray[6]) {
-								if (taskStartMonth >= calColMonthArray[0] && taskEndMonth <= calColMonthArray[6]) {
+							if (taskStartYear == calColYearArray[0] || taskStartYear == calColYearArray[6]) {
+								if (taskStartMonth >= calColMonthArray[0]) {
 										console.warn("The Days match");
-										// Rae's drawing logic
+										//drawing logic
 										taskStartColumn = j;
-										console.log("j: " + j);
+										console.log("taskStartDay" + taskStartDay);
+										console.log("taskStartMonth" + taskStartMonth);
+										if (taskEndDay < taskStartDay){
+											if (calColMonthArray[0] == 2) { //if task starts in February
+												if ((taskStartYear%4) == 0 ){ //if task starts in a leap year
+													taskEndDay = taskEndDay + 29;
+												} else {
+													taskEndDay = taskEndDay + 28;
+												}
+											}else if (calColMonthArray[0] == 1 || calColMonthArray[0] == 3 || calColMonthArray[0] == 5 || calColMonthArray[0] == 7 || calColMonthArray[0] == 8 || calColMonthArray[0] == 10 || calColMonthArray[0] == 12){ //If task starts in month with 31 days
+													taskEndDay = taskEndDay + 31;
+											}else{
+													taskEndDay = taskEndDay + 30;
+											}
+										} else if (taskEndDay == taskStartDay) {
+											if (taskEndMonth > taskStartMonth || taskEndYear > taskStartYear){
+												taskStartDay = -10;
+											}
+										}
 										taskEndColumn = (taskEndDay - taskStartDay) + taskStartColumn;
+										console.log("taskEndDay = " +  taskEndDay + ", taskStartDay = " + taskStartDay + ", taskStartColumn = " + taskStartColumn + ", taskEndColumn = " + taskEndColumn);
 										var xSpaceIncrement = canvas.width / numTimeIncrements;
-										drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask);
+										var yPos = yPos + ySpaceIncrement;
+										drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
 								} // end month check
 							} // end year check
 						} else if (taskEndDay == calColDayArray[i]) { // end start day check
@@ -248,14 +269,14 @@ $(document).ready(function () {
 
 
 /* Function for drawing a task to the canvas */
-function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, parsedTask){
+function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask){
 	if (canvas.getContext) {
 		console.log(taskStartColumn);
 		console.log(taskEndColumn);
+		console.log("task name" + parsedTask.task_name);
 
 		var xPos1 = taskStartColumn * xSpaceIncrement + xSpaceIncrement / 2;
 		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
-		var yPos = 60;
 
 		var color = $('#category' + parsedTask.category_id).css('color'); // return RGB
 
