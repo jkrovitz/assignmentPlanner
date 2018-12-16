@@ -73,9 +73,9 @@
 		</div>
 
 	<!-- Sidebar of catgories  -->
-	<div class="Category p-4">
+	<div class="Category p-4" id="categoryContainer">
 		<a class="btn btn-success" id="new-cat-btn" href="{{ url_for('category') }}"> New Category +</a>
-		<div class="mt-4">
+		<div class="mt-4" id="categoryList">
 			{% for category in categories %}
 			<div id="category{{ category.category_id }}" style="color:#{{ category.category_color }}" class="d-flex p-2">
 				<input type="checkbox">
