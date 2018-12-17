@@ -77,7 +77,6 @@ $(document).ready(function () {
 	$('body').resize(calculateOnResize());
 
 	if (localStorage.getItem("shortTermView") == true) {
-		console.log("qwertyuiop[oiuyfdcvb]");
 		shortterm();
 	} else if (localStorage.getItem("longTermView") == true) {
 		longterm();
@@ -133,7 +132,6 @@ $(document).ready(function () {
 			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				task = data[i];
-				console.log("_________LOOK HERE_______" + task); // this prints [object Object]
 
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
@@ -150,7 +148,6 @@ $(document).ready(function () {
 
 				//separate out year, month and day for task end date
 				var taskEndYear = parsedTaskEndDate.getFullYear();
-				console.log("taskEndYear: " + taskEndYear + " for " + parsedTask.task_name);
 				var taskEndMonth = parsedTaskEndDate.getMonth()+1;
 				var taskEndDay = parsedTaskEndDate.getDate()+1;
 
@@ -170,16 +167,11 @@ $(document).ready(function () {
 					//to get their date and separate into year, month, and day
 					$("span.sTermTimeIncColHeader").each(function() {
 						var sCalColDate = $(this).attr('dateVal');
-						console.log("sCalColDate: " + sCalColDate)
 						var sCalColDatePartsArray = sCalColDate.split('|');
 
 						sCalColYear = sCalColDatePartsArray[0]; //get the year from the dateVal
 						sCalColMonth = sCalColDatePartsArray[1]; //get the month from the dateVal
 						sCalColDay = sCalColDatePartsArray[2]; //get the day from the dateVal
-
-						console.log("The year for a column is: " + sCalColDatePartsArray[0]);
-						console.log("The month for a column is: " + sCalColDatePartsArray[1]);
-						console.log("The day for a column is: " + sCalColDatePartsArray[2]);
 
 						sCalColYearArray.push(sCalColYear);
 						sCalColMonthArray.push(sCalColMonth);
@@ -301,20 +293,15 @@ $(document).ready(function () {
 					//to get their date and separate into year, month, and day
 					$("span.lTermTimeIncColHeader").each(function() {
 						var lCalColDate = $(this).attr('dateVal');
-						console.log("lCalColDate: " + lCalColDate)
 						var lCalColDatePartsArray = lCalColDate.split('|');
 
 						lCalColYear = lCalColDatePartsArray[0]; //get the year from the dateVal
 						lCalColMonth = lCalColDatePartsArray[1]; //get the month from the dateVal
 
-						console.log("The year for a l column is: " + lCalColDatePartsArray[0]);
-						console.log("The month for a l column is: " + lCalColDatePartsArray[1]);
-
 						lCalColYearArray.push(lCalColYear);
 						lCalColMonthArray.push(lCalColMonth);
 					});
 
-					console.log("WE HAVE ENTERED THE LONG TERM IF STATEMENT");
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
 
 						// -------------------FUNCTIONS TO DRAW TASKS ONTO THE CANVAS FOR LONG TERM----------------
@@ -340,12 +327,7 @@ $(document).ready(function () {
 						yPos = yPos + ySpaceIncrement;
 						for (let k = 0; k < lCalColMonthArray.length; k++) {	// iterates over months being viewed on the timeline
 							if (taskStartMonth == lCalColMonthArray[k]) {
-								console.log(">>> l task start month: " + taskStartMonth);
-								console.log(">>> l cal col month: " + lCalColMonthArray[k]);
-
 								taskStartColumn = k;
-								console.log("l task start column: " + taskEndColumn);
-								console.log("l k: " + k);
 							}
 							if (taskEndYear == lCalColYearArray[k] && taskEndMonth == lCalColMonthArray[k]) {
 								taskEndColumn = k;
@@ -378,48 +360,28 @@ $(document).ready(function () {
 					}
 
 					if (didWeDrawTheLineLongTerm == false) {
-						console.log("lCalColYearArray[0] " + lCalColYearArray[0]);
-						console.log("taskStartYear: " + taskStartYear);
-						console.log("taskEndYear: " + taskEndYear);
-						console.log("lCalColYearArray[6] " + lCalColYearArray[6]);
 						if (taskStartYear <= lCalColYearArray[0] && taskEndYear >= lCalColYearArray[6]) {
-							console.log("l first if statement");
-
 							if (taskStartYear < lCalColYearArray[0] && taskEndYear > lCalColYearArray[6] ) {
-								console.log("l second if statement");
-
 								drawLineThroughLongTerm();
 							} else if (taskEndYear > lCalColYearArray[6]) {
-								console.log("l second if statement line 397");
 								if (taskStartMonth < lCalColMonthArray[0]) {
-									console.log("l third if statement");
-
 									drawLineThroughLongTerm();
 								}
 							} else if (taskStartYear < lCalColYearArray[0]) {
-								console.log("l second if statement line 404");
 								if (taskEndMonth > lCalColMonthArray[6]) {
-									console.log("l second if statement line 406");
 									drawLineThroughLongTerm();
 								} else if (taskEndMonth == lCalColMonthArray[6]) {
-									console.log("l second if statement line 409");
 									drawLineFromLeftLongTerm();
 								}
-								console.log("l second if statement line 412");
 							} else if (taskStartYear == lCalColYearArray[0] && taskEndYear == lCalColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
-								console.log("l second if statement line 414");
 								if (taskStartMonth <= lCalColMonthArray[0] && taskEndMonth >= lCalColMonthArray[6]) {
-									console.log("l second if statement line 416");
 									if (taskStartMonth < lCalColMonthArray[0] && taskEndMonth > lCalColMonthArray[6] ) {
-										console.log("l second if statement line 418");
 										drawLineThroughLongTerm();
 									} else if (taskStartMonth < lCalColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
-										console.log("l second if statement line 421");
 										drawLineThroughLongTerm();
 									}
 								}
 							}
-							console.log("~~~~~~SAAADDD l second if statement line 426");
 						}
 					}
 				}
@@ -434,25 +396,28 @@ $(document).ready(function () {
 	$('#newTaskFormId').submit( function(e) {
 		e.preventDefault();
 		var task_name = $('#new_task_input').val();
-		console.log("The Task Name is: " + task_name);
 		var taskStartDate = $('#new_task_start_date_input').val();
 		var taskEndDate = $('#new_task_end_date_input').val();
-		console.log("ajax call taskEndDate: " + taskEndDate);
 
-		$.ajax({
-			url : '/create',
-			data : $('#newTaskFormId').serialize(),
-			type : 'POST',
-			success: function(response) {
-				console.log(response);
-				console.log(" ~ ajax happened ~ ");
-			},
-			error: function(error) {
-				console.log(error);
-			}
-		});
+		if (taskEndDate < taskStartDate) {
+			$('#newTaskForm').hide();
+			alert("End date should be AFTER start date. TRY AGAIN.");
+		} else {
+			$.ajax({
+				url : '/create',
+				data : $('#newTaskFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened ~ ");
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 
-		$('#newTaskForm').hide();
+			$('#newTaskForm').hide();
+		}
 	});
 
 	// ---------------------INPUT/BUTTON LISTENERS------------------------
@@ -480,7 +445,6 @@ $(document).ready(function () {
 });
 
 function redrawCanvas() {
-	console.log("CANVAS IS BEING DRAWN");
 	$('#DemoCanvas').remove();
 	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="600px"></canvas>'); // TODO:
 
@@ -492,9 +456,6 @@ function redrawCanvas() {
 /* Function for drawing a task to the canvas */
 function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask) {
 	if (canvas.getContext) {
-		console.log("taskStartColumn: " + taskStartColumn);
-		console.log("taskEndColumn: " + taskEndColumn);
-
 		var xPos1 = taskStartColumn * xSpaceIncrement + xSpaceIncrement / 2;
 		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
 
@@ -549,7 +510,6 @@ function calculateTimelineWidth() {
 	var selectTimelineWidth = document.querySelector('.Timeline');
 	timelineWidth = selectTimelineWidth.clientWidth;
 	return timelineWidth;
-	// return console.log("Width of Timeline div:" + timelineWidth);
 };
 
 
@@ -557,7 +517,6 @@ function calculateTimelineWidth() {
 function calculateCategoryWidth() {
 	var selectCategoryWidth = document.querySelector('.Category');
 	categoryWidth = selectCategoryWidth.clientWidth;
-	// return console.log("Width of Category div:" + categoryWidth);
 };
 
 
