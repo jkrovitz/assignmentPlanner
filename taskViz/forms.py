@@ -1,5 +1,5 @@
 '''
-The WTF forms are created in this file.  
+The WTF forms are created in this file.
 
 '''
 
@@ -42,4 +42,7 @@ class NewTaskForm(FlaskForm):
     task_name = StringField('Task Name', validators=[DataRequired()])
     task_start_date = DateField('Start Date', validators=[DataRequired()])
     task_end_date = DateField('Start Date', validators=[DataRequired()])
+    task_milestone_name = StringField('Milestone Name', validators=[DataRequired()])
+    task_milestone_date = DateField('Milestone Date', validators=[DataRequired()])
+
     submit = SubmitField('Submit')

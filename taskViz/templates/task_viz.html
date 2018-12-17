@@ -78,7 +78,6 @@
 		<div class="mt-4" id="categoryList">
 			{% for category in categories %}
 			<div id="category{{ category.category_id }}" style="color:#{{ category.category_color }}" class="d-flex p-2">
-				<input type="checkbox">
 				<a class="category-name btn rounded text-center" style="border-color:#{{ category.category_color }};" href="{{ url_for('edit_category', category_id=category.category_id) }}">
 					{{ category.category_name }}
 				</a>

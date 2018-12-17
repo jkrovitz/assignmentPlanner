@@ -47,7 +47,6 @@ function getMonthOfYear(startDateVar) {
 
 	// For loop that adds new headings
 	for (let i = 0; i < 12; i++) {
-		// var displayedDay = dateObj.getDate();
 		var displayedMonth = dateObj.getMonth() + 1;
 		var year = dateObj.getFullYear();
 
@@ -60,35 +59,8 @@ function getMonthOfYear(startDateVar) {
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 
 		monthOfYear = months[dateObj.getMonth()];
-
 		dateObj.setMonth(dateObj.getMonth() + 1);
-		
-
 	}
-
-	// // For loop that adds new headings
-	// for (let i = 0; i < 12; i++) {
-	// 	var timeSlotSpanId = 'lTermTimeSlot' + i;
-	// 	if (i === monthOffset) {
-	// 		var monthIncrement = 1;
-	// 		monthOfYear = months[0];
-	// 	}
-	// 	if (monthIncrement) {
-	// 		monthOfYear = months[monthIncrement - 1];
-	// 		monthIncrement ++;
-	// 	}	else {
-	// 		monthOfYear = months[dateObj.getMonth() + i];
-	// 		monthIncrement ++;
-	// 	}
-	// 	if (dateObj.getMonth()+1+i !== 13) {
-	// 		dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i);
-	// 	} else {
-	// 		dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i-12);
-	// 	}
-	// 	console.log("dateVal:" + dateVal);
-	// 	var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + monthOfYear + ' </span>';
-	// 	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
-	// }
 };
 
 var canvas;
@@ -150,13 +122,9 @@ $(document).ready(function () {
 		$.getJSON('/retrieveTasks', function(data, status) {
 			console.log("RUNNING JSON");
 			//----------------CANVAS SETUP-----------------------
-
-
-
 			const numTimeIncrements = 7;  // number of columns
 			const ySpaceIncrement = 60;
 			var yPos = 0;
-
 
 			//----------------VARIABLES FOR DISPLAYING TASKS-----------------------
 			// for loop to get the values of currently displayed calendar time time slots
@@ -202,7 +170,6 @@ $(document).ready(function () {
 
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
-				// $('#timelineId').after(stringifiedTask); // add task dictionary to DOM
 				var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
 
 				//make a date object for the start and end task dates
@@ -221,8 +188,6 @@ $(document).ready(function () {
 
 
 				if (localStorage.getItem("shortTermView") == "true") {
-					console.log("WE HAVE ENTERED THE SHORT TERM IF STATEMENT");
-
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
 
 					// -------------------FUNCTIONS TO DRAW TASKS ONTO THE CANVAS FOR SHORT TERM----------------
@@ -279,38 +244,6 @@ $(document).ready(function () {
 						}
 					}
 
-					// var drawThroughShortTerm = true;
-					// if(didWeDrawTheLineShortTerm == false) {
-					// 	if (taskStartYear > calColYearArray[6]){
-					// 		drawThroughShortTerm = false;
-					//
-					// 		if (taskStartMonth > calColMonthArray[6]){
-					//
-					// 			if (taskStartDay > calColDayArray[6]){
-					// 				drawThroughShortTerm = false;
-					// 				console.log("draw through is false for: " + parsedTask.task_name);
-					// 			}
-					// 		}
-					// 	} else if (taskEndYear < calColYearArray[0]){
-					// 		drawThroughShortTerm = false;
-					//
-					// 		if (taskEndMonth < calColMonthArray[0]){
-					//
-					// 			if (taskEndDay < calColDayArray[0]){
-					// 				drawThroughShortTerm = false;
-					// 				console.log("draw through is false for: " + parsedTask.task_name);
-					// 			}
-					// 		}
-					// 	}
-					// }
-					//
-					// console.log("DRAW THROUGH IS " + drawThroughShortTerm + " FOR " + parsedTask.task_name);
-					//
-					// if (didWeDrawTheLineShortTerm == false && drawThroughShortTerm == true){
-					// 	console.log("draw through is true for: " + parsedTask.task_name);
-					// 	drawLineThroughShortTerm();
-					// }
-
 					if (didWeDrawTheLineShortTerm == false) {
 						if (taskStartYear <= calColYearArray[0] && taskEndYear >= calColYearArray[6]) { // if the task begins at or before the calendar year and ends at or after the calendar year
 							if (taskStartYear < calColYearArray[0] && taskEndYear > calColYearArray[6] ) { //if the task starts before and ends after the current display
@@ -324,11 +257,9 @@ $(document).ready(function () {
 									}
 								}
 							} else if (taskStartYear < calColYearArray[0]) { // in this case the End year equals the Calendar and Start Year is before or equal to calendar.
-								console.log("sad sad beep");
 								if (taskEndMonth > calColMonthArray[6]) {
 									drawLineThroughShortTerm();
 								} else if (taskEndMonth == calColMonthArray[6]) {
-									console.log("Cautious beep");
 									if (taskEndDay > calColDayArray[6]) {
 										drawLineThroughShortTerm();
 									}
@@ -390,7 +321,6 @@ $(document).ready(function () {
 
 								taskStartColumn = k;
 								console.log("task start column: " + taskEndColumn);
-
 								console.log("k: " + k);
 							}
 							if (taskEndYear == calColYearArray[k] && taskEndMonth == calColMonthArray[k]) {
@@ -554,13 +484,10 @@ function drawCircles (context, xPos1, xPos2, yPos, color) {
 	context.arc(xPos1, yPos, radius, 0, 2 * Math.PI, false);
 	context.fillStyle = color;
 	context.fill();
-
 	context.lineWidth = 5;
-
 	context.beginPath();
 	context.arc(xPos2, yPos, radius, 0, 2 * Math.PI, false);
 	context.fillStyle = color;
-
 	context.fill();
 };
 
