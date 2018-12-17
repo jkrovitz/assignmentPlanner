@@ -72,12 +72,14 @@ class Task(db.Model):
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.String(100), nullable=False)
     task_end_date = db.Column(db.String(100), nullable=False)
+    task_milestone_name = db.Column(db.String(100), nullable = False)
+    task_milestone_date = db.Column(db.String(100), nullable = False) 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref='tasks')
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
     category = db.relationship('Category', backref="tasks")
     def __repr__(self):
-        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}')"
+        return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}', '{self.task_milestone_name}', '{self.task_milestone_date}')"
 
 
 class Milestone(db.Model):
