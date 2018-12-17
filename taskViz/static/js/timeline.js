@@ -6,6 +6,7 @@
 * for each category based on user input.
 **/
 
+
 var shortTermView;
 var longTermView;
 var dateVal;

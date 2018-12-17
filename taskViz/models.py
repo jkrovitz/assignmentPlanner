@@ -53,7 +53,7 @@ class Category(db.Model):
     user = db.relationship('User', backref="categories")
 
     def __repr__(self):
-        return f"Category('{self.category_name}', '{self.category_color}')"     # why doesn't this return `category_id` or`is_checked`?
+        return f"Category('{self.category_name}', '{self.category_color}')"
 
 
 class Task(db.Model):

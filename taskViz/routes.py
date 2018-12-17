@@ -81,7 +81,7 @@ def category():
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
 	if request.method == 'POST':
-		new_cat = Category(category_name=category_name, category_color=category_color, is_checked=False, user_id=current_user.id)
+		new_cat = Category(category_name=category_name, category_color=category_color, user_id=current_user.id)
 		if(category_name):
 			db.session.add(new_cat)
 			db.session.commit()
