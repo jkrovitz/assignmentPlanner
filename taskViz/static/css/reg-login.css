@@ -18,8 +18,6 @@ body
   margin: 25% 25% 25% 25%;
   position: absolute;
   top: 30px;
-  /*bottom: 80%;*/
-/*  left: 20%;*/
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }

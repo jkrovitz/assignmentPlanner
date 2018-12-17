@@ -29,8 +29,9 @@ function getDayOfWeek(startDateVar) {
 		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (displayedMonth) + '/' + (displayedDay) +  '</span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 
-		dateObj.setDate(dateObj.getDate() + 1);
 		dayOfWeek = weekdays[dateObj.getDay()];
+		dateObj.setDate(dateObj.getDate() + 1);
+
 	}
 	return new Date(startDateVar);
 };
@@ -41,31 +42,53 @@ function getMonthOfYear(startDateVar) {
 	var dateObj = new Date(startDateVar);
 	var months = ["Jan","Feb","March","April","May","June","July", "Aug","Sept","Oct","Nov","Dec"];
 	var monthOfYear = months[dateObj.getMonth()];
-	var monthOffset = months.length - dateObj.getMonth();
+
+	dateObj.setMonth(dateObj.getMonth() + 1);
 
 	// For loop that adds new headings
 	for (let i = 0; i < 12; i++) {
-		var timeSlotSpanId = 'lTermTimeSlot' + i;
-		if (i === monthOffset) {
-			var monthIncrement = 1;
-			monthOfYear = months[0];
+		// var displayedDay = dateObj.getDate();
+		var displayedMonth = dateObj.getMonth() + 1;
+		var year = dateObj.getFullYear();
+
+		if (monthOfYear == "Dec") {
+			year = year-1;
 		}
-		if (monthIncrement) {
-			monthOfYear = months[monthIncrement - 1];
-			monthIncrement ++;
-		}	else {
-			monthOfYear = months[dateObj.getMonth() + i];
-			monthIncrement ++;
-		}
-		if (dateObj.getMonth()+1+i !== 13) {
-			dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i);
-		} else {
-			dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i-12);
-		}
-		console.log("dateVal:" + dateVal);
-		var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + monthOfYear + ' </span>';
+		var dateVal = year + "|" + (displayedMonth - 1);
+		var timeSlotSpanId = "lTermTimeSlot" + i;
+		var timeSlotSpan = '<span class="lTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + monthOfYear + ' ' + year + '</span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+
+		monthOfYear = months[dateObj.getMonth()];
+
+		dateObj.setMonth(dateObj.getMonth() + 1);
+		
+
 	}
+
+	// // For loop that adds new headings
+	// for (let i = 0; i < 12; i++) {
+	// 	var timeSlotSpanId = 'lTermTimeSlot' + i;
+	// 	if (i === monthOffset) {
+	// 		var monthIncrement = 1;
+	// 		monthOfYear = months[0];
+	// 	}
+	// 	if (monthIncrement) {
+	// 		monthOfYear = months[monthIncrement - 1];
+	// 		monthIncrement ++;
+	// 	}	else {
+	// 		monthOfYear = months[dateObj.getMonth() + i];
+	// 		monthIncrement ++;
+	// 	}
+	// 	if (dateObj.getMonth()+1+i !== 13) {
+	// 		dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i);
+	// 	} else {
+	// 		dateVal = dateObj.getFullYear() + "|" + (dateObj.getMonth()+1+i-12);
+	// 	}
+	// 	console.log("dateVal:" + dateVal);
+	// 	var timeSlotSpan = '<span class="lTermTimeIncColHeader"	id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + monthOfYear + ' </span>';
+	// 	$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
+	// }
 };
 
 var canvas;
@@ -170,8 +193,9 @@ $(document).ready(function () {
 			console.log("The months of the columns are: " + calColMonthArray);
 			console.log("The days of the columns are: " + calColDayArray);
 
-			//--------------------ITERATE THROUGH TASKS-------------------
 			redrawCanvas();
+
+			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				task = data[i];
 				console.log("_________LOOK HERE_______" + task); // this prints [object Object]
@@ -194,6 +218,7 @@ $(document).ready(function () {
 				var taskEndYear = parsedTaskEndDate.getFullYear();
 				var taskEndMonth = parsedTaskEndDate.getMonth()+1;
 				var taskEndDay = parsedTaskEndDate.getDate()+1;
+
 
 				if (localStorage.getItem("shortTermView") == "true") {
 					console.log("WE HAVE ENTERED THE SHORT TERM IF STATEMENT");
@@ -220,17 +245,6 @@ $(document).ready(function () {
 						}
 					};
 
-					function drawLineFromRightShortTerm() {
-						yPos = yPos + ySpaceIncrement;
-						taskEndColumn = 10;
-						for (let j = 0; j < calColDayArray.length; j++) {	// iterates over days being viewed on the timeline
-							if (taskStartDay == calColDayArray[j]) {
-								taskStartColumn = j;
-								drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
-							}
-						}
-					};
-
 					function drawLineInsideShortTerm() {
 						yPos = yPos + ySpaceIncrement;
 						for (let j = 0; j < calColDayArray.length; j++) {	// iterates over days being viewed on the timeline
@@ -249,60 +263,101 @@ $(document).ready(function () {
 
 					// SHORT TERM------------------COMPARING CALENDAR COLUMN DATES WITH TASK DATES TO DISPLAY TASKS-----------------------
 					for (var j = 0; j < 7; j++) {
+						var didWeFindTheStartDateShortTerm = false;
+						var didWeDrawTheLineShortTerm = false;
 						if (taskStartDay == calColDayArray[j] && taskStartMonth == calColMonthArray[j] && taskStartYear == calColYearArray[j]){
 							drawLineInsideShortTerm();
+							didWeFindTheStartDateShortTerm = true;
+							var didWeDrawTheLineShortTerm = true;
+							break;
+						} else {
+							if (taskEndDay == calColDayArray[j] && taskEndMonth == calColMonthArray[j] && taskEndYear == calColYearArray[j]) {
+								drawLineFromLeftShortTerm();
+								var didWeDrawTheLineShortTerm = true;
+								break;
+							}
 						}
 					}
 
-					if (taskStartYear <= calColYearArray[0] && taskEndYear >= calColYearArray[6]) { // if the task begins at or before the calendar year and ends at or after the calendar year
-						if (taskStartYear < calColYearArray[0] && taskEndYear > calColYearArray[6] ) { //if the task starts before and ends after the current display
-							drawLineThroughShortTerm();
-						} else if (taskEndYear > calColYearArray[6]) { //if the task start year is the same as the first column and the end year is after the last column year
-							if (taskStartMonth < calColMonthArray[0]) {
+					// var drawThroughShortTerm = true;
+					// if(didWeDrawTheLineShortTerm == false) {
+					// 	if (taskStartYear > calColYearArray[6]){
+					// 		drawThroughShortTerm = false;
+					//
+					// 		if (taskStartMonth > calColMonthArray[6]){
+					//
+					// 			if (taskStartDay > calColDayArray[6]){
+					// 				drawThroughShortTerm = false;
+					// 				console.log("draw through is false for: " + parsedTask.task_name);
+					// 			}
+					// 		}
+					// 	} else if (taskEndYear < calColYearArray[0]){
+					// 		drawThroughShortTerm = false;
+					//
+					// 		if (taskEndMonth < calColMonthArray[0]){
+					//
+					// 			if (taskEndDay < calColDayArray[0]){
+					// 				drawThroughShortTerm = false;
+					// 				console.log("draw through is false for: " + parsedTask.task_name);
+					// 			}
+					// 		}
+					// 	}
+					// }
+					//
+					// console.log("DRAW THROUGH IS " + drawThroughShortTerm + " FOR " + parsedTask.task_name);
+					//
+					// if (didWeDrawTheLineShortTerm == false && drawThroughShortTerm == true){
+					// 	console.log("draw through is true for: " + parsedTask.task_name);
+					// 	drawLineThroughShortTerm();
+					// }
+
+					if (didWeDrawTheLineShortTerm == false) {
+						if (taskStartYear <= calColYearArray[0] && taskEndYear >= calColYearArray[6]) { // if the task begins at or before the calendar year and ends at or after the calendar year
+							if (taskStartYear < calColYearArray[0] && taskEndYear > calColYearArray[6] ) { //if the task starts before and ends after the current display
 								drawLineThroughShortTerm();
-							} else if (taskStartMonth == calColMonthArray[0]) {
-								if (taskStartDay < calColDayArray[0]){
+							} else if (taskEndYear > calColYearArray[6]) { //if the task start year is the same as the first column and the end year is after the last column year
+								if (taskStartMonth < calColMonthArray[0]) {
 									drawLineThroughShortTerm();
-								}
-							}
-						} else if (taskStartYear < calColYearArray[0]) { // in this case the End year equals the Calendar and Start Year is before or equal to calendar.
-							console.log("sad sad beep");
-							if (taskEndMonth > calColMonthArray[6]) {
-								drawLineThroughShortTerm();
-							} else if (taskEndMonth == calColMonthArray[6]) {
-								console.log("Cautious beep");
-								if (taskEndDay > calColDayArray[6]) {
-									drawLineThroughShortTerm();
-								} else if (taskStartDay >= calColDayArray[0]) {
-									drawLineFromLeftShortTerm();
-								}
-							}
-						} else if (taskStartYear == calColYearArray[0] && taskEndYear == calColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
-							if (taskStartMonth <= calColMonthArray[0] && taskEndMonth >= calColMonthArray[6]) { // if the task begins at or before the calendar month and ends at or after the calendar month
-								if (taskStartMonth < calColMonthArray[0] && taskEndMonth > calColMonthArray[6] ) { //if the task starts before and ends after the current display
-									drawLineThroughShortTerm();
-								} else if (taskEndMonth > calColMonthArray[6]) { //if the task start month is the same as the first column and the end month is after the last column month
-									if (taskStartDay < calColDayArray[0]) {
+								} else if (taskStartMonth == calColMonthArray[0]) {
+									if (taskStartDay < calColDayArray[0]){
 										drawLineThroughShortTerm();
 									}
-								} else if (taskStartMonth < calColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
+								}
+							} else if (taskStartYear < calColYearArray[0]) { // in this case the End year equals the Calendar and Start Year is before or equal to calendar.
+								console.log("sad sad beep");
+								if (taskEndMonth > calColMonthArray[6]) {
+									drawLineThroughShortTerm();
+								} else if (taskEndMonth == calColMonthArray[6]) {
+									console.log("Cautious beep");
 									if (taskEndDay > calColDayArray[6]) {
 										drawLineThroughShortTerm();
-									}else if (taskEndDay > calColDayArray[0] && taskEndDay < calColDayArray[6]){
-										drawLineFromLeftShortTerm();
 									}
-								} else if (taskStartMonth == calColMonthArray[0] && taskEndMonth == calColMonthArray[6]) { // Month starts and ends at the same displayed time. Check DAY!
-									if (taskStartDay < calColDayArray[0]) {
+								}
+							} else if (taskStartYear == calColYearArray[0] && taskEndYear == calColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
+								if (taskStartMonth <= calColMonthArray[0] && taskEndMonth >= calColMonthArray[6]) { // if the task begins at or before the calendar month and ends at or after the calendar month
+									if (taskStartMonth < calColMonthArray[0] && taskEndMonth > calColMonthArray[6] ) { //if the task starts before and ends after the current display
+										drawLineThroughShortTerm();
+									} else if (taskEndMonth > calColMonthArray[6]) { //if the task start month is the same as the first column and the end month is after the last column month
+										if (taskStartDay < calColDayArray[0]) {
+											drawLineThroughShortTerm();
+										}
+									} else if (taskStartMonth < calColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
 										if (taskEndDay > calColDayArray[6]) {
 											drawLineThroughShortTerm();
-										} else {
-											drawLineFromLeftShortTerm();
+										}
+									} else if (taskStartMonth == calColMonthArray[0] && taskEndMonth == calColMonthArray[6]) { // Month starts and ends at the same displayed time. Check DAY!
+										if (taskStartDay < calColDayArray[0]) {
+											if (taskEndDay > calColDayArray[6]) {
+												drawLineThroughShortTerm();
+											}
 										}
 									}
 								}
-							}
-						}  // end check years are equal
-					}  // end if the task begins at or before the calendar year and ends at or after the calendar year
+							}  // end check years are equal
+						} // end if the task begins at or before the calendar year and ends at or after the calendar year
+					}
+
+
 				} else if (localStorage.getItem("longTermView") == "true") {
 					console.log("WE HAVE ENTERED THE LONG TERM IF STATEMENT");
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
@@ -326,25 +381,20 @@ $(document).ready(function () {
 						}
 					};
 
-					function drawLineFromRightLongTerm() {
-						yPos = yPos + ySpaceIncrement;
-						taskEndColumn = 10;
-						for (let j = 0; j < calColMonthArray.length; j++) {	// iterates over months being viewed on the timeline
-							if (taskStartMonth == calColMonthArray[j]) {
-								taskStartColumn = j;
-								drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
-							}
-						}
-					};
-
 					function drawLineInsideLongTerm() {
 						yPos = yPos + ySpaceIncrement;
-						for (let j = 0; j < calColMonthArray.length; j++) {	// iterates over months being viewed on the timeline
-							if (taskStartMonth == calColMonthArray[j]) {
-								taskStartColumn = j;
+						for (let k = 0; k < calColMonthArray.length; k++) {	// iterates over months being viewed on the timeline
+							if (taskStartMonth == calColMonthArray[k]) {
+								console.log(">>> task start month: " + taskStartMonth);
+								console.log(">>> cal col month: " + calColMonthArray[k]);
+
+								taskStartColumn = k;
+								console.log("task start column: " + taskEndColumn);
+
+								console.log("k: " + k);
 							}
-							if (taskEndYear == calColYearArray[j] && taskEndMonth == calColMonthArray[j]) {
-								taskEndColumn = j;
+							if (taskEndYear == calColYearArray[k] && taskEndMonth == calColMonthArray[k]) {
+								taskEndColumn = k;
 								break;
 							} else {
 								taskEndColumn = 10;
@@ -354,36 +404,52 @@ $(document).ready(function () {
 					};
 
 					// LONG TERM------------------COMPARING CALENDAR COLUMN DATES WITH TASK DATES TO DISPLAY TASKS-----------------------
-					for (var j = 0; j < 7; j++) {
-						if(taskStartMonth == calColMonthArray[j] && taskStartYear == calColYearArray[j]){
+
+
+					for (var m = 0; m < 7; m++) {
+						var didWeFindTheStartDateLongTerm = false;
+						var didWeDrawTheLineLongTerm = false;
+						if (taskStartMonth == calColMonthArray[m] && taskStartYear == calColYearArray[m]){
+							console.log("task start month: " + taskStartMonth);
+							console.log("col cal month [m]: " + calColMonthArray[m]);
 							drawLineInsideLongTerm();
+							didWeFindTheStartDateLongTerm = true;
+							didWeDrawTheLineLongTerm = true;
 							break;
+						} else {
+							if (taskEndMonth == calColMonthArray[m] && taskEndYear == calColYearArray[m]) {
+								drawLineFromLeftLongTerm();
+								didWeDrawTheLineLongTerm = true;
+								break;
+							}
 						}
 					}
-
-					if (taskStartYear <= calColYearArray[0] && taskEndYear >= calColYearArray[6]) { // if the task begins at or before the calendar year and ends at or after the calendar year
-						if (taskStartYear < calColYearArray[0] && taskEndYear > calColYearArray[6] ) { //if the task starts before and ends after the current display
-							drawLineThroughLongTerm();
-						} else if (taskEndYear > calColYearArray[6]) { //if the task start year is the same as the first column and the end year is after the last column year
-							if (taskStartMonth < calColMonthArray[0]) {
+					if (didWeDrawTheLineLongTerm == false) {
+						if (taskStartYear <= calColYearArray[0] && taskEndYear >= calColYearArray[6]) { // if the task begins at or before the calendar year and ends at or after the calendar year
+							console.log("first if statement");
+							if (taskStartYear < calColYearArray[0] && taskEndYear > calColYearArray[6] ) { //if the task starts before and ends after the current display
 								drawLineThroughLongTerm();
-							}
-						} else if (taskStartYear < calColYearArray[0]) { // in this case the End year equals the Calendar and Start Year is before or equal to calendar.
-							console.log("sad sad beep");
-							if (taskEndMonth > calColMonthArray[6]) {
-								drawLineThroughLongTerm();
-							} else if (taskEndMonth == calColMonthArray[6]) {
-								drawLineFromLeftLongTerm();
-							}
-						} else if (taskStartYear == calColYearArray[0] && taskEndYear == calColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
-							if (taskStartMonth <= calColMonthArray[0] && taskEndMonth >= calColMonthArray[6]) { // if the task begins at or before the calendar month and ends at or after the calendar month
-								if (taskStartMonth < calColMonthArray[0] && taskEndMonth > calColMonthArray[6] ) { //if the task starts before and ends after the current display
-									drawLineThroughLongTerm();
-								} else if (taskStartMonth < calColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
+							} else if (taskEndYear > calColYearArray[6]) { //if the task start year is the same as the first column and the end year is after the last column year
+								if (taskStartMonth < calColMonthArray[0]) {
 									drawLineThroughLongTerm();
 								}
-							}
-						}  // end check years are equal
+							} else if (taskStartYear < calColYearArray[0]) { // in this case the End year equals the Calendar and Start Year is before or equal to calendar.
+								console.log("sad sad beep");
+								if (taskEndMonth > calColMonthArray[6]) {
+									drawLineThroughLongTerm();
+								} else if (taskEndMonth == calColMonthArray[6]) {
+									drawLineFromLeftLongTerm();
+								}
+							} else if (taskStartYear == calColYearArray[0] && taskEndYear == calColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
+								if (taskStartMonth <= calColMonthArray[0] && taskEndMonth >= calColMonthArray[6]) { // if the task begins at or before the calendar month and ends at or after the calendar month
+									if (taskStartMonth < calColMonthArray[0] && taskEndMonth > calColMonthArray[6] ) { //if the task starts before and ends after the current display
+										drawLineThroughLongTerm();
+									} else if (taskStartMonth < calColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
+										drawLineThroughLongTerm();
+									}
+								}
+							}  // end check years are equal
+						}
 					}
 				}
 

@@ -1,14 +1,21 @@
-{% extends "layout.html" %}
-{% block title %}Register{% endblock %}
-{% block head %}
-{{ super() }}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reg-login.css') }}">
-{% endblock %}
-{% block content %}
-<div class="m-5 content-section">
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reg-login.css') }}">
+
+</head>
+<body id="categoryPage">
+  <div class="m-5 content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-       
+
             <legend class="border-bottom mb-4">Register</legend>
 
             <div class="form-group">
@@ -67,13 +74,12 @@
 
             <div class="">
                 <br>
-                {{ form.submit(class="loginButton") }}
+                {{ form.submit(class="btn loginButton") }}
             </div>
             <br>
 
             Do you already have an account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
 
-        </form>
-    </div>
-</div>
-{% endblock content %}
+    </form>
+  </div>
+</body>
