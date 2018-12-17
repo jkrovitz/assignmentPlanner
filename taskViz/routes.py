@@ -15,7 +15,7 @@ from taskViz.models import User, Category, Task
 from flask_login import login_user, current_user, logout_user, login_required
 import json
 
-
+# For the default page, we simply reroute to the home or login page.
 @app.route("/")
 def AuthenticationRedirect():
 	if current_user.is_authenticated:
@@ -23,7 +23,7 @@ def AuthenticationRedirect():
 	else:
 		return redirect(url_for('login'))
 
-
+#The home page display
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
@@ -33,9 +33,9 @@ def home():
 	if request.form :
 		task_name = request.form['taskNameAttribute']
 		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks) #`new_category_form` isn't being used? should it?
+	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks)
 
-
+# A registration form for adding new users
 @app.route("/register", methods=['GET', 'POST'])
 def register():
 	if current_user.is_authenticated:
@@ -53,6 +53,7 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+	"""A login page, with handling for errors logging in."""
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
 	form = LoginForm()
@@ -75,7 +76,7 @@ def logout():
 
 @app.route('/categories', methods=['GET', 'POST'])
 def category():
-	"""Used to create category and add it to the database."""
+	"""Used to create a category and add it to the database."""
 	category_name = request.form.get('category_name')
 	category_color = request.form.get('category_color')
 	category_form = NewCategoryForm(request.form)
@@ -94,9 +95,9 @@ def category():
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
 def edit_category(category_id):
-	"""This function gets category by category_id.
-	It renders a template where the user
-	is able to edit the category and
+	"""Gets category by category_id.
+	Renders a template where the user
+	can edit the category and
 	update the entry in the database.
 	"""
 	category = Category.query.get(category_id)
@@ -118,8 +119,8 @@ def edit_category(category_id):
 @app.route("/category/<int:category_id>/delete", methods=['POST'])
 @login_required
 def delete_category(category_id):
-	"""This function gets category by category_id.
-	It deletes the category from the screen and database.
+	"""Gets category by category_id.
+	Deletes the category from the screen and database.
 	"""
 	category = Category.query.get_or_404(category_id)
 	if category.user_id != current_user.id:
@@ -143,21 +144,21 @@ def create():
 	task_milestone_date = request.form['task_milestone_date']
 	if not task_name:
 		abort(403)
-	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, task_milestone_name = task_milestone_name, task_milestone_date=task_milestone_date, user_id = current_user.id)
+	new_task = Task(task_name=task_name, task_start_date=task_start_date, task_end_date=task_end_date, category_id=new_task_category, task_milestone_name=task_milestone_name, task_milestone_date=task_milestone_date, user_id=current_user.id)
 	db.session.add(new_task)
 	db.session.commit()
-	return jsonify({'status':'OK'})
+	return jsonify({'status': 'OK'})
 
 
 @app.route('/retrieveTasks')
 @login_required
 def retrieve_tasks():
-	'''This function queries all the tasks in the database filtering by user.
-	It adds each task to an array and then sends a JSON response to the browser.
-	'''
+	"""Queries all the tasks in the database filtering by user.
+	Adds each task to an array and then sends a JSON response to the browser.
+	"""
 	tasks = Task.query.filter_by(user_id=current_user.id).all()
 	task_list = []
 	for task in tasks:
-		json_task = {"task_name":task.task_name, "task_start_date":task.task_start_date, "task_end_date":task.task_end_date, "category_id":task.category_id, "category":task.category.category_name, "task_milestone_name":task.task_milestone_name, "task_milestone_date":task.task_milestone_date }
+		json_task = {"task_name": task.task_name, "task_start_date": task.task_start_date, "task_end_date": task.task_end_date, "category_id": task.category_id, "category": task.category.category_name, "task_milestone_name": task.task_milestone_name, "task_milestone_date": task.task_milestone_date }
 		task_list.append(json_task)
 	return jsonify(task_list)

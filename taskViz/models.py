@@ -12,6 +12,7 @@ from flask_login import UserMixin
 #This line changes the default message category, so the message background will appear in red instead of white.
 login_manager.login_message_category = "error"
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -48,7 +49,6 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(100), nullable=False)
     category_color = db.Column(db.String(100), nullable=False)
-    is_checked = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref="categories")
 
@@ -56,24 +56,15 @@ class Category(db.Model):
         return f"Category('{self.category_name}', '{self.category_color}')"     # why doesn't this return `category_id` or`is_checked`?
 
 
-class Subcategory(db.Model):
-    subcategory_id = db.Column(db.Integer, primary_key=True)
-    subcategory_name = db.Column(db.String(100), nullable=False)
-    is_checked = db.Column(db.Boolean, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-    def __repr__(self):
-        return f"Subcategory('{self.subcategory_id}', '{self.subcategory_name}', '{self.category_id}')" # should this return `is_checked`?
-
-
 class Task(db.Model):
+    """checks user and category, gets category color. creates task and milestone"""
     task_id = db.Column(db.Integer, primary_key=True)
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.String(100), nullable=False)
     task_end_date = db.Column(db.String(100), nullable=False)
-    task_milestone_name = db.Column(db.String(100), nullable = False)
-    task_milestone_date = db.Column(db.String(100), nullable = False)
+
+    task_milestone_name = db.Column(db.String(100), nullable = True)
+    task_milestone_date = db.Column(db.String(100), nullable = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref='tasks')
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
@@ -82,7 +73,7 @@ class Task(db.Model):
         return f"Task('{self.task_id}', '{self.task_name}', '{self.task_start_date}', '{self.task_end_date}', '{self.category_id}', '{self.task_milestone_name}', '{self.task_milestone_date}')"
 
 
-class Milestone(db.Model):
+class Milestone(db.Model):  # delete this
     milestone_id = db.Column(db.Integer, primary_key=True)
     milestone_name = db.Column(db.String(100), nullable=False)
     task_id = db.Column(db.Integer, db.ForeignKey('task.task_id'), nullable=True)
