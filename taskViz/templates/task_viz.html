@@ -36,7 +36,7 @@
 			<!-- Top bar for user input -->
 				<div class="p-4">
 					<label>Start date:</label>
-					<input type="date" id="start" value="2018-11-22" min="" max="" onchange="location.reload(false)">
+					<input type="date" id="start" value="" min="" max="" >
         	<a class="btn btn-outline-danger" style="float: right;" href="{{url_for('logout')}}">Logout</a>
 
 					<div class="topButtons">
@@ -53,6 +53,7 @@
 			<!-- Main area for timeline display -->
 				<div class="pr-4 pr-4 pb-4 pl-4" id=dates>
 					<div class="timeIncrementHeaderHolder mt-1 d-flex justify-content-around" id="datesContainer">
+						
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot0">date</span>
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot1">date</span>
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot2">date</span>
@@ -60,6 +61,8 @@
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot4">date</span>
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot5">date</span>
 						<span class="sTermTimeIncColHeader" id="sTermTimeSlot6">date</span>
+				
+						
 						<span class="lTermTimeIncColHeader" id="lTermTimeSlot0">date</span>
 						<span class="lTermTimeIncColHeader" id="lTermTimeSlot1">date</span>
 						<span class="lTermTimeIncColHeader" id="lTermTimeSlot2">date</span>

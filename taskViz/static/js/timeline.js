@@ -38,6 +38,21 @@ function getDayOfWeek(startDateVar) {
 };
 
 
+
+function getFormattedDate (date) {
+    return date.getFullYear()
+        + "-"
+        + ("0" + (date.getMonth() + 1)).slice(-2)
+        + "-"
+        + ("0" + date.getDate()).slice(-2);
+}
+
+var today = getFormattedDate(new Date()); 
+$("#start").val(today);
+
+
+
+
 /* Returns months based on value from start input, which is translated into a string object.*/
 function getMonthOfYear(startDateVar) {
 	var dateObj = new Date(startDateVar);
@@ -73,21 +88,27 @@ $(document).ready(function () {
 
 	// these lines are important
 	getDayOfWeek($('#start').val());
-	getMonthOfYear($('#start').val());
+	// getMonthOfYear($('#start').val());
 
 	$('body').resize(calculateOnResize());
 
 	if (localStorage.getItem("shortTermView") == true) {
 		shortterm();
+		getDayOfWeek($('#start').val());
 	} else if (localStorage.getItem("longTermView") == true) {
 		longterm();
+		getMonthOfYear($('#start').val());
 	}
 
 
 	/* SHORT/LONG TERM BUTTON LISTENERS */
 	$('#shortTermButton').click(function shorterm() {
-		$('.sTermTimeIncColHeader').show();
-		$('.lTermTimeIncColHeader').hide();
+		getDayOfWeek($('#start').val());
+		 if($('lTermTimeIncColHeader').is(":visible")){
+        $('.lTermTimeIncColHeader').hide();
+        $('.sTermTimeIncColHeader').show();
+    }
+		
 		shortTermView = true;
 		longTermView = false;
 
@@ -101,19 +122,27 @@ $(document).ready(function () {
 	});
 
 	$('#longTermButton').click(function longterm() {
-		$('.sTermTimeIncColHeader').hide();
-		$('.lTermTimeIncColHeader').show();
+		getMonthOfYear($('#start').val());
+		 if($('sTermTimeIncColHeader').is(":visible")){
+        $('.sTermTimeIncColHeader').hide();
+        $('.lTermTimeIncColHeader').show();
+    }
+		
+    	longTermView = true;
 		shortTermView = false;
-		longTermView = true;
 
-		localStorage.setItem("shortTermView", shortTermView);
 		localStorage.setItem("longTermView", longTermView);
+		localStorage.setItem("shortTermView", shortTermView);
+		
 
 		$('#longTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
 		$('#shortTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
 
 		drawAllTheTasks();
 	});
+
+		localStorage.setItem("shortTermView", shortTermView);
+		localStorage.setItem("longTermView", longTermView);
 
 	var task = []; //only ever holds one task at a time
 
