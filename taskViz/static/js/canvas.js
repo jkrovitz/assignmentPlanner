@@ -1,17 +1,90 @@
-/* 
-File contains functions for creating the canvas and drawings tasks 
-on it. 
-*/
+/*
+	Contains functions for displaying timeline lines on canvas as well as 
+	the event listeners for displaying them. 
+*/ 
 
-function redrawCanvas() {
-	$('#DemoCanvas').remove();
-	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="600px"></canvas>'); // TODO:
+// ------------------LISTENERS AND CANVAS DRAWING---------------------
+$(document).ready(function () {
+	var taskStartColumn, taskEndColumn;
 
-	canvas = document.getElementById('DemoCanvas');
-	context = canvas.getContext("2d");
-}
+	// these lines are important
+	getDayOfWeek($('#start').val());
+	getMonthOfYear($('#start').val());
+	$('body').resize(calculateOnResize());
 
-function drawAllTheTasks() {
+	if (localStorage.getItem("shortTermView") == true) {
+		shortterm();
+		getDayOfWeek($('#start').val());
+	} else if (localStorage.getItem("longTermView") == true) {
+		longterm();
+		getMonthOfYear($('#start').val());
+	}
+
+
+	/* SHORT/LONG TERM BUTTON LISTENERS */
+	// $('#shortTermButton').click(function shorterm() {
+	// 	if($('lTermTimeIncColHeader').is(":visible")){
+	// 		$('#lTermTimeSlot').hide();
+	// 		$('#sTermTimeSlot').show(); 
+
+	// 	}
+	// 	//selectShortTermView(); 
+
+	// 	drawAllTheTasks();
+	// });
+
+	$('#shortTermButton').click(function shorterm() {
+		
+		if($('lTermTimeIncColHeader').is(":visible")){
+			$('#lTermTimeSlot').hide(); 
+			$('#sTermTimeSlot').show(); 
+		}
+		getDayOfWeek($('#start').val());
+		$('.lTermTimeIncColHeader').hide();
+		$('.sTermTimeIncColHeader').show();
+		
+		shortTermView = true;
+		longTermView = false;
+
+		localStorage.setItem("shortTermView", shortTermView);
+		localStorage.setItem("longTermView", longTermView);
+
+		$('#shortTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
+		$('#longTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
+
+		drawAllTheTasks();
+	});
+
+	$('#longTermButton').click(function longterm() {
+		
+		if($('sTermTimeIncColHeader').is(":visible")){
+			$('#sTermTimeSlot').hide(); 
+			$('#lTermTimeSlot').show(); 
+		}
+		getMonthOfYear($('#start').val());
+		$('.sTermTimeIncColHeader').hide();
+		$('.lTermTimeIncColHeader').show();
+
+		
+    	longTermView = true;
+		shortTermView = false;
+
+		localStorage.setItem("longTermView", longTermView);
+		localStorage.setItem("shortTermView", shortTermView);
+		
+
+		$('#longTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
+		$('#shortTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
+
+		drawAllTheTasks();
+	});
+
+		localStorage.setItem("shortTermView", shortTermView);
+		localStorage.setItem("longTermView", longTermView);
+
+	var task = []; //only ever holds one task at a time
+
+	function drawAllTheTasks() {
 		console.log("DRAWING ALL THE TASKS");
 		$.getJSON('/retrieveTasks', function(data, status) {
 			console.log("RUNNING JSON");
@@ -23,7 +96,6 @@ function drawAllTheTasks() {
 
 
 			redrawCanvas();
-
 
 			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
@@ -198,21 +270,19 @@ function drawAllTheTasks() {
 						lCalColMonthArray.push(lCalColMonth);
 					});
 
-
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
 
-
 						// -------------------FUNCTIONS TO DRAW TASKS ONTO THE CANVAS FOR LONG TERM----------------
-						function drawLineThroughLongTerm() {
-							taskStartColumn = -1;
-							taskEndColumn = 10;
-							yPos = yPos + ySpaceIncrement;
-							drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
-						};
+					function drawLineThroughLongTerm() {
+						taskStartColumn = -1;
+						taskEndColumn = 10;
+						yPos = yPos + ySpaceIncrement;
+						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
+					};
 
-						function drawLineFromLeftLongTerm() {
-							yPos = yPos + ySpaceIncrement;
-							taskStartColumn = -1;
+					function drawLineFromLeftLongTerm() {
+						yPos = yPos + ySpaceIncrement;
+						taskStartColumn = -1;
 						for (let j = 0; j < lCalColMonthArray.length; j++) {	// iterates over months being viewed on the timeline
 							if (taskEndMonth == lCalColMonthArray[j]) {
 								taskEndColumn = j;
@@ -238,39 +308,39 @@ function drawAllTheTasks() {
 					};
 
 					// LONG TERM------------------COMPARING CALENDAR COLUMN DATES WITH TASK DATES TO DISPLAY TASKS-----------------------
-					compareCalendarColumnDates(); 
-					function compareCalendarColumnDates(){
-						for (var m = 0; m < 7; m++) {
-							var didWeFindTheStartDateLongTerm = false;
-							var didWeDrawTheLineLongTerm = false;
-							if (taskStartMonth == lCalColMonthArray[m] && taskStartYear == lCalColYearArray[m]){
-								drawLineInsideLongTerm();
-								didWeFindTheStartDateLongTerm = true;
+
+
+					for (var m = 0; m < 7; m++) {
+						var didWeFindTheStartDateLongTerm = false;
+						var didWeDrawTheLineLongTerm = false;
+						if (taskStartMonth == lCalColMonthArray[m] && taskStartYear == lCalColYearArray[m]){
+							drawLineInsideLongTerm();
+							didWeFindTheStartDateLongTerm = true;
+							didWeDrawTheLineLongTerm = true;
+							break;
+						} else {
+							if (taskEndMonth == lCalColMonthArray[m] && taskEndYear == lCalColYearArray[m]) {
+								drawLineFromLeftLongTerm();
 								didWeDrawTheLineLongTerm = true;
 								break;
-							} else {
-								if (taskEndMonth == lCalColMonthArray[m] && taskEndYear == lCalColYearArray[m]) {
-									drawLineFromLeftLongTerm();
-									didWeDrawTheLineLongTerm = true;
-									break;
-								}
 							}
 						}
+					}
 
-						if (didWeDrawTheLineLongTerm == false) {
-							if (taskStartYear <= lCalColYearArray[0] && taskEndYear >= lCalColYearArray[6]) {
-								if (taskStartYear < lCalColYearArray[0] && taskEndYear > lCalColYearArray[6] ) {
+					if (didWeDrawTheLineLongTerm == false) {
+						if (taskStartYear <= lCalColYearArray[0] && taskEndYear >= lCalColYearArray[6]) {
+							if (taskStartYear < lCalColYearArray[0] && taskEndYear > lCalColYearArray[6] ) {
+								drawLineThroughLongTerm();
+							} else if (taskEndYear > lCalColYearArray[6]) {
+								if (taskStartMonth < lCalColMonthArray[0]) {
 									drawLineThroughLongTerm();
-								} else if (taskEndYear > lCalColYearArray[6]) {
-									if (taskStartMonth < lCalColMonthArray[0]) {
-										drawLineThroughLongTerm();
-									}
-								} else if (taskStartYear < lCalColYearArray[0]) {
-									if (taskEndMonth > lCalColMonthArray[6]) {
-										drawLineThroughLongTerm();
-									} else if (taskEndMonth == lCalColMonthArray[6]) {
-										drawLineFromLeftLongTerm();
-									}
+								}
+							} else if (taskStartYear < lCalColYearArray[0]) {
+								if (taskEndMonth > lCalColMonthArray[6]) {
+									drawLineThroughLongTerm();
+								} else if (taskEndMonth == lCalColMonthArray[6]) {
+									drawLineFromLeftLongTerm();
+								}
 							} else if (taskStartYear == lCalColYearArray[0] && taskEndYear == lCalColYearArray[6]) { //Years are all equal. CHECK EVERYTHING!
 								if (taskStartMonth <= lCalColMonthArray[0] && taskEndMonth >= lCalColMonthArray[6]) {
 									if (taskStartMonth < lCalColMonthArray[0] && taskEndMonth > lCalColMonthArray[6] ) {
@@ -284,7 +354,143 @@ function drawAllTheTasks() {
 					}
 				}
 
-			}
 			} // end for loop over data.length
 	 	}); // end $.getJSON('/retrieveTasks', function(data, status)
 	}; // end DrawAllTheTasks
+
+	// ============================================================END COMPARISONS OF TASK DATES AND CAL DATES FOR SHORT AND LONG TERM=============================================================
+
+	//-----------------AJAX CALL TO CREATE NEW TASKS--------------------
+	$('#newTaskFormId').submit( function(e) {
+		e.preventDefault();
+		var task_name = $('#new_task_input').val();
+		var taskStartDate = $('#new_task_start_date_input').val();
+		var taskEndDate = $('#new_task_end_date_input').val();
+
+		if (taskEndDate < taskStartDate) {
+			$('#newTaskForm').hide();
+			alert("End date should be AFTER start date. TRY AGAIN.");
+		} else {
+			$.ajax({
+				url : '/create',
+				data : $('#newTaskFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened ~ ");
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+			$('#newTaskForm').hide();
+		}
+	});
+
+	// ---------------------INPUT/BUTTON LISTENERS------------------------
+	/* START-DATE LISTENER */
+	$('#start').change(function () {
+		var startVal = $('#start').val();
+		getDayOfWeek(startVal);
+		getMonthOfYear(startVal);
+
+		drawAllTheTasks();
+	});
+
+
+	/* CLICK BUTTONS, OPEN POP-UPS LISTENERS */
+	$('#newTaskButton').click(function () {
+		$('#newTaskForm').css("display", "block");
+	});
+
+	/* CANCEL FORM BUTTON LISTENERS */
+	$('#cancelIdTask').click(function () {
+		$('#newTaskForm').hide();
+	});
+
+
+});
+
+function redrawCanvas() {
+	$('#DemoCanvas').remove();
+	$('#dates').after('<canvas id="DemoCanvas" width="' + calculateTimelineWidth() + '" height="600px"></canvas>'); // TODO:
+
+	canvas = document.getElementById('DemoCanvas');
+	context = canvas.getContext("2d");
+}
+
+
+/* Function for drawing a task to the canvas */
+function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask) {
+	if (canvas.getContext) {
+		var xPos1 = taskStartColumn * xSpaceIncrement + xSpaceIncrement / 2;
+		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
+
+		var color = $('#category' + parsedTask.category_id).css('color'); // return RGB
+
+		drawLine(context, xPos1, xPos2, yPos, color);
+		drawCircles(context, xPos1, xPos2, yPos, color);
+		drawName(context, xPos1, yPos, taskStartColumn, parsedTask.task_name);
+	}
+};
+
+
+// ------------ DRAW TIMELINES ON CANVAS --------------------
+function drawLine (context, xPos1, xPos2, yPos, color) {
+	context.beginPath();
+	context.moveTo(xPos1, yPos);
+	context.lineTo(xPos2, yPos);
+
+	context.lineWidth = 4;
+	context.strokeStyle = color;
+	context.stroke();
+};
+
+
+function drawCircles (context, xPos1, xPos2, yPos, color) {
+	let radius = 12;
+
+	context.beginPath();
+	context.arc(xPos1, yPos, radius, 0, 2 * Math.PI, false);
+	context.fillStyle = color;
+	context.fill();
+	context.lineWidth = 5;
+	context.beginPath();
+	context.arc(xPos2, yPos, radius, 0, 2 * Math.PI, false);
+	context.fillStyle = color;
+	context.fill();
+};
+
+function drawName (context, xPos, yPos, taskStartColumn, taskName) {
+	context.font = "20px Arial";
+	context.fillStyle = "#000000";
+	if (taskStartColumn < 0) {
+		context.fillText(taskName, 0 + 25, yPos - 15);
+	} else {
+		context.fillText(taskName, xPos + 25, yPos - 15);
+	}
+}
+
+
+/* Calculates the width of the div with the Class called Timeline. */
+function calculateTimelineWidth() {
+	var selectTimelineWidth = document.querySelector('.Timeline');
+	timelineWidth = selectTimelineWidth.clientWidth;
+	return timelineWidth;
+};
+
+
+/* Calculates the width of the div with the Class called Category. */
+function calculateCategoryWidth() {
+	var selectCategoryWidth = document.querySelector('.Category');
+	categoryWidth = selectCategoryWidth.clientWidth;
+};
+
+
+/* A helper function. Calculates the height width of various elments, such as divs when the window
+is resized. This function is placed within the html body tag and is called when the window is resized. */
+function calculateOnResize() {
+	calculateTimelineWidth();
+	calculateCategoryWidth();
+};
