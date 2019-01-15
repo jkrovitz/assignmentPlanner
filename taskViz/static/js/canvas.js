@@ -16,19 +16,20 @@ $(document).ready(function () {
 
 	// these lines are important
 	getDayOfWeek(today);
-	getMonthOfYear($('#start').val());
 	$('.sTermTimeIncColHeader').show();
-		$('.lTermTimeIncColHeader').hide();
-		shortTermView = true;
-		longTermView = false;
+	$('.lTermTimeIncColHeader').hide();
+	shortTermView = true;
+	longTermView = false;
 
-		localStorage.setItem("shortTermView", shortTermView);
-		localStorage.setItem("longTermView", longTermView);
+	localStorage.setItem("shortTermView", shortTermView);
+	localStorage.setItem("longTermView", longTermView);
 
-		$('#shortTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
-		$('#longTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
+	$('#shortTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
+	$('#longTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
 
-		drawAllTheTasks();
+	drawAllTheTasks();
+	getMonthOfYear($('#start').val());
+
 	$('body').resize(calculateOnResize());
 
 	if (localStorage.getItem("shortTermView") == true) {
