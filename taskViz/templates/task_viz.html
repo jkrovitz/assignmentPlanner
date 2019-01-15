@@ -3,6 +3,7 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/timeline.css') }}">
+<script  src="https://momentjs.com/downloads/moment.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -27,11 +28,10 @@
 		go here when we decide to turn our category and task forms
 		 into popups.
 		</div> -->
+ 
+
 	<div class="grid-container">
 		<div class="Timeline" id="timelineId">
-			<div id="testingDiv1"></div>
-			<div id="testingDiv2"></div>
-			<div id="testingDiv3"></div>
 			<div class="inline-elements">
 			<!-- Top bar for user input -->
 				<div class="p-4">
@@ -48,6 +48,7 @@
 					</div>
           <h3 class="pl-4" style="margin:auto">{{ current_user.username }}'s Timeline</h3>
 				</div>
+			</div>
 				<hr style="border: 2px solid grey;">
 
 			<!-- Main area for timeline display -->
@@ -73,7 +74,8 @@
 					</div>
 				</div>
             </div>
-		</div>
+		
+
 
 	<!-- Sidebar of catgories  -->
 	<div class="Category p-4" id="categoryContainer">
@@ -89,12 +91,16 @@
 			<div id="background" class="alert success background" role="alert" style="display:none;"></div>
 		</div>
 	</div>
-    </div>
+   
+   </div>
+
 	<!-- External JavaScript Files -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type = "text/JavaScript" src = " https://MomentJS.com/downloads/moment.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script type=text/javascript src="{{url_for('static', filename='js/displayDates.js') }}"></script>
 	<script type=text/javascript src="{{url_for('static', filename='js/canvas.js') }}"></script>
+	
 </body>
 {% endblock content %}

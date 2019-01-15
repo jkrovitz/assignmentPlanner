@@ -72,6 +72,19 @@ body,
 	vertical-align: middle;
 }
 
+.checkboxLabel {
+ border:1px solid #ccc;
+ padding:10px;
+ margin:0 0 10px;
+ display:block; 
+}
+
+.checkboxLabel:hover {
+ background:#eee;
+ cursor:pointer;
+}
+
+
 .btn-space{
 	margin-right: 20px;
 }

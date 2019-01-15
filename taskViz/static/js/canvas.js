@@ -3,46 +3,60 @@
 	the event listeners for displaying them. 
 */ 
 
+
+
+var canvas;
+var context;
+
 // ------------------LISTENERS AND CANVAS DRAWING---------------------
 $(document).ready(function () {
 	var taskStartColumn, taskEndColumn;
+	var today = getFormattedDate(new Date()); 
+	$("#start").val(today);
 
 	// these lines are important
-	getDayOfWeek($('#start').val());
+	getDayOfWeek(today);
 	getMonthOfYear($('#start').val());
+	$('.sTermTimeIncColHeader').show();
+		$('.lTermTimeIncColHeader').hide();
+		shortTermView = true;
+		longTermView = false;
+
+		localStorage.setItem("shortTermView", shortTermView);
+		localStorage.setItem("longTermView", longTermView);
+
+		$('#shortTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
+		$('#longTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
+
+		drawAllTheTasks();
 	$('body').resize(calculateOnResize());
 
 	if (localStorage.getItem("shortTermView") == true) {
 		shortterm();
-		getDayOfWeek($('#start').val());
 	} else if (localStorage.getItem("longTermView") == true) {
 		longterm();
-		getMonthOfYear($('#start').val());
 	}
 
 
-	/* SHORT/LONG TERM BUTTON LISTENERS */
-	// $('#shortTermButton').click(function shorterm() {
-	// 	if($('lTermTimeIncColHeader').is(":visible")){
-	// 		$('#lTermTimeSlot').hide();
-	// 		$('#sTermTimeSlot').show(); 
-
-	// 	}
-	// 	//selectShortTermView(); 
-
-	// 	drawAllTheTasks();
-	// });
-
-	$('#shortTermButton').click(function shorterm() {
-		
-		if($('lTermTimeIncColHeader').is(":visible")){
-			$('#lTermTimeSlot').hide(); 
-			$('#sTermTimeSlot').show(); 
-		}
-		getDayOfWeek($('#start').val());
-		$('.lTermTimeIncColHeader').hide();
+	$('#start').change(function startFunction(){
 		$('.sTermTimeIncColHeader').show();
-		
+		$('.lTermTimeIncColHeader').hide();
+		shortTermView = true;
+		longTermView = false;
+
+		localStorage.setItem("shortTermView", shortTermView);
+		localStorage.setItem("longTermView", longTermView);
+
+		$('#shortTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
+		$('#longTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
+
+		drawAllTheTasks();
+
+	});
+	/* SHORT/LONG TERM BUTTON LISTENERS */
+	$('#shortTermButton').click(function shorterm() {
+		$('.sTermTimeIncColHeader').show();
+		$('.lTermTimeIncColHeader').hide();
 		shortTermView = true;
 		longTermView = false;
 
@@ -56,31 +70,19 @@ $(document).ready(function () {
 	});
 
 	$('#longTermButton').click(function longterm() {
-		
-		if($('sTermTimeIncColHeader').is(":visible")){
-			$('#sTermTimeSlot').hide(); 
-			$('#lTermTimeSlot').show(); 
-		}
-		getMonthOfYear($('#start').val());
 		$('.sTermTimeIncColHeader').hide();
 		$('.lTermTimeIncColHeader').show();
-
-		
-    	longTermView = true;
 		shortTermView = false;
+		longTermView = true;
 
-		localStorage.setItem("longTermView", longTermView);
 		localStorage.setItem("shortTermView", shortTermView);
-		
+		localStorage.setItem("longTermView", longTermView);
 
 		$('#longTermButton').css({'background-color': '#007bff', 'color': '#ffffff'});
 		$('#shortTermButton').css({'background-color': '#ffffff', 'color': '#007bff'});
 
 		drawAllTheTasks();
 	});
-
-		localStorage.setItem("shortTermView", shortTermView);
-		localStorage.setItem("longTermView", longTermView);
 
 	var task = []; //only ever holds one task at a time
 
