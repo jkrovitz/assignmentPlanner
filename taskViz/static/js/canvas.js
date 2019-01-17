@@ -264,20 +264,37 @@ $(document).ready(function () {
 					//to get their date and separate into year, month, and day
 					$("span.lTermTimeIncColHeader").each(function() {
 						var lCalColDate = $(this).attr('dateVal');
+						// var lTermTimeSlot0 = $('#lTermTimeSlot0').text();
+						// var lTermTimeSlot0Value = $('#lTermTimeSlot0').attr('dateVal');
+						// console.log('lTermTimeSlot0 ' + lTermTimeSlot0);
+						// console.log('lTermTimeSlot0Value ' + lTermTimeSlot0Value);
 						var lCalColDatePartsArray = lCalColDate.split('|');
 
 						lCalColYear = lCalColDatePartsArray[0]; //get the year from the dateVal
 						lCalColMonth = lCalColDatePartsArray[1]; //get the month from the dateVal
+						lCalColDay = lCalColDatePartsArray[2]; 
 
 						lCalColYearArray.push(lCalColYear);
 						lCalColMonthArray.push(lCalColMonth);
+						lCalColDayArray.push(lCalColDay);
 					});
+		
+					// var startArrayDate = $('#start').val();
+					// var startArray = startArrayDate.split('-');
+					// var startDateArray = []; 
+					// var startMonthArray = [];
+					// var startMonthVar = startArray[1];
+					// var startDateVar = startArray[2];
+					// startDateArray.push(startDateVar);
+					// startMonthArray.push(startMonthVar);
+					// console.log(startDateArray);
+					// console.log(startMonthArray);
 
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
 
 						// -------------------FUNCTIONS TO DRAW TASKS ONTO THE CANVAS FOR LONG TERM----------------
 					function drawLineThroughLongTerm() {
-						taskStartColumn = -1;
+						taskStartColumn = 0;
 						taskEndColumn = 10;
 						yPos = yPos + ySpaceIncrement;
 						drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
@@ -285,22 +302,25 @@ $(document).ready(function () {
 
 					function drawLineFromLeftLongTerm() {
 						yPos = yPos + ySpaceIncrement;
-						taskStartColumn = -1;
 						for (let j = 0; j < lCalColMonthArray.length; j++) {	// iterates over months being viewed on the timeline
-							if (taskEndMonth == lCalColMonthArray[j]) {
+							if (taskEndMonth == lCalColMonthArray[j] && taskEndYear == lCalColYearArray[j]) {
+								taskStartColumn = -1;
 								taskEndColumn = j;
 								drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceIncrement, yPos, parsedTask);
 							}
+
 						}
-					};
+											};
 
 					function drawLineInsideLongTerm() {
 						yPos = yPos + ySpaceIncrement;
 						for (let k = 0; k < lCalColMonthArray.length; k++) {	// iterates over months being viewed on the timeline
-							if (taskStartMonth == lCalColMonthArray[k]) {
+							
+							if (taskStartMonth == lCalColMonthArray[k] && taskStartYear == lCalColYearArray[k]) {
 								taskStartColumn = k;
 							}
-							if (taskEndYear == lCalColYearArray[k] && taskEndMonth == lCalColMonthArray[k]) {
+							
+							if (taskEndMonth == lCalColMonthArray[k] && taskEndYear == lCalColYearArray[k]) {
 								taskEndColumn = k;
 								break;
 							} else {
@@ -322,7 +342,7 @@ $(document).ready(function () {
 							didWeDrawTheLineLongTerm = true;
 							break;
 						} else {
-							if (taskEndMonth == lCalColMonthArray[m] && taskEndYear == lCalColYearArray[m]) {
+							if (taskEndMonth == lCalColMonthArray[m] && taskEndYear == lCalColYearArray[m]){
 								drawLineFromLeftLongTerm();
 								didWeDrawTheLineLongTerm = true;
 								break;
@@ -348,11 +368,16 @@ $(document).ready(function () {
 								if (taskStartMonth <= lCalColMonthArray[0] && taskEndMonth >= lCalColMonthArray[6]) {
 									if (taskStartMonth < lCalColMonthArray[0] && taskEndMonth > lCalColMonthArray[6] ) {
 										drawLineThroughLongTerm();
-									} else if (taskStartMonth < lCalColMonthArray[0]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
+									} else if (taskStartMonth <= lCalColMonthArray[0] && taskEndMonth == lCalMonthArray[6]) {// in this case the End month equals the Calendar and Start month is before or equal to calendar.
 										drawLineThroughLongTerm();
 									}
+
 								}
+							} else if (taskStartYear == lCalColYearArray[0] && taskEndYear > lCalColYearArray[0]){
+								console.log("task start year is within lTermTimeIncColHeader, or similarly, task start year is within lCalColYearArray[0], but the task end year is greater than the year displayed in the lTermTimeIncColHeader. ");
+
 							}
+
 						}
 					}
 				}

@@ -25,10 +25,13 @@ function getDayOfWeek(startDateVar) {
 		var displayedDay = moment(dateObj).format("DD");
 		//var displayedMonth = dateObj.getMonth() + 1;
 		var displayedMonth = moment(dateObj).format("MM");
-		var dateVal = dateObj.getFullYear() + "|" + (displayedMonth) + '|' + (displayedDay);
-
+		//var dateVal = dateObj.getFullYear() + "|" + (displayedMonth) + '|' + (displayedDay);
+		var anotherDateVal = moment(startDateVar).add(i, 'days').format("ddd MM/DD");
+		// var dateVal = year + "|" + (displayedMonth - 1);
+		var dateVal = moment(startDateVar).add(i, 'days').format("YYYY|MM|DD");
 		var timeSlotSpanId = "sTermTimeSlot" + i;
-		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (displayedMonth) + '/' + (displayedDay) +  '</span>';
+		// var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + dayOfWeek + ' ' + (displayedMonth) + '/' + (displayedDay) +  '</span>';
+		var timeSlotSpan = '<span class="sTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + anotherDateVal + '</span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
 
 		dayOfWeek = weekdays[dateObj.getDay()];
@@ -55,7 +58,8 @@ function getMonthOfYear(startDateVar) {
 			year = year-1;
 		}
 		var anotherDateVal = moment(startDateVar).add(i, 'months').format("MMM YYYY");
-		var dateVal = year + "|" + (displayedMonth - 1);
+		// var dateVal = year + "|" + (displayedMonth - 1);
+		var dateVal = moment(startDateVar).add(i, 'months').format("YYYY|MM|DD");
 		var timeSlotSpanId = "lTermTimeSlot" + i;
 		var timeSlotSpan = '<span class="lTermTimeIncColHeader" id="' + timeSlotSpanId + '" dateVal="' + dateVal + '">' + anotherDateVal + '</span>';
 		$( '#' + timeSlotSpanId ).replaceWith(timeSlotSpan);
@@ -72,6 +76,5 @@ function getFormattedDate (date) {
         + "-"
         + ("0" + date.getDate()).slice(-2);
 }
-
 
 
