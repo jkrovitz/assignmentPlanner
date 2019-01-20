@@ -27,13 +27,14 @@ def AuthenticationRedirect():
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-	new_category_form = category()
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	tasks = Task.query.all()
-	if request.form :
-		task_name = request.form['taskNameAttribute']
-		taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-	return render_template('task_viz.html', categories=categories, new_category_form=new_category_form, tasks=tasks)
+	# if request.form :
+	# 	task_name = request.form['taskNameAttribute']
+	# 	taskThing = json.dumps({'status':'OK', 'task_name':task_name});
+	# 	category_name = request.form['categoryNameAttribute']	
+	# 	categoryThing = json.dumps({'status':'OK', 'category_name':category_name});
+	return render_template('task_viz.html', categories=categories, tasks=tasks)
 
 # A registration form for adding new users
 @app.route("/register", methods=['GET', 'POST'])
@@ -89,6 +90,20 @@ def category():
 	cat = Category.query.all()
 	return render_template('forms/category_form.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
+@app.route('/categoryInSidebar', methods=['GET', 'POST'])
+def categoryInSidebar():
+	"""Used to create a category and add it to the database."""
+	category_name = request.form.get('category_name')
+	category_color = request.form.get('category_color')
+	category_form = NewCategoryForm(request.form)
+	if request.method == 'POST':
+		new_cat = Category(category_name=category_name, category_color=category_color, user_id=current_user.id)
+		if(category_name):
+			db.session.add(new_cat)
+			db.session.commit()
+		return redirect(url_for('home'))
+	cat = Category.query.all()
+	return render_template('forms/categoryInSidebar.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 
 
@@ -162,3 +177,33 @@ def retrieve_tasks():
 		json_task = {"task_name": task.task_name, "task_start_date": task.task_start_date, "task_end_date": task.task_end_date, "category_id": task.category_id, "category": task.category.category_name, "task_milestone_name": task.task_milestone_name, "task_milestone_date": task.task_milestone_date }
 		task_list.append(json_task)
 	return jsonify(task_list)
+
+
+@app.route('/create_category', methods=['GET','POST'])
+@login_required
+def create_category():
+	"""Route for the ajax call."""
+	if request.method != 'POST':
+		abort(403)
+	category_name = request.form['category_name']
+	category_color = request.form['category_color']
+	if not category_name:
+		abort(403)
+	new_cat = Category(category_name=category_name, category_color=category_color, user_id=current_user.id)
+	db.session.add(new_cat)
+	db.session.commit()
+	return jsonify({'status': 'OK'})
+
+
+@app.route('/retrieveCategories')
+@login_required
+def retrieve_categories():
+	"""Queries all the tasks in the database filtering by user.
+	Adds each task to an array and then sends a JSON response to the browser.
+	"""
+	categories = Category.query.filter_by(user_id=current_user.id).all()
+	category_list = []
+	for category in categories:
+		json_category = {"category_name": category.category_name, "category_color": category.category_color, "category_id": category.user_id}
+		category_list.append(json_category)
+	return jsonify(category_list)

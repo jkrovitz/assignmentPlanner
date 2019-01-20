@@ -355,6 +355,16 @@ color: white;
 	opacity: 0.8;
 }
 
+.new-category-button {
+	width: 25%;
+	margin: 5% 25%;
+	font-size: .9vw;
+	background-color: #eeeeee;
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+
 .form-popup {
 	display: none;
 	position: fixed;
@@ -398,6 +408,24 @@ color: white;
   text-shadow: 0px 0px 10px grey;
 }
 
+.new-category-form-container {
+	text-align: center;
+	padding: 20px 20px 20px 20px;
+	border: 1px solid grey;
+	background-color: #E8E8E8;
+	border-radius: 10px;
+}
+
+
+#cancelIdCategory{
+	padding: 15px 15px 0px 0px;
+	text-align: center;
+}
+
+#cancelIdCategory:hover{
+  text-shadow: 0px 0px 10px grey;
+}
+
 .amountShortTimeLimit {
 	margin-top: 20px;
 }
@@ -430,7 +458,7 @@ color: white;
 
 .form-container input[type=text]:focus,
 .form-container input[type=password]:focus {
-	background-color: #ffffff;
+	/*background-color: #ffffff;*/
 	border: solid grey 1px;
 }
 
@@ -456,6 +484,14 @@ color: white;
 }
 
 #new-cat-btn{
+	background-color: #3f12a1;
+	border-color: #3f12a1;
+	display: flex;
+	justify-content: center;
+	flex-shrink: .5;
+}
+
+.new-cat-btn-class{
 	background-color: #3f12a1;
 	border-color: #3f12a1;
 	display: flex;

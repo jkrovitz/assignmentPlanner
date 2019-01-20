@@ -10,7 +10,6 @@ var context;
 
 // ------------------LISTENERS AND CANVAS DRAWING---------------------
 $(document).ready(function () {
-	
 	// $(".option").wrap("<div class='new'></div>");
 
 // // add a span after each checkbox that we can style as our new checkboxes
@@ -43,6 +42,7 @@ $(document).ready(function () {
 
 	drawAllTheTasks();
 	getMonthOfYear($('#start').val());
+
 
 	$('body').resize(calculateOnResize());
 
@@ -100,7 +100,20 @@ $(document).ready(function () {
 		drawAllTheTasks();
 	});
 
+	var category = []; 
+
+	function getAllCategories(){
+		$.getJSON('/retrieveCategories', function(data, status) {
+			for (let i = 0; i < data.length; i++) {
+				category = data[i];
+				var stringifiedCategory = JSON.stringify(category); 
+				var parsedCategory = JSON.parse(stringifiedCategory);
+	}
+})
+}
+
 	var task = []; //only ever holds one task at a time
+
 
 	function drawAllTheTasks() {
 		// console.log("DRAWING ALL THE TASKS");
@@ -112,15 +125,34 @@ $(document).ready(function () {
 			var yPos = 0;
 			redrawCanvas();
 
+
+
 			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				task = data[i];
 
+
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
 				var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
+				
+				// var sList = "";
+// $('input[type=checkbox]').change(function () {
+//     var sThisVal = (this.checked ? "1" : "0");
+//     sList += (sList=="" ? sThisVal : "," + sThisVal);
+// });
+
+// $('input[type="checkbox"]').mousedown(function() {
+//     if (!$(this).is(':checked')) {
+//         this.checked = confirm("Are you sure?");
+//         $(this).trigger("change");
+//     }
+// });
+// console.log (sList);
+
+
 				var momentTaskStartDate = moment(parsedTask.task_start_date, 'YYYY-MM-DD');
-				var momentTaskEndDate = moment.utc(parsedTask.task_end_date, 'YYYY-MM-DD');
+				var momentTaskEndDate = moment(parsedTask.task_end_date, 'YYYY-MM-DD');
 				//separate out year, month and day for task start date
 				var taskStartYear = moment(momentTaskStartDate).format('YYYY');
 				var taskStartMonth = moment(momentTaskStartDate).format('MM'); 
@@ -366,6 +398,22 @@ $(document).ready(function () {
 	// ============================================================END COMPARISONS OF TASK DATES AND CAL DATES FOR SHORT AND LONG TERM=============================================================
 
 	//-----------------AJAX CALL TO CREATE NEW TASKS--------------------
+
+
+
+
+
+
+
+
+
+
+			
+
+
+		
+
+
 	$('#newTaskFormId').submit( function(e) {
 		e.preventDefault();
 		var task_name = $('#new_task_input').val();
@@ -390,8 +438,47 @@ $(document).ready(function () {
 			});
 
 			$('#newTaskForm').hide();
+
+			//Draws the new task when the new task form is 
+			//submitted instead  of having to click on the 
+			//term buttons again. 
+			$(document).ready(function () {
+					drawAllTheTasks();
+			}); 
+
+
 		}
 	});
+
+// 		$('#newCategoryFormId').submit( function(e) {
+// 		e.preventDefault();
+// 		var category_name = $('#category_name').val();
+// 		var category_color = $('#category_color').val();
+// 		var category_id = $('#category_id').val();
+
+// 			$.ajax({
+// 				url : '/create_category',
+// 				data : $('#newCategoryFormId').serialize(),
+// 				type : 'POST',
+// 				success: function(response) {
+// 					console.log(response);
+// 					console.log(" ~ ajax happened FOR CATEGORY ~ ");
+// 				},
+// 				error: function(error) {
+// 					console.log(error);
+// 				}
+// 			});
+
+// 			$('#newCategoryForm').hide();
+			
+// 			$(document).ready(function () {			
+		
+// 			$('#categoryList').append('<a href="../templates/category.html">' + category_name + '</a>');
+// 			getAllCategories();
+		
+// 		});
+
+// });
 
 	// ---------------------INPUT/BUTTON LISTENERS------------------------
 	/* START-DATE LISTENER */
@@ -399,7 +486,7 @@ $(document).ready(function () {
 		var startVal = $('#start').val();
 		getDayOfWeek(startVal);
 		getMonthOfYear(startVal);
-
+		retrieveCategories();
 		drawAllTheTasks();
 	});
 
@@ -409,9 +496,17 @@ $(document).ready(function () {
 		$('#newTaskForm').css("display", "block");
 	});
 
+	$('#new-cat-btn').click(function(){
+		$('#newCategoryForm').css("display", "block");
+	});
+
 	/* CANCEL FORM BUTTON LISTENERS */
 	$('#cancelIdTask').click(function () {
 		$('#newTaskForm').hide();
+	});
+
+	$('#cancelIdCategory').click(function(){
+		$('#newCategoryForm').hide();
 	});
 
 
@@ -502,3 +597,4 @@ function calculateOnResize() {
 	calculateTimelineWidth();
 	calculateCategoryWidth();
 };
+

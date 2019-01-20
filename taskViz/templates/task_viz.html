@@ -19,6 +19,9 @@
 		<div class="form-popup p-2 bd-highlight" id="newTaskForm">
 			{% include 'popups/task_form.html' ignore missing %}
 		</div>
+		<div class="form-popup p-2 bd-highlight" id="newCategoryForm">
+			{% include 'popups/category_form_popup.html' ignore missing %}
+		</div>
     </div>
 	<div class="grid-container">
 		<div class="Timeline" id="timelineId">
@@ -30,7 +33,7 @@
         	<a class="btn btn-outline-danger" style="float: right; border: solid 1px black;" href="{{url_for('logout')}}">Logout</a>
 
 					<div class="topButtons">
-          	<button class="btn btn-success" id="newTaskButton" style="float: right; margin-left:40px; border: solid 1px black;">New Task +</button>
+          	<button style="float: right; margin-left:40px; border: solid 1px black;" class="btn btn-success" id="newTaskButton"> New Task + </button>
 						<div class="term-btn-group">
 							<button class="btn btn-outline-primary" id="shortTermButton">Short Term</button>
 							<button class="btn btn-outline-primary" id="longTermButton">Long Term</button>
@@ -69,8 +72,11 @@
 
 	<!-- Sidebar of catgories  -->
 	<div class="Category p-4" id="categoryContainer">
-		<a class="btn btn-success" id="new-cat-btn" href="{{ url_for('category') }}"> New Category +</a>
-		<div class="mt-4" id="categoryList">
+		<!-- <a class="btn btn-success" id="new-cat-btn" href="{{ url_for('category') }}"> New Category +</a> -->
+			<div class="mb-5" style="">
+			<button class="btn btn-success" id="new-cat-btn" style="margin-left:40px; margin-bottom:20px; border: solid 1px black;">New Category +</button>
+		</div>
+		<div class="mt-5" id="categoryList">
 			{% for category in categories %}
 			<div id="category{{ category.category_id }}" style="color:#{{ category.category_color }}" class="d-flex p-2 ">
 				<label class="checkmarkContainer"><input type="checkbox"  value="" id="category{{ category.category_id }}" class="checkbox checkbox-primary" style="border-color:#{{ category.category_color }};" name="category{{ category.category_id }}"> 
@@ -87,6 +93,38 @@
 				</a> </label>
 
 		</div>
+		<script>
+
+		$('#newCategoryFormId').submit( function(e) {
+		e.preventDefault();
+		var category_name = $('#category_name').val();
+		var category_color = $('#category_color').val();
+		var category_id = $('#category_id').val();
+
+			$.ajax({
+				url : '/create_category',
+				data : $('#newCategoryFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened FOR CATEGORY ~ ");
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+			$('#newCategoryForm').hide();
+			
+			$(document).ready(function () {			
+		
+			$('#categoryList').append('<a href="../templates/category.html">' + category_name + '</a>');
+			getAllCategories();
+		
+		});
+
+});
+		</script>
 				{% endfor %}
 
 			<div id="background" class="alert success background" role="alert" style="display:none;"></div>

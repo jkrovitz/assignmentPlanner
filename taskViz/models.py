@@ -49,11 +49,13 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.String(100), nullable=False)
     category_color = db.Column(db.String(100), nullable=False)
+    category_checked = db.Column(db.Boolean, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref="categories")
 
     def __repr__(self):
         return f"Category('{self.category_name}', '{self.category_color}')"
+
 
 
 class Task(db.Model):

@@ -1,0 +1,17 @@
+			<form>
+			<div id="category{{ category.category_id }}" style="color:#{{ category.category_color }}" class="d-flex p-2 ">
+				<label class="checkmarkContainer"><input type="checkbox"  value="" id="category{{ category.category_id }}" name="category_checkbox{{ category.category_id }}" class="checkbox checkbox-primary" style="border-color:#{{ category.category_color }};" name="category{{ category.category_id }}" > 
+			  <span class="checkmark">
+
+  </span>
+</label>
+			
+			<label for="category{{ category.category_id }}">
+			
+
+ <a class=" category-name btn rounded text-center" style="border-color:#{{ category.category_color }};" href="{{ url_for('edit_category', category_id=category.category_id) }}">
+					{{ category.category_name }}
+				</a> </label>
+
+		</div>
+	</form>
