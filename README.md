@@ -18,7 +18,7 @@ Please note that currently Firefox is required to run this app.
 6. Type **. venv-3-7/bin/activate** to activate the virtual environment.
 7. Type **pip install -r requirements.txt** in the terminal.
 8. Press [Enter].
-9. Type **python run.py** in the terminal.
+9. Type **python run.py** in the terminal. Note: If you get an error here, it might be because python3 is not the default python version on your system. Try typing **python3 run.py** instead.
 10. Press [Enter].
 11. Open a web browser and paste http://localhost:5000/ into the address bar.
 12. Project will be displayed.
