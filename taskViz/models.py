@@ -19,7 +19,7 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True , autoincrement=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
 
 
 class Category(db.Model):
-    category_id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category_name = db.Column(db.String(100), nullable=False)
     category_color = db.Column(db.String(100), nullable=False)
     category_checked = db.Column(db.Boolean, nullable=True)
@@ -60,7 +60,7 @@ class Category(db.Model):
 
 class Task(db.Model):
     """checks user and category, gets category color. creates task and milestone"""
-    task_id = db.Column(db.Integer, primary_key=True)
+    task_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_name = db.Column(db.String(100), nullable=False)
     task_start_date = db.Column(db.String(100), nullable=False)
     task_end_date = db.Column(db.String(100), nullable=False)
@@ -76,7 +76,7 @@ class Task(db.Model):
 
 
 class Milestone(db.Model):  # delete this
-    milestone_id = db.Column(db.Integer, primary_key=True)
+    milestone_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     milestone_name = db.Column(db.String(100), nullable=False)
     task_id = db.Column(db.Integer, db.ForeignKey('task.task_id'), nullable=True)
 

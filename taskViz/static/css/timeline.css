@@ -458,7 +458,7 @@ color: white;
 
 .form-container input[type=text]:focus,
 .form-container input[type=password]:focus {
-	/*background-color: #ffffff;*/
+	background-color: #ffffff;
 	border: solid grey 1px;
 }
 

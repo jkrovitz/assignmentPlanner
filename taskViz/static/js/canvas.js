@@ -10,19 +10,250 @@ var context;
 
 // ------------------LISTENERS AND CANVAS DRAWING---------------------
 $(document).ready(function () {
-	// $(".option").wrap("<div class='new'></div>");
 
-// // add a span after each checkbox that we can style as our new checkboxes
-// $('input[type="checkbox"]').after('<span class="checkbox"></span>');
-// wrap the input in a new div that we can style to hide the default checkboxes
-// $(".option").wrap("<div class='new'></div>");
+				$.ajax({
+				url : '/create_category',
+				data : $('#newCategoryFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened FOR CATEGORY ~ ");
+					var category_name = $('#category_name').val();
+					var category_color = $('#category_color').val();
+					var category_id = $('#category_id').val();
 
-// // add a span after each checkbox that we can style as our new checkboxes
-// $('input[type="checkbox"]').after('<span class="check-box " style="border-color:#{{ category.category_color }};"></span>');
-	// $('body').outerWidth('100%');
-	// $('div.grid-container > div.Category').outerWidth('100%');
-	// $('.Timeline').outerWidth('100%');
-	// $('body').outerHeight('100%');
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+			
+			$('#newCategoryForm').hide();
+			var stringifiedCategory;
+			var parsedCategory; 
+			var category_name; 
+			var category_id;
+	
+
+
+			var category = [];
+			$(document).ready(function () {
+					
+			$.getJSON('/retrieveCategories', function(data, status) {
+			
+			
+
+			var checkboxElementList = [];
+			for (let i = 0; i < data.length; i++) {
+				category = data[i];
+
+
+				// First we get the task dates from the database for this particular task.
+				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
+			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
+				category_name = parsedCategory.category_name; 
+				category_id = parsedCategory.category_id; 
+				category_color = parsedCategory.category_color;
+				
+
+				var divElement = document.createElement("div");
+				divElement.setAttribute("id", "category" + category_id);
+				divElement.setAttribute("class", "d-flex p2" );
+
+
+				var hrefVar ="category/"+category_id+"/edit";
+				// var labelEl1AndSpan = ('<label class="checkmarkContainer"><span class="checkmark"></span></label>');
+				var checkboxContainer = document.createElement("label");
+				checkboxContainer.setAttribute("class", "checkmarkContainer");
+				checkboxContainer.setAttribute("style","border: solid 2px #"+category_color );
+				var spanElement = document.createElement("span"); 
+				spanElement.setAttribute("class", "checkmark");
+				var checkboxElement = document.createElement("input"); 
+				checkboxElement.setAttribute("type", "checkbox");
+				// checkboxElement.setAttribute("value", "");
+				// xcheckboxElement.setAttribute("id", "category" + category_id);
+				// checkboxElement.setAttribute("class", "checkbox checkbox-primary");
+				// checkboxElement.setAttribute("style", "border: solid 4px #"+category_color);
+				// checkboxElement.setAttribute("name", "category" + category_id);
+				checkboxElement.type = "checkbox"; 
+				checkboxElement.name = "category" + category_id;
+				checkboxElement.id = "category" + category_id; 
+				checkboxElement.value = "category" + category_id; 
+				checkboxElementId = checkboxElement.id;
+				var labelElement2 = document.createElement("label");
+				labelElement2.setAttribute("for", "category" + category_id);
+ 				var aTag = document.createElement("a");
+  				aTag.setAttribute("href", hrefVar);
+  				aTag.setAttribute("class", "category-name btn rounded text-center")
+   				aTag.setAttribute("style", "border: solid 2px #"+category_color);
+   				aTag.innerHTML = category_name; 
+   				labelElement2.append(aTag);
+   				spanElement.append(checkboxElement);
+   				checkboxContainer.append(checkboxElement);
+   				// labelElement1.append(checkboxElement);
+   				//var checkboxElementId = checkboxElement.getElementById('');
+   				checkboxElementList.push(checkboxElement.id); 
+   				console.log(checkboxElementList);
+		// for( i=0; i < checkboxElementList.length; i++){
+// var categoryJSId = document.getElementById('category' + category_id); 
+// $('input').click(function(){
+	
+// 	   				  if (((categoryJSId).checked == true) && (categoryJSId == checkboxElementList[i])){
+//     		console.log("Checkbox with id of " + checkboxElementList[i] + " is checked");
+//   } else {
+//     //console.log ("Checkbox with id of " + checkboxElementId + " is NOT checked");
+//   }
+
+
+// });
+
+   	// }	
+
+
+
+   	divElement.append(checkboxElement);
+   				// divElement.append(labelElement1);
+
+
+   				divElement.append(labelElement2);
+   				$('#categoryList').append(divElement);
+
+   				getAllTheCategories(); 
+
+	
+
+}
+
+});
+
+		}); 
+
+
+		$('#newCategoryFormId').submit( function(e) {
+		e.preventDefault();
+		
+			$.ajax({
+				url : '/create_category',
+				data : $('#newCategoryFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened FOR CATEGORY ~ ");
+					var category_name = $('#category_name').val();
+					var category_color = $('#category_color').val();
+					var category_id = $('#category_id').val();
+
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+			
+			$('#newCategoryForm').hide();
+			var stringifiedCategory;
+			var parsedCategory; 
+			var category_name; 
+			var category_id;
+	
+			$(document).ready(function () {
+
+			var category = [];
+					
+			$.getJSON('/retrieveCategories', function(data, status) {
+			
+			
+
+			var checkboxElementList = [];
+			// for (let i = 0; i < data.length; i++) {
+			// 	category = data[i];
+
+
+				// First we get the task dates from the database for this particular task.
+				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
+			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
+				category_name = parsedCategory.category_name; 
+				category_id = parsedCategory.category_id; 
+				category_color = parsedCategory.category_color;
+				
+
+				var divElement = document.createElement("div");
+				divElement.setAttribute("id", "category" + category_id);
+				divElement.setAttribute("class", "d-flex p2" );
+
+
+				var hrefVar ="category/"+category_id+"/edit";
+				// var labelEl1AndSpan = ('<label class="checkmarkContainer"><span class="checkmark"></span></label>');
+				var checkboxContainer = document.createElement("label");
+				checkboxContainer.setAttribute("class", "checkmarkContainer");
+				checkboxContainer.setAttribute("style","border: solid 2px #"+category_color );
+				var spanElement = document.createElement("span"); 
+				spanElement.setAttribute("class", "checkmark");
+				var checkboxElement = document.createElement("input"); 
+				checkboxElement.setAttribute("type", "checkbox");
+				// checkboxElement.setAttribute("value", "");
+				// xcheckboxElement.setAttribute("id", "category" + category_id);
+				// checkboxElement.setAttribute("class", "checkbox checkbox-primary");
+				// checkboxElement.setAttribute("style", "border: solid 4px #"+category_color);
+				// checkboxElement.setAttribute("name", "category" + category_id);
+				checkboxElement.type = "checkbox"; 
+				checkboxElement.name = "category" + category_id;
+				checkboxElement.id = "category" + category_id; 
+				checkboxElement.value = "category" + category_id; 
+				checkboxElementId = checkboxElement.id;
+				var labelElement2 = document.createElement("label");
+				labelElement2.setAttribute("for", "category" + category_id);
+ 				var aTag = document.createElement("a");
+  				aTag.setAttribute("href", hrefVar);
+  				aTag.setAttribute("class", "category-name btn rounded text-center")
+   				aTag.setAttribute("style", "border: solid 2px #"+category_color);
+   				aTag.innerHTML = category_name; 
+   				labelElement2.append(aTag);
+   				spanElement.append(checkboxElement);
+   				checkboxContainer.append(checkboxElement);
+   				// labelElement1.append(checkboxElement);
+   				//var checkboxElementId = checkboxElement.getElementById('');
+   				checkboxElementList.push(checkboxElement.id); 
+   				console.log(checkboxElementList);
+		// for( i=0; i < checkboxElementList.length; i++){
+// var categoryJSId = document.getElementById('category' + category_id); 
+// $('input').click(function(){
+	
+// 	   				  if (((categoryJSId).checked == true) && (categoryJSId == checkboxElementList[i])){
+//     		console.log("Checkbox with id of " + checkboxElementList[i] + " is checked");
+//   } else {
+//     //console.log ("Checkbox with id of " + checkboxElementId + " is NOT checked");
+//   }
+
+
+// });
+
+   	// }	
+
+
+
+   	divElement.append(checkboxElement);
+   				// divElement.append(labelElement1);
+
+
+   				divElement.append(labelElement2);
+   				$('#categoryList').append(divElement);
+
+   				getAllTheCategories(); 
+
+	
+
+// }
+
+
+});
+
+});
+
+		});
+		
+
 	var taskStartColumn, taskEndColumn; 
 	var today = moment().format('YYYY-MM-DD');
 	$("#start").val(today);
@@ -100,21 +331,56 @@ $(document).ready(function () {
 		drawAllTheTasks();
 	});
 
-	var category = []; 
+	var category = []; //only ever holds one task at a time
+	var task = [];
+	function getParsedTask(){
+		var parsedTask; 
+		$.getJSON('/retrieveTasks', function(data, status) {
+			// console.log("RUNNING JSON");
+			//----------------CANVAS SETUP-----------------------
 
-	function getAllCategories(){
+			//--------------------ITERATE THROUGH TASKS-------------------
+			for (let i = 0; i < data.length; i++) {
+				task = data[i];
+
+
+				// First we get the task dates from the database for this particular task.
+				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
+			
+				parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
+
+				
+
+			}
+
+			return parsedTask
+
+		}); 
+
+	}
+
+	function getAllTheCategories() {
+		// console.log("DRAWING ALL THE TASKS");
 		$.getJSON('/retrieveCategories', function(data, status) {
+			// console.log("RUNNING JSON");
+			//----------------CANVAS SETUP-----------------------
+			
+
+			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				category = data[i];
-				var stringifiedCategory = JSON.stringify(category); 
-				var parsedCategory = JSON.parse(stringifiedCategory);
-	}
-})
+
+
+				// First we get the task dates from the database for this particular task.
+				var stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
+				var parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
+				
+
 }
-
+});
+}
 	var task = []; //only ever holds one task at a time
-
-
+	var category = []; 
 	function drawAllTheTasks() {
 		// console.log("DRAWING ALL THE TASKS");
 		$.getJSON('/retrieveTasks', function(data, status) {
@@ -134,8 +400,24 @@ $(document).ready(function () {
 
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
-				var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
+				 var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
 				
+				if(parsedTask.category_id == 1){
+					console.log(parsedTask.task_name +" has a category_id equal to 1.");
+				}
+				// var parsedTask = getParsedTask();
+				var taskCategoryId = parsedTask.category_id;
+				var taskName = parsedTask.task_name; 
+				console.log(taskCategoryId);
+
+				$('input').click(function(){
+
+   	var sList = "";
+$('input[type=checkbox]').each(function () {
+    sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
+});
+console.log (sList);
+});
 				// var sList = "";
 // $('input[type=checkbox]').change(function () {
 //     var sThisVal = (this.checked ? "1" : "0");
@@ -439,7 +721,7 @@ $(document).ready(function () {
 
 			$('#newTaskForm').hide();
 
-			//Draws the new task when the new task form is 
+//Draws the new task when the new task form is 
 			//submitted instead  of having to click on the 
 			//term buttons again. 
 			$(document).ready(function () {
@@ -450,35 +732,79 @@ $(document).ready(function () {
 		}
 	});
 
-// 		$('#newCategoryFormId').submit( function(e) {
-// 		e.preventDefault();
-// 		var category_name = $('#category_name').val();
-// 		var category_color = $('#category_color').val();
-// 		var category_id = $('#category_id').val();
+		$('#newCategoryFormId').submit( function(e) {
+		e.preventDefault();
+		
+			$.ajax({
+				url : '/create_category',
+				data : $('#newCategoryFormId').serialize(),
+				type : 'POST',
+				success: function(response) {
+					console.log(response);
+					console.log(" ~ ajax happened FOR CATEGORY ~ ");
+					var category_name = $('#category_name').val();
+					var category_color = $('#category_color').val();
+					var category_id = $('#category_id').val();
 
-// 			$.ajax({
-// 				url : '/create_category',
-// 				data : $('#newCategoryFormId').serialize(),
-// 				type : 'POST',
-// 				success: function(response) {
-// 					console.log(response);
-// 					console.log(" ~ ajax happened FOR CATEGORY ~ ");
-// 				},
-// 				error: function(error) {
-// 					console.log(error);
-// 				}
-// 			});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
 
-// 			$('#newCategoryForm').hide();
 			
-// 			$(document).ready(function () {			
-		
-// 			$('#categoryList').append('<a href="../templates/category.html">' + category_name + '</a>');
-// 			getAllCategories();
-		
-// 		});
+			$('#newCategoryForm').hide();
+			var stringifiedCategory;
+			var parsedCategory; 
+			var category_name; 
+			var category_id;
+			$(document).ready(function () {
+			var category = [];
+			
+			$.getJSON('/retrieveCategories', function(data, status) {
+			
+			
 
-// });
+			
+			for (let i = 0; i < data.length; i++) {
+				category = data[i];
+
+
+				// First we get the task dates from the database for this particular task.
+				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
+			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
+				category_name = parsedCategory.category_name; 
+				category_id = parsedCategory.category_id;
+				category_id = parsedCategory.category_color;  
+				
+
+				var hrefVar ="category/"+category_id+"/edit";
+ 				var aTag = document.createElement("a");
+  				aTag.setAttribute("href", hrefVar);
+   				aTag.innerHTML = category_name; 
+   				$('#categoryList').append(aTag);
+   				getAllTheCategories(); 		
+
+
+	
+
+}
+
+
+});
+		
+
+		
+
+});
+
+		});
+
+		
+
+		
+
+		
 
 	// ---------------------INPUT/BUTTON LISTENERS------------------------
 	/* START-DATE LISTENER */
@@ -486,7 +812,7 @@ $(document).ready(function () {
 		var startVal = $('#start').val();
 		getDayOfWeek(startVal);
 		getMonthOfYear(startVal);
-		retrieveCategories();
+		// retrieveCategories();
 		drawAllTheTasks();
 	});
 
@@ -525,14 +851,30 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 		var xPos1 = taskStartColumn * xSpaceIncrement + xSpaceIncrement / 2;
 		var xPos2 = taskEndColumn * xSpaceIncrement + xSpaceIncrement / 2;
 
-		var color = $('#category' + parsedTask.category_id).css('color'); // return RGB
+			var category = [];
+			var category_id;
+			var category_color; 
+			console.log(parsedTask);
+			category_color = parsedTask.category_color; 
+			console.log(category_color);
 
 
+			$.getJSON('/retrieveCategories', function(data, status) {
+			
+		var color = '#'+ category_color;
 		drawLine(context, xPos1, xPos2, yPos, color);
 		drawCircles(context, xPos1, xPos2, yPos, color);
 		drawName(context, xPos1, yPos, taskStartColumn, parsedTask.task_name);
+
+
+		});
+
+		
 	}
 };
+
+
+
 
 
 // ------------ DRAW TIMELINES ON CANVAS --------------------
@@ -597,4 +939,3 @@ function calculateOnResize() {
 	calculateTimelineWidth();
 	calculateCategoryWidth();
 };
-

@@ -106,6 +106,13 @@ def categoryInSidebar():
 	return render_template('forms/categoryInSidebar.html', new_category_form=category_form, category_name=category_name, category_color=category_color, edit_bool=False)
 
 
+@app.route("/category/<int:category_id>")
+@login_required
+def categoryId(category_id):
+	category = Category.query.get_or_404(category_id)
+	form = NewCategoryForm()
+	new_category_form = form
+	return render_template('category.html', new_category_form=new_category_form, category=category, category_id=category_id)
 
 @app.route("/category/<int:category_id>/edit", methods=['GET', 'POST'])
 @login_required
@@ -174,7 +181,7 @@ def retrieve_tasks():
 	tasks = Task.query.filter_by(user_id=current_user.id).all()
 	task_list = []
 	for task in tasks:
-		json_task = {"task_name": task.task_name, "task_start_date": task.task_start_date, "task_end_date": task.task_end_date, "category_id": task.category_id, "category": task.category.category_name, "task_milestone_name": task.task_milestone_name, "task_milestone_date": task.task_milestone_date }
+		json_task = {"task_id" : task.task_id, "task_name": task.task_name, "task_start_date": task.task_start_date, "task_end_date": task.task_end_date, "category_id": task.category_id, "category": task.category.category_name, "category_color": task.category.category_color, "task_milestone_name": task.task_milestone_name, "task_milestone_date": task.task_milestone_date }
 		task_list.append(json_task)
 	return jsonify(task_list)
 
@@ -204,6 +211,11 @@ def retrieve_categories():
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	category_list = []
 	for category in categories:
-		json_category = {"category_name": category.category_name, "category_color": category.category_color, "category_id": category.user_id}
+		json_category = {"category_id" : category.category_id, "category_name": category.category_name, "category_color": category.category_color, "user_id": category.user_id}
 		category_list.append(json_category)
+		print(category_list)
 	return jsonify(category_list)
+
+
+
+

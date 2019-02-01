@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa610682-0dd7-4ab5-a07b-d38551d0c687" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskViz/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taskViz/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taskViz/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskViz/static/js/timeline.js" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/static/js/timeline.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskViz/site.db" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/site.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskViz/static/css/timeline.css" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/static/css/timeline.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/taskViz/static/js/canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/static/js/canvas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taskViz/templates/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/templates/layout.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/taskViz/templates/task_viz.html" beforeDir="false" afterPath="$PROJECT_DIR$/taskViz/templates/task_viz.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskviz/requirements.txt" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -59,10 +59,11 @@
     <session id="-1072692891">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -110,8 +111,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/taskViz/routes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="70" selection-start-line="2" selection-start-column="70" selection-end-line="2" selection-end-column="70" />
+            <state relative-caret-position="180">
+              <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -119,11 +120,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/taskViz/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="675">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
             </state>
           </provider>
         </entry>
@@ -131,42 +129,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/taskViz/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="645">
+              <caret line="45" selection-start-line="45" selection-end-line="45" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/taskViz/static/js/timeline.js">
+        <entry file="file://$PROJECT_DIR$/taskViz/templates/task_viz.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="617">
-              <caret line="166" column="66" selection-start-line="166" selection-start-column="66" selection-end-line="166" selection-end-column="66" />
+            <state relative-caret-position="605">
+              <caret line="115" column="7" selection-start-line="115" selection-start-column="7" selection-end-line="115" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/taskViz/templates/task_viz.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1500">
-              <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="mock:///Users/jkrovitz/Library/Caches/PyCharm2018.2/snapshots/BrownHavenerHushionKrovitzInternetComputingCourseProject.pstat">
-          <provider selected="true" editor-type-id="profiler-session-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/.local/share/virtualenvs/BrownHavenerHushionKrovitzInternetComputin-d0FMJs40/lib/python3.7/site-packages/mysql/connector/authentication.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3810">
+            <state relative-caret-position="3870">
               <caret line="258" selection-start-line="258" selection-end-line="258" />
             </state>
           </provider>
@@ -211,17 +192,16 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="117" />
-    <option name="y" value="23" />
+    <option name="x" value="216" />
+    <option name="y" value="78" />
     <option name="width" value="1248" />
-    <option name="height" value="697" />
+    <option name="height" value="777" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -275,6 +255,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -383,10 +364,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="117" y="23" width="1248" height="697" extended-state="0" />
+    <frame x="216" y="78" width="1248" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25373134" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2578773" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -403,12 +384,12 @@
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.329927" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.329927" />
-      <window_info anchor="right" id="Coverage" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Database" order="4" visible="true" weight="0.13349918" />
+      <window_info anchor="right" id="Coverage" order="5" side_tool="true" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -468,58 +449,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo_db.py">
+    <entry file="file://$PROJECT_DIR$/demo_db.py" />
+    <entry file="file://$PROJECT_DIR$/taskViz/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="63" column="10" selection-start-line="63" selection-start-column="10" selection-end-line="63" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.local/share/virtualenvs/BrownHavenerHushionKrovitzInternetComputin-d0FMJs40/lib/python3.7/site-packages/mysql/connector/authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3810">
-          <caret line="258" selection-start-line="258" selection-end-line="258" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/taskViz/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="180">
+          <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/taskViz/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="675">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/taskViz/routes.py">
+    <entry file="file://$PROJECT_DIR$/taskViz/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="70" selection-start-line="2" selection-start-column="70" selection-end-line="2" selection-end-column="70" />
+        <state relative-caret-position="645">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/taskViz/static/js/timeline.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
+        <state relative-caret-position="2490">
           <caret line="166" column="66" selection-start-line="166" selection-start-column="66" selection-end-line="166" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/share/virtualenvs/BrownHavenerHushionKrovitzInternetComputin-d0FMJs40/lib/python3.7/site-packages/mysql/connector/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3870">
+          <caret line="258" selection-start-line="258" selection-end-line="258" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/taskViz/templates/task_viz.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1500">
-          <caret line="100" column="79" lean-forward="true" selection-start-line="100" selection-start-column="79" selection-end-line="100" selection-end-column="79" />
+        <state relative-caret-position="605">
+          <caret line="115" column="7" selection-start-line="115" selection-start-column="7" selection-end-line="115" selection-end-column="7" />
         </state>
       </provider>
     </entry>
