@@ -1,7 +1,7 @@
 /*
-	Contains functions for displaying timeline lines on canvas as well as 
-	the event listeners for displaying them. 
-*/ 
+	Contains functions for displaying timeline lines on canvas as well as
+	the event listeners for displaying them.
+*/
 
 
 
@@ -21,30 +21,7 @@ $(document).ready(function () {
 					var category_name = $('#category_name').val();
 					var category_color = $('#category_color').val();
 					var category_id = $('#category_id').val();
-
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});
-
-			
-			$('#newCategoryForm').hide();
-			var stringifiedCategory;
-			var parsedCategory; 
-			var category_name; 
-			var category_id;
-	
-
-
-			var category = [];
-			$(document).ready(function () {
-					
-			$.getJSON('/retrieveCategories', function(data, status) {
-			
-			
-
-			var checkboxElementList = [];
+					var checkboxElementList = [];
 			for (let i = 0; i < data.length; i++) {
 				category = data[i];
 
@@ -52,10 +29,10 @@ $(document).ready(function () {
 				// First we get the task dates from the database for this particular task.
 				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
 			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
-				category_name = parsedCategory.category_name; 
-				category_id = parsedCategory.category_id; 
+				category_name = parsedCategory.category_name;
+				category_id = parsedCategory.category_id;
 				category_color = parsedCategory.category_color;
-				
+
 
 				var divElement = document.createElement("div");
 				divElement.setAttribute("id", "category" + category_id);
@@ -67,19 +44,69 @@ $(document).ready(function () {
 				var checkboxContainer = document.createElement("label");
 				checkboxContainer.setAttribute("class", "checkmarkContainer");
 				checkboxContainer.setAttribute("style","border: solid 2px #"+category_color );
-				var spanElement = document.createElement("span"); 
+				var spanElement = document.createElement("span");
 				spanElement.setAttribute("class", "checkmark");
-				var checkboxElement = document.createElement("input"); 
+				var checkboxElement = document.createElement("input");
+				checkboxElement.setAttribute("type", "checkbox");
+			}
+
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+
+			$('#newCategoryForm').hide();
+			var stringifiedCategory;
+			var parsedCategory;
+			var category_name;
+			var category_id;
+
+
+
+			// var category = [];
+
+			$.getJSON('/retrieveCategories', function(data, status) {
+
+
+
+			var checkboxElementList = [];
+			for (let i = 0; i < data.length; i++) {
+				category = data[i];
+
+
+				// First we get the task dates from the database for this particular task.
+				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
+			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
+				category_name = parsedCategory.category_name;
+				category_id = parsedCategory.category_id;
+				category_color = parsedCategory.category_color;
+
+
+				var divElement = document.createElement("div");
+				divElement.setAttribute("id", "category" + category_id);
+				divElement.setAttribute("class", "d-flex p2" );
+
+
+				var hrefVar ="category/"+category_id+"/edit";
+				// var labelEl1AndSpan = ('<label class="checkmarkContainer"><span class="checkmark"></span></label>');
+				var checkboxContainer = document.createElement("label");
+				checkboxContainer.setAttribute("class", "checkmarkContainer");
+				checkboxContainer.setAttribute("style","border: solid 2px #"+category_color );
+				var spanElement = document.createElement("span");
+				spanElement.setAttribute("class", "checkmark");
+				var checkboxElement = document.createElement("input");
 				checkboxElement.setAttribute("type", "checkbox");
 				// checkboxElement.setAttribute("value", "");
 				// xcheckboxElement.setAttribute("id", "category" + category_id);
 				// checkboxElement.setAttribute("class", "checkbox checkbox-primary");
 				// checkboxElement.setAttribute("style", "border: solid 4px #"+category_color);
 				// checkboxElement.setAttribute("name", "category" + category_id);
-				checkboxElement.type = "checkbox"; 
+				checkboxElement.type = "checkbox";
 				checkboxElement.name = "category" + category_id;
-				checkboxElement.id = "category" + category_id; 
-				checkboxElement.value = "category" + category_id; 
+				checkboxElement.id = "category" + category_id;
+				checkboxElement.value = "category" + category_id;
 				checkboxElementId = checkboxElement.id;
 				var labelElement2 = document.createElement("label");
 				labelElement2.setAttribute("for", "category" + category_id);
@@ -87,18 +114,18 @@ $(document).ready(function () {
   				aTag.setAttribute("href", hrefVar);
   				aTag.setAttribute("class", "category-name btn rounded text-center")
    				aTag.setAttribute("style", "border: solid 2px #"+category_color);
-   				aTag.innerHTML = category_name; 
+   				aTag.innerHTML = category_name;
    				labelElement2.append(aTag);
    				spanElement.append(checkboxElement);
    				checkboxContainer.append(checkboxElement);
    				// labelElement1.append(checkboxElement);
    				//var checkboxElementId = checkboxElement.getElementById('');
-   				checkboxElementList.push(checkboxElement.id); 
+   				checkboxElementList.push(checkboxElement.id);
    				console.log(checkboxElementList);
 		// for( i=0; i < checkboxElementList.length; i++){
-// var categoryJSId = document.getElementById('category' + category_id); 
+// var categoryJSId = document.getElementById('category' + category_id);
 // $('input').click(function(){
-	
+
 // 	   				  if (((categoryJSId).checked == true) && (categoryJSId == checkboxElementList[i])){
 //     		console.log("Checkbox with id of " + checkboxElementList[i] + " is checked");
 //   } else {
@@ -108,7 +135,7 @@ $(document).ready(function () {
 
 // });
 
-   	// }	
+   	// }
 
 
 
@@ -119,20 +146,19 @@ $(document).ready(function () {
    				divElement.append(labelElement2);
    				$('#categoryList').append(divElement);
 
-   				getAllTheCategories(); 
+   				getAllTheCategories();
 
-	
+
 
 }
 
 });
 
-		}); 
-
+	
 
 		$('#newCategoryFormId').submit( function(e) {
 		e.preventDefault();
-		
+
 			$.ajax({
 				url : '/create_category',
 				data : $('#newCategoryFormId').serialize(),
@@ -150,20 +176,20 @@ $(document).ready(function () {
 				}
 			});
 
-			
+
 			$('#newCategoryForm').hide();
 			var stringifiedCategory;
-			var parsedCategory; 
-			var category_name; 
+			var parsedCategory;
+			var category_name;
 			var category_id;
-	
+
 			$(document).ready(function () {
 
 			var category = [];
-					
+
 			$.getJSON('/retrieveCategories', function(data, status) {
-			
-			
+
+
 
 			var checkboxElementList = [];
 			// for (let i = 0; i < data.length; i++) {
@@ -173,10 +199,10 @@ $(document).ready(function () {
 				// First we get the task dates from the database for this particular task.
 				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
 			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
-				category_name = parsedCategory.category_name; 
-				category_id = parsedCategory.category_id; 
+				category_name = parsedCategory.category_name;
+				category_id = parsedCategory.category_id;
 				category_color = parsedCategory.category_color;
-				
+
 
 				var divElement = document.createElement("div");
 				divElement.setAttribute("id", "category" + category_id);
@@ -188,19 +214,14 @@ $(document).ready(function () {
 				var checkboxContainer = document.createElement("label");
 				checkboxContainer.setAttribute("class", "checkmarkContainer");
 				checkboxContainer.setAttribute("style","border: solid 2px #"+category_color );
-				var spanElement = document.createElement("span"); 
+				var spanElement = document.createElement("span");
 				spanElement.setAttribute("class", "checkmark");
-				var checkboxElement = document.createElement("input"); 
+				var checkboxElement = document.createElement("input");
 				checkboxElement.setAttribute("type", "checkbox");
-				// checkboxElement.setAttribute("value", "");
-				// xcheckboxElement.setAttribute("id", "category" + category_id);
-				// checkboxElement.setAttribute("class", "checkbox checkbox-primary");
-				// checkboxElement.setAttribute("style", "border: solid 4px #"+category_color);
-				// checkboxElement.setAttribute("name", "category" + category_id);
-				checkboxElement.type = "checkbox"; 
+				checkboxElement.type = "checkbox";
 				checkboxElement.name = "category" + category_id;
-				checkboxElement.id = "category" + category_id; 
-				checkboxElement.value = "category" + category_id; 
+				checkboxElement.id = "category" + category_id;
+				checkboxElement.value = "category" + category_id;
 				checkboxElementId = checkboxElement.id;
 				var labelElement2 = document.createElement("label");
 				labelElement2.setAttribute("for", "category" + category_id);
@@ -208,18 +229,18 @@ $(document).ready(function () {
   				aTag.setAttribute("href", hrefVar);
   				aTag.setAttribute("class", "category-name btn rounded text-center")
    				aTag.setAttribute("style", "border: solid 2px #"+category_color);
-   				aTag.innerHTML = category_name; 
+   				aTag.innerHTML = category_name;
    				labelElement2.append(aTag);
    				spanElement.append(checkboxElement);
    				checkboxContainer.append(checkboxElement);
    				// labelElement1.append(checkboxElement);
    				//var checkboxElementId = checkboxElement.getElementById('');
-   				checkboxElementList.push(checkboxElement.id); 
+   				checkboxElementList.push(checkboxElement.id);
    				console.log(checkboxElementList);
 		// for( i=0; i < checkboxElementList.length; i++){
-// var categoryJSId = document.getElementById('category' + category_id); 
+// var categoryJSId = document.getElementById('category' + category_id);
 // $('input').click(function(){
-	
+
 // 	   				  if (((categoryJSId).checked == true) && (categoryJSId == checkboxElementList[i])){
 //     		console.log("Checkbox with id of " + checkboxElementList[i] + " is checked");
 //   } else {
@@ -229,7 +250,7 @@ $(document).ready(function () {
 
 // });
 
-   	// }	
+   	// }
 
 
 
@@ -240,9 +261,9 @@ $(document).ready(function () {
    				divElement.append(labelElement2);
    				$('#categoryList').append(divElement);
 
-   				getAllTheCategories(); 
+   				getAllTheCategories();
 
-	
+
 
 // }
 
@@ -252,9 +273,9 @@ $(document).ready(function () {
 });
 
 		});
-		
 
-	var taskStartColumn, taskEndColumn; 
+
+	var taskStartColumn, taskEndColumn;
 	var today = moment().format('YYYY-MM-DD');
 	$("#start").val(today);
 
@@ -331,10 +352,10 @@ $(document).ready(function () {
 		drawAllTheTasks();
 	});
 
-	var category = []; //only ever holds one task at a time
+	var category = [];
 	var task = [];
 	function getParsedTask(){
-		var parsedTask; 
+		var parsedTask;
 		$.getJSON('/retrieveTasks', function(data, status) {
 			// console.log("RUNNING JSON");
 			//----------------CANVAS SETUP-----------------------
@@ -342,21 +363,12 @@ $(document).ready(function () {
 			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				task = data[i];
-
-
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
-			
 				parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
-
-				
-
 			}
-
 			return parsedTask
-
-		}); 
-
+		});
 	}
 
 	function getAllTheCategories() {
@@ -364,23 +376,26 @@ $(document).ready(function () {
 		$.getJSON('/retrieveCategories', function(data, status) {
 			// console.log("RUNNING JSON");
 			//----------------CANVAS SETUP-----------------------
-			
+			if ($('input.checkbox_check').is(':checked')) {
+
+
+			}
 
 			//--------------------ITERATE THROUGH TASKS-------------------
 			for (let i = 0; i < data.length; i++) {
 				category = data[i];
-
+				console.log(category);
 
 				// First we get the task dates from the database for this particular task.
 				var stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
 				var parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
-				
+
 
 }
 });
 }
 	var task = []; //only ever holds one task at a time
-	var category = []; 
+	var category = [];
 	function drawAllTheTasks() {
 		// console.log("DRAWING ALL THE TASKS");
 		$.getJSON('/retrieveTasks', function(data, status) {
@@ -401,13 +416,13 @@ $(document).ready(function () {
 				// First we get the task dates from the database for this particular task.
 				var stringifiedTask = JSON.stringify(task); // turn JSON object into something readable by JavaScript
 				 var parsedTask = JSON.parse(stringifiedTask); // separate dictionary into individual Task objects
-				
-				if(parsedTask.category_id == 1){
-					console.log(parsedTask.task_name +" has a category_id equal to 1.");
-				}
+
+				// if(parsedTask.category_id == 1){
+				// 	console.log(parsedTask.task_name +" has a category_id equal to 1.");
+				// }
 				// var parsedTask = getParsedTask();
 				var taskCategoryId = parsedTask.category_id;
-				var taskName = parsedTask.task_name; 
+				var taskName = parsedTask.task_name;
 				console.log(taskCategoryId);
 
 				$('input').click(function(){
@@ -415,6 +430,10 @@ $(document).ready(function () {
    	var sList = "";
 $('input[type=checkbox]').each(function () {
     sList += "(" + $(this).val() + "-" + (this.checked ? "checked" : "not checked") + ")";
+    if(parsedTask.category_id == 1){
+    	console.log("this is equal");
+
+    }
 });
 console.log (sList);
 });
@@ -437,14 +456,14 @@ console.log (sList);
 				var momentTaskEndDate = moment(parsedTask.task_end_date, 'YYYY-MM-DD');
 				//separate out year, month and day for task start date
 				var taskStartYear = moment(momentTaskStartDate).format('YYYY');
-				var taskStartMonth = moment(momentTaskStartDate).format('MM'); 
+				var taskStartMonth = moment(momentTaskStartDate).format('MM');
 				var taskStartDay = moment(momentTaskStartDate).format('DD');
 				var taskStartFullDate = moment(momentTaskStartDate).format('YYYY|MM|DD');
 				var taskStartMonthAndYear = moment(momentTaskStartDate).format('YYYY|MM');
-				
+
 				//separate out year, month and day for task end date
 				var taskEndYear = moment(momentTaskEndDate).format('YYYY');
-				var taskEndMonth = moment(momentTaskEndDate).format('MM'); 
+				var taskEndMonth = moment(momentTaskEndDate).format('MM');
 				var taskEndDay = moment(momentTaskEndDate).format('DD');
 				var taskEndFullDate = moment(momentTaskEndDate).format('YYYY|MM|DD');
 				var taskEndMonthAndYear = moment(momentTaskEndDate).format('YYYY|MM');
@@ -457,22 +476,22 @@ console.log (sList);
 					var sCalColYearArray = [];
 					var sCalColMonthArray = [];
 					var sCalColDayArray = [];
-					var sCalColFullDateArray = []; 
+					var sCalColFullDateArray = [];
 
 					var sCalColYear;
 					var sCalColMonth;
 					var sCalColDay;
-					var sCalColFullDate; 
+					var sCalColFullDate;
 					//--------------------ITERATE THROUGH SHORT TERM COLUMN SPANS-------------------
 					//to get their date and separate into year, month, and day
 					$("span.sTermTimeIncColHeader").each(function() {
 						var sCalColDate = $(this).attr('dateVal');
 						var sCalColDatePartsArray = sCalColDate.split('|');
-	
+
 						sCalColFullDateArray.push(sCalColDate);
 
 						// console.log(sCalColFullDateArray);
-						
+
 						sCalColYear = sCalColDatePartsArray[0]; //get the year from the dateVal
 						sCalColMonth = sCalColDatePartsArray[1]; //get the month from the dateVal
 						sCalColDay = sCalColDatePartsArray[2]; //get the day from the dateVal
@@ -545,7 +564,7 @@ console.log (sList);
 						didWeDrawTheLineShortTerm = true;
 					}
 							if (taskStartFullDate < sCalColFullDateArray[0] && taskEndFullDate >= sCalColFullDateArray[0] && taskEndFullDate <= sCalColFullDateArray[6]){
-					
+
 								drawLineFromLeftShortTerm();
 								didWeDrawTheLineShortTerm = true;
 							}
@@ -583,13 +602,13 @@ console.log (sList);
 						console.log(lCalColMonthAndYearArray);
 						lCalColYear = lCalColDatePartsArray[0]; //get the year from the dateVal
 						lCalColMonth = lCalColDatePartsArray[1]; //get the month from the dateVal
-						lCalColDay = lCalColDatePartsArray[2]; 
+						lCalColDay = lCalColDatePartsArray[2];
 
 						lCalColYearArray.push(lCalColYear);
 						lCalColMonthArray.push(lCalColMonth);
 						lCalColDayArray.push(lCalColDay);
 					});
-		
+
 					var xSpaceIncrement = canvas.width / numTimeIncrements;
 
 						// -------------------FUNCTIONS TO DRAW TASKS ONTO THE CANVAS FOR LONG TERM----------------
@@ -628,11 +647,11 @@ console.log (sList);
 					function drawLineInsideLongTerm() {
 						yPos = yPos + ySpaceIncrement;
 						for (let k = 0; k < lCalColMonthAndYearArray.length; k++) {	// iterates over months being viewed on the timeline
-							
+
 							if (taskStartMonthAndYear == lCalColMonthAndYearArray[k]) {
 								taskStartColumn = k;
 							}
-							
+
 							if (taskEndMonthAndYear == lCalColMonthAndYearArray[k] ) {
 								taskEndColumn = k;
 								break;
@@ -646,28 +665,28 @@ console.log (sList);
 					// LONG TERM------------------COMPARING CALENDAR COLUMN DATES WITH TASK DATES TO DISPLAY TASKS-----------------------
 					var didWeFindTheStartDateLongTerm = false;
 						var didWeDrawTheLineLongTerm = false;
-					
+
 					if(taskStartMonthAndYear >= lCalColMonthAndYearArray[0] && taskEndMonthAndYear <= lCalColMonthAndYearArray[6]){
-						didWeFindTheStartDateLongTerm = true; 
-						didWeDrawTheLineLongTerm = true; 
+						didWeFindTheStartDateLongTerm = true;
+						didWeDrawTheLineLongTerm = true;
 						drawLineInsideLongTerm();
 					}
 
-					//Task start month and year < l cal col month and year array[0] and task end month and year <= l cal col month and year array [6] and task monthand task end year >= l cal col month and year array [0]; draw line left 
+					//Task start month and year < l cal col month and year array[0] and task end month and year <= l cal col month and year array [6] and task monthand task end year >= l cal col month and year array [0]; draw line left
 					if(taskStartMonthAndYear < lCalColMonthAndYearArray[0] && taskEndMonthAndYear >= lCalColMonthAndYearArray[0] && taskEndMonthAndYear <= lCalColMonthAndYearArray[6]){
-						didWeFindTheStartDateLongTerm = true; 
-						didWeDrawTheLineLongTerm = true; 
+						didWeFindTheStartDateLongTerm = true;
+						didWeDrawTheLineLongTerm = true;
 						drawLineFromLeftLongTerm();
 					}
 
 					if(taskStartMonthAndYear >= lCalColMonthAndYearArray[0] && taskStartMonthAndYear <= lCalColMonthAndYearArray[6] && taskEndMonthAndYear > lCalColMonthAndYearArray[6]){
-						didWeDrawTheLineLongTerm = true; 
+						didWeDrawTheLineLongTerm = true;
 						drawLineFromRightLongTerm();
 					}
 
 
 					if(taskStartMonthAndYear < lCalColMonthAndYearArray[0] && taskEndMonthAndYear > lCalColMonthAndYearArray[6]){
-						didWeDrawTheLineLongTerm = true; 
+						didWeDrawTheLineLongTerm = true;
 						drawLineThroughLongTerm();
 					}
 
@@ -690,10 +709,10 @@ console.log (sList);
 
 
 
-			
 
 
-		
+
+
 
 
 	$('#newTaskFormId').submit( function(e) {
@@ -721,12 +740,12 @@ console.log (sList);
 
 			$('#newTaskForm').hide();
 
-//Draws the new task when the new task form is 
-			//submitted instead  of having to click on the 
-			//term buttons again. 
+//Draws the new task when the new task form is
+			//submitted instead  of having to click on the
+			//term buttons again.
 			$(document).ready(function () {
 					drawAllTheTasks();
-			}); 
+			});
 
 
 		}
@@ -734,7 +753,7 @@ console.log (sList);
 
 		$('#newCategoryFormId').submit( function(e) {
 		e.preventDefault();
-		
+
 			$.ajax({
 				url : '/create_category',
 				data : $('#newCategoryFormId').serialize(),
@@ -752,20 +771,20 @@ console.log (sList);
 				}
 			});
 
-			
+
 			$('#newCategoryForm').hide();
 			var stringifiedCategory;
-			var parsedCategory; 
-			var category_name; 
+			var parsedCategory;
+			var category_name;
 			var category_id;
 			$(document).ready(function () {
 			var category = [];
-			
-			$.getJSON('/retrieveCategories', function(data, status) {
-			
-			
 
-			
+			$.getJSON('/retrieveCategories', function(data, status) {
+
+
+
+
 			for (let i = 0; i < data.length; i++) {
 				category = data[i];
 
@@ -773,38 +792,38 @@ console.log (sList);
 				// First we get the task dates from the database for this particular task.
 				stringifiedCategory = JSON.stringify(category); // turn JSON object into something readable by JavaScript
 			   parsedCategory = JSON.parse(stringifiedCategory); // separate dictionary into individual Task objects
-				category_name = parsedCategory.category_name; 
+				category_name = parsedCategory.category_name;
 				category_id = parsedCategory.category_id;
-				category_id = parsedCategory.category_color;  
-				
+				category_id = parsedCategory.category_color;
+
 
 				var hrefVar ="category/"+category_id+"/edit";
  				var aTag = document.createElement("a");
   				aTag.setAttribute("href", hrefVar);
-   				aTag.innerHTML = category_name; 
+   				aTag.innerHTML = category_name;
    				$('#categoryList').append(aTag);
-   				getAllTheCategories(); 		
+   				getAllTheCategories();
 
 
-	
+
 
 }
 
 
 });
-		
 
-		
+
+
 
 });
 
 		});
 
-		
 
-		
 
-		
+
+
+
 
 	// ---------------------INPUT/BUTTON LISTENERS------------------------
 	/* START-DATE LISTENER */
@@ -853,14 +872,14 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 
 			var category = [];
 			var category_id;
-			var category_color; 
+			var category_color;
 			console.log(parsedTask);
-			category_color = parsedTask.category_color; 
+			category_color = parsedTask.category_color;
 			console.log(category_color);
 
 
 			$.getJSON('/retrieveCategories', function(data, status) {
-			
+
 		var color = '#'+ category_color;
 		drawLine(context, xPos1, xPos2, yPos, color);
 		drawCircles(context, xPos1, xPos2, yPos, color);
@@ -869,7 +888,7 @@ function drawTaskLine(canvas, context, taskStartColumn, taskEndColumn, xSpaceInc
 
 		});
 
-		
+
 	}
 };
 

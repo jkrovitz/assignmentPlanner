@@ -43,11 +43,11 @@ body,
 }
 
 /*Disables the ability to clear the date, which would
-make the dates in the sTermTimeIncColHeader and the 
+make the dates in the sTermTimeIncColHeader and the
 lTermTimeIncColHeader appear as invalid dates.*/
 input[type=date]::-webkit-clear-button
 {
-    display: none;  Hide the button 
+    display: none;  Hide the button
     -webkit-appearance: none; /* turn off default browser styling */
 }
 
@@ -76,6 +76,7 @@ input[type=date]::-webkit-clear-button
 
 .cat-form-bg{
 	background-color: #D5D6D2;
+	border: solid black 1px; 
 }
 
 .category-form{
@@ -87,7 +88,7 @@ input[type=date]::-webkit-clear-button
  border:1px solid #ccc;
  padding:10px;
  margin:0 0 5px;
- display:block; 
+ display:block;
 }
 
 .checkboxLabel:hover {

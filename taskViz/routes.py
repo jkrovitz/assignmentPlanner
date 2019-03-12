@@ -29,11 +29,6 @@ def AuthenticationRedirect():
 def home():
 	categories = Category.query.filter_by(user_id=current_user.id).all()
 	tasks = Task.query.all()
-	# if request.form :
-	# 	task_name = request.form['taskNameAttribute']
-	# 	taskThing = json.dumps({'status':'OK', 'task_name':task_name});
-	# 	category_name = request.form['categoryNameAttribute']	
-	# 	categoryThing = json.dumps({'status':'OK', 'category_name':category_name});
 	return render_template('task_viz.html', categories=categories, tasks=tasks)
 
 # A registration form for adding new users
@@ -44,7 +39,7 @@ def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user = User(username=form.username.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
+		user = User(username=form.username.data, firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=hashed_password)   # TODO: fix. User only has 2 inputs
 		db.session.add(user)
 		db.session.commit()
 		flash('Your account has been created! You are now able to login.', 'success')
@@ -215,7 +210,3 @@ def retrieve_categories():
 		category_list.append(json_category)
 		print(category_list)
 	return jsonify(category_list)
-
-
-
-
