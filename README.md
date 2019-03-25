@@ -10,7 +10,7 @@ Please note that currently Firefox is required to run this app.
 1. Verify that Python version 3.7 is installed on your Mac by typing in **python3 --version**.
    1. If Python 3.7 is installed, move on to step 2.
    2. If Python 3.7 is not installed, install it by going to: [https://www.python.org/downloads/](https://www.python.org/downloads/) and downloading the zip file. Continue through the steps for
-   installation. Once Python3 has been installed, verify the installation by running the command **python3 --version** again.  If you see **Python 3.7.1**, this means that Python 3.7 has been successfully installed. Verify version of pip by entering **pip --version** in the terminal. Make sure that pip is upgraded to version 18.1. If not, update it by entering **pip install --upgrade pip** in the terminal.
+   installation. Once Python3 has been installed, verify the installation by running the command **python3 --version** again.  If you see **Python 3.7.2**, this means that Python 3.7 has been successfully installed. Verify version of pip by entering **pip --version** in the terminal. Make sure that pip is upgraded to version 19.0.3. If not, update it by entering **pip install --upgrade pip** in the terminal.
 2. Download the Task Visualizer code folder from Github.
 3. Open the terminal.
 4. Type **cd**; and drag project folder into the terminal.
