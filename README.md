@@ -3,9 +3,6 @@
 ## Project Description
 We are building a website in which individuals will be able to visualize an overall layout of their tasks coming up via a designated timeline. The site will allow users to create their own categories and then be able to filter their tasks based on the chosen category(ies). The website will allow users the ability to designate when a project is due, and when they want to start the project, as well as any milestones along the way. They will then be able to view an overall timeline of the project from start to finish. They can also view a timeline for a specified amount of time. For example, students would be able to view projects over the course of a semester, or the time leading up to and including finals week. It would be helpful for a company if they were able to view a timeline for the entire year. Individuals will be able to filter by the specific category that they have selected and share categories with others. This is useful for group deadlines.
 
-## To run project:
-Please note that currently Firefox is required to run this app.
-
 ### On a Mac:
 1. Verify that Python version 3.7 is installed on your Mac by typing in **python3 --version**.
    1. If Python 3.7 is installed, move on to step 2.
