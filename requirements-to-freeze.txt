@@ -1,0 +1,23 @@
+#These are modules that will be installed with the command
+
+
+pip==19.2.3
+Flask==1.0.2
+Flask-Scss==0.5
+flask-bootstrap==3.3.7.0
+libsass
+bcrypt==3.1.4
+blinker==1.4
+Flask-Bcrypt==0.7.1
+Flask-Login==0.4.1
+Flask-Mail==0.9.1
+Flask-SQLAlchemy==2.4.0
+Flask-WTF==0.14.2
+itsdangerous==0.24
+Jinja2==2.10.1
+Pillow==6.2.0
+pycparser==2.18
+six==1.11.0
+SQLAlchemy==1.3.5
+Werkzeug==0.15.5
+WTForms==2.1
