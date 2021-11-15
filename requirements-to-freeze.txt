@@ -1,7 +1,7 @@
 #These are modules that will be installed with the command
 
 
-pip==19.2.3
+pip==21.1
 Flask==1.0.2
 Flask-Scss==0.5
 flask-bootstrap==3.3.7.0
